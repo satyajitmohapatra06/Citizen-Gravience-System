@@ -1,43 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>civici report - Admin Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Civic Report - Admin Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 <body>
-    <div class="container">
-        <div class="left">
-             <h2>Civic report (Admin)</h2>
+  <!-- Animated background blobs -->
+  <div class="bg-shape shape1"></div>
+  <div class="bg-shape shape2"></div>
 
-             <form>
-                <div class="input-group">
-                    <label for="Email">Email</label>
-                    <input type="email" id="username" placeholder="Enter Email">
-                </div>
+  <div class="container">
+    <div class="left">
+      <h2>Civic Report <span>(Admin)</span></h2>
 
-                <div class="input-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter your password">
-                </div>
-
-                <div class="checkbox">
-                    <input type="checkbox" id="remember">
-                    <label for="remember">Remember me</label>
-                </div>
-
-                <button type="submit" class="btn">Log in</button>
-                <button type="submit" class="btn-outline">Continue with Email</button>
-
-                <div class="signup">
-                    Don't have an account?<a href="#">Sign up</a>
-                </div>
-             </form>
+      <form>
+        <div class="input-group">
+          <label for="Email">Email</label>
+          <input type="email" id="username" placeholder="Enter Email">
         </div>
-        <div class="right">
-            <img src="https://horizontechconnect.eu/wp-content/uploads/2024/11/TechConnect-image-10.png">
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter your password">
         </div>
+
+        <div class="checkbox">
+          <input type="checkbox" id="remember">
+          <label for="remember">Remember me</label>
+        </div>
+
+        <button type="submit" class="btn">Log in</button>
+        <button type="button" class="btn-outline">Continue with Email</button>
+
+        <div class="signup">
+          Don't have an account? <a href="#">Sign up</a>
+        </div>
+      </form>
     </div>
+
+    <div class="right">
+      <img src="https://horizontechconnect.eu/wp-content/uploads/2024/11/TechConnect-image-10.png" alt="Admin login illustration">
+    </div>
+  </div>
 </body>
 </html>
