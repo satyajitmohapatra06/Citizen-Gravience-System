@@ -4,64 +4,117 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Civic Report - Lodge Complaint</title>
+
+  <!-- Link to CSS -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/report.css') }}">
 </head>
 <body>
   <!-- Animated background blobs -->
   <div class="bg-shape shape1"></div>
   <div class="bg-shape shape2"></div>
+  <div class="bg-shape shape3"></div>
   
   <!-- HOME BUTTON -->
   <a href="/" class="home-btn">
     <span class="home-icon">🏠</span> Home
   </a>
 
-  <div class="container">
-    <div class="left">
-      <h2>Lodge Your <span>Complaint</span></h2>
+  <!-- Centered Form -->
+  <div class="container fade-in-up">
+    <h2>Lodge Your <span>Complaint</span></h2>
 
-      <form method="POST" action="/submit_complaint">
-        <div class="input-group">
-          <label for="name">Full Name:</label>
-          <input type="text" id="name" name="name" placeholder="Enter your full name" required>
-        </div>
+    <form method="POST" action="/submit_complaint" enctype="multipart/form-data" class="form-card">
+      
+      <!-- Full Name -->
+      <div class="input-group">
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+      </div>
 
-        <div class="input-group">
-          <label for="phone">Phone Number:</label>
-          <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
-        </div>
+      <!-- Phone -->
+      <div class="input-group">
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+      </div>
 
-        <div class="input-group">
-          <label for="village">Village Name:</label>
-          <input type="text" id="village" name="village" placeholder="Enter your village name" required>
-        </div>
+      <!-- District (Dropdown, moved UP) -->
+      <div class="input-group">
+        <label for="district">District Name:</label>
+        <select id="district" name="district" required>
+          <option value="">-- Select District --</option>
+          <option value="district1">District 1</option>
+          <option value="district2">District 2</option>
+          <option value="district3">District 3</option>
+        </select>
+      </div>
 
-        <div class="input-group">
-          <label for="department">Department Concerned:</label>
-          <select id="department" name="department" required>
-            <option value="">-- Select Department --</option>
-            <option value="water">Water Supply</option>
-            <option value="electricity">Electricity</option>
-            <option value="road">Roads & Transport</option>
-            <option value="health">Health & Sanitation</option>
-            <option value="education">Education</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
+      <!-- Block (Text, below District) -->
+      <div class="input-group">
+        <label for="block">Block Name:</label>
+        <input type="text" id="block" name="block" placeholder="Enter your block name" required>
+      </div>
 
-        <div class="input-group">
-          <label for="complaint">Complaint Details:</label>
-          <textarea id="complaint" name="complaint" rows="5" placeholder="Describe your issue in detail" required></textarea>
-        </div>
+      <!-- Gram Panchayat -->
+      <div class="input-group">
+        <label for="gp">Gram Panchayat (GP) Name:</label>
+        <input type="text" id="gp" name="gp" placeholder="Enter GP name" required>
+      </div>
 
+      <!-- Village (Moved below GP) -->
+      <div class="input-group">
+        <label for="village">Village Name:</label>
+        <input type="text" id="village" name="village" placeholder="Enter your village name" required>
+      </div>
+
+      <!-- Post -->
+      <div class="input-group">
+        <label for="post">Post Name:</label>
+        <input type="text" id="post" name="post" placeholder="Enter post name" required>
+      </div>
+
+      <!-- PIN Code -->
+      <div class="input-group">
+        <label for="pincode">PIN Code:</label>
+        <input type="number" id="pincode" name="pincode" placeholder="Enter PIN code" required>
+      </div>
+
+      <!-- Department -->
+      <div class="input-group">
+        <label for="department">Department Concerned:</label>
+        <select id="department" name="department" required>
+          <option value="">-- Select Department --</option>
+          <option value="water">Water Supply</option>
+          <option value="electricity">Electricity</option>
+          <option value="road">Roads & Transport</option>
+          <option value="health">Health & Sanitation</option>
+          <option value="education">Education</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <!-- Complaint -->
+      <div class="input-group">
+        <label for="complaint">Complaint Details:</label>
+        <textarea id="complaint" name="complaint" rows="5" placeholder="Describe your issue in detail" required></textarea>
+      </div>
+
+      <!-- Proof Upload -->
+      <div class="input-group">
+        <label for="proof">Attach Proof (Image/Video):</label>
+        <input type="file" id="proof" name="proof" accept="image/*,video/*">
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-group">
         <button type="submit" class="btn">Submit Complaint</button>
         <button type="reset" class="btn-outline">Clear Form</button>
-      </form>
-    </div>
-
-    <div class="right">
-      <img src="https://horizontechconnect.eu/wp-content/uploads/2024/11/TechConnect-image-10.png" alt="Complaint illustration">
-    </div>
+      </div>
+    </form>
   </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Civic Report | Designed with ❤️ for better governance</p>
+  </footer>
 </body>
 </html>
