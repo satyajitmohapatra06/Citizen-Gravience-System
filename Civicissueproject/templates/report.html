@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Civic Report - Lodge Complaint</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/report.css') }}">
+</head>
+<body>
+  <!-- Animated background blobs -->
+  <div class="bg-shape shape1"></div>
+  <div class="bg-shape shape2"></div>
+  
+  <!-- HOME BUTTON -->
+  <a href="/" class="home-btn">
+    <span class="home-icon">🏠</span> Home
+  </a>
+
+  <div class="container">
+    <div class="left">
+      <h2>Lodge Your <span>Complaint</span></h2>
+
+      <form method="POST" action="/submit_complaint">
+        <div class="input-group">
+          <label for="name">Full Name:</label>
+          <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+        </div>
+
+        <div class="input-group">
+          <label for="phone">Phone Number:</label>
+          <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+        </div>
+
+        <div class="input-group">
+          <label for="village">Village Name:</label>
+          <input type="text" id="village" name="village" placeholder="Enter your village name" required>
+        </div>
+
+        <div class="input-group">
+          <label for="department">Department Concerned:</label>
+          <select id="department" name="department" required>
+            <option value="">-- Select Department --</option>
+            <option value="water">Water Supply</option>
+            <option value="electricity">Electricity</option>
+            <option value="road">Roads & Transport</option>
+            <option value="health">Health & Sanitation</option>
+            <option value="education">Education</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="complaint">Complaint Details:</label>
+          <textarea id="complaint" name="complaint" rows="5" placeholder="Describe your issue in detail" required></textarea>
+        </div>
+
+        <button type="submit" class="btn">Submit Complaint</button>
+        <button type="reset" class="btn-outline">Clear Form</button>
+      </form>
+    </div>
+
+    <div class="right">
+      <img src="https://horizontechconnect.eu/wp-content/uploads/2024/11/TechConnect-image-10.png" alt="Complaint illustration">
+    </div>
+  </div>
+</body>
+</html>
