@@ -1,176 +1,237 @@
-/* ========== GLOBAL STYLES ========== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
+/* General Styles */
 body {
-  background: #f3f4f6;
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+  background: #f5f7fb;
+  color: #333;
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
   position: relative;
 }
 
-/* ========== BACKGROUND ANIMATED SHAPES ========== */
+/* Animated Background Blobs */
 .bg-shape {
   position: absolute;
   border-radius: 50%;
-  opacity: 0.2;
+  filter: blur(120px);
+  opacity: 0.45;
   z-index: -1;
+  animation: float 12s ease-in-out infinite;
 }
 
 .shape1 {
-  width: 400px;
-  height: 400px;
-  background: #4f46e5;
-  top: -100px;
+  width: 420px;
+  height: 420px;
+  background: #4facfe;
+  top: -120px;
   left: -100px;
-  animation: float 6s ease-in-out infinite;
 }
 
 .shape2 {
+  width: 380px;
+  height: 380px;
+  background: #43e97b;
+  bottom: -140px;
+  right: -90px;
+  animation-delay: 4s;
+}
+
+.shape3 {
   width: 300px;
   height: 300px;
-  background: #f59e0b;
-  bottom: -100px;
-  right: -100px;
-  animation: float 8s ease-in-out infinite;
+  background: #ff6ec7;
+  top: 35%;
+  left: 65%;
+  animation-delay: 7s;
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(30px); }
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50% { transform: translateY(-50px) translateX(25px); }
 }
 
-/* ========== HOME BUTTON ========== */
-.home-btn {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  background: white;
-  padding: 10px 15px;
-  border-radius: 30px;
-  text-decoration: none;
-  color: #111827;
-  font-weight: 600;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-  transition: background 0.3s ease;
-}
-
-.home-btn:hover {
-  background: #e5e7eb;
-}
-
-.home-icon {
-  margin-right: 5px;
-}
-
-/* ========== MAIN CONTAINER ========== */
+/* Complaint Form Container */
 .container {
+  background: #fff;
+  border-radius: 22px;
+  padding: 50px 60px;
+  width: 95%;
+  max-width: 900px;   /* 🔥 wider than before */
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+  text-align: center;
+  margin-top: 70px;
+  position: relative;
+  animation: fadeInUp 1s ease forwards;
+}
+
+/* Heading */
+h2 {
+  font-size: 40px;
+  margin-bottom: 25px;
+  color: #222;
+  font-weight: 700;
+}
+
+h2 span {
+  color: #4facfe;
+}
+
+/* Form Card */
+.form-card {
   display: flex;
-  max-width: 900px;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 15px;
   width: 100%;
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
 }
 
-.left, .right {
-  flex: 1;
-  padding: 40px;
-}
-
-.left h2 {
-  font-size: 28px;
-  margin-bottom: 20px;
-}
-
-.left h2 span {
-  color: #4f46e5;
-}
-
-/* ========== FORM STYLING ========== */
-form .input-group {
-  margin-bottom: 20px;
+/* Input Groups */
+.input-group {
+  text-align: left;
   display: flex;
   flex-direction: column;
 }
 
-form label {
-  font-weight: 600;
-  margin-bottom: 5px;
-  color: #374151;
-}
-
-form input, 
-form select, 
-form textarea {
-  padding: 10px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
+.input-group label {
   font-size: 15px;
-  outline: none;
-  transition: border 0.3s ease;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #444;
 }
 
-form input:focus, 
-form select:focus, 
-form textarea:focus {
-  border: 1px solid #4f46e5;
-}
-
-form textarea {
-  resize: none;
-}
-
-/* ========== BUTTONS ========== */
-.btn {
-  width: 100%;
-  padding: 12px;
-  background: #4f46e5;
-  color: white;
-  border: none;
-  border-radius: 6px;
+.input-group input,
+.input-group select,
+.input-group textarea {
+  padding: 14px 16px;
+  border: 1.5px solid #ddd;
+  border-radius: 12px;
   font-size: 16px;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+}
+
+.input-group input:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+  border-color: #4facfe;
+  box-shadow: 0 0 12px rgba(79,172,254,0.3);
+  outline: none;
+}
+
+/* Make textarea bigger for complaint */
+textarea {
+  min-height: 130px;
+}
+
+/* File Input */
+.input-group input[type="file"] {
+  border: none;
+  background: #f5f7fb;
+  padding: 8px;
   cursor: pointer;
-  margin-bottom: 10px;
+}
+
+.input-group input[type="file"]::-webkit-file-upload-button {
+  background: #4facfe;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
   transition: background 0.3s ease;
 }
 
+.input-group input[type="file"]::-webkit-file-upload-button:hover {
+  background: #3a8ae0;
+}
+
+/* Buttons */
+.btn-group {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.btn, .btn-outline {
+  padding: 15px 25px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 180px;
+}
+
+.btn {
+  background: linear-gradient(45deg, #4facfe, #43e97b);
+  border: none;
+  color: #fff;
+}
+
 .btn:hover {
-  background: #4338ca;
+  transform: translateY(-2px);
+  opacity: 0.95;
 }
 
 .btn-outline {
-  width: 100%;
-  padding: 12px;
-  background: white;
-  color: #4f46e5;
-  border: 1px solid #4f46e5;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  background: #fff;
+  border: 2px solid #4facfe;
+  color: #4facfe;
 }
 
 .btn-outline:hover {
-  background: #f3f4f6;
+  background: #4facfe;
+  color: #fff;
+  transform: translateY(-2px);
 }
 
-/* ========== RIGHT SECTION IMAGE (Centered + Floating) ========== */
-.right {
-  display: flex;
-  justify-content: center;   /* Centers image horizontally */
-  align-items: center;       /* Centers image vertically */
+/* Home Button */
+.home-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  text-decoration: none;
+  background: #fff;
+  border: 2px solid #4facfe;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4facfe;
+  transition: all 0.3s ease;
 }
 
-.right img {
-  max-width: 100%;
-  height: auto;
-  animation: float 6s ease-in-out infinite; /* Add float animation */
+.home-btn:hover {
+  background: #4facfe;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.home-icon {
+  margin-right: 6px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin: 40px 0 20px;
+  padding: 10px;
+}
+
+/* Animations */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(25px);
+  animation: fadeInUp 1s ease forwards;
+}
+
+@keyframes fadeInUp {
+  to { opacity: 1; transform: translateY(0); }
 }
