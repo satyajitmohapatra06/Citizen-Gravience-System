@@ -1,28 +1,32 @@
+/* ========= RESET ========= */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Inter', Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
 }
 
+/* ========= BODY ========= */
 body {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #e0f0ff, #f8faff);
+  background: linear-gradient(135deg, #e0f3ff, #f8fbff);
   overflow: hidden;
   position: relative;
 }
 
-/* ===== BACKGROUND ANIMATED SHAPES ===== */
+/* ========= BACKGROUND BLOBS ========= */
 .bg-shape {
   position: absolute;
   border-radius: 50%;
   opacity: 0.3;
   filter: blur(70px);
   animation: float 8s ease-in-out infinite alternate;
+  z-index: 0;
 }
+
 .shape1 {
   width: 350px;
   height: 350px;
@@ -39,67 +43,100 @@ body {
   animation-delay: 2s;
 }
 
-/* ===== LOGIN CONTAINER ===== */
-.container {
+/* ========= HOME BUTTON ========= */
+.home-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: linear-gradient(135deg, #007bff, #00d4ff);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-weight: 600;
+  text-decoration: none;
   display: flex;
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  width: 850px;
-  max-width: 95%;
-  height: 520px;
-  position: relative;
-  animation: slideIn 1s ease forwards;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  box-shadow: 0 4px 14px rgba(0, 123, 255, 0.3);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  animation: fadeDown 1s ease forwards;
+}
+.home-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.5);
+}
+.home-icon {
+  font-size: 18px;
 }
 
+/* ========= LOGIN CONTAINER ========= */
+.container {
+  display: flex;
+  width: 850px;
+  max-width: 95%;
+  height: 540px;
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  animation: scaleUp 0.9s ease forwards;
+}
+
+/* ========= LEFT FORM ========= */
 .left {
-  width: 40%;
+  width: 45%;
   padding: 40px 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  animation: fadeUp 1.2s ease forwards;
+  background: linear-gradient(135deg, #f9fbff, #f0f7ff);
+  animation: fadeInLeft 1.2s ease forwards;
 }
 
 .left h2 {
+  font-size: 28px;
   color: #007bff;
-  font-size: 26px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 .left h2 span {
   color: #444;
-  font-weight: 500;
   font-size: 18px;
+  font-weight: 500;
 }
 
+/* INPUT GROUP */
 .input-group {
   margin-bottom: 18px;
 }
 .input-group label {
   display: block;
   font-size: 14px;
-  margin-bottom: 6px;
   color: #333;
+  margin-bottom: 6px;
 }
 .input-group input {
   width: 100%;
   padding: 12px;
-  border: 1px solid #bbb;
-  border-radius: 8px;
+  border: 1.5px solid #ccc;
+  border-radius: 10px;
   font-size: 14px;
-  outline: none;
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
 .input-group input:focus {
   border-color: #007bff;
-  box-shadow: 0 0 8px rgba(0,123,255,0.2);
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+  outline: none;
 }
 
+/* CHECKBOX */
 .checkbox {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin: 12px 0 20px;
   font-size: 14px;
 }
 .checkbox input {
@@ -108,29 +145,30 @@ body {
   transform: scale(1.2);
 }
 
-/* ===== BUTTONS ===== */
-.btn, .btn-outline {
+/* BUTTONS */
+.btn,
+.btn-outline {
   display: block;
   width: 100%;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   margin-bottom: 15px;
-  transition: 0.3s;
-  position: relative;
-  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .btn {
   background: linear-gradient(135deg, #007bff, #00d4ff);
-  color: white;
+  color: #fff;
   border: none;
+  position: relative;
+  overflow: hidden;
 }
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0,123,255,0.3);
+  box-shadow: 0 8px 18px rgba(0, 123, 255, 0.3);
 }
 
 .btn-outline {
@@ -143,56 +181,65 @@ body {
   color: #fff;
 }
 
-/* ===== SIGNUP LINK ===== */
+/* SIGNUP */
 .signup {
   text-align: center;
-  margin-top: 15px;
   font-size: 14px;
+  margin-top: 12px;
 }
 .signup a {
   color: #007bff;
+  font-weight: 600;
   text-decoration: none;
-  font-weight: bold;
   position: relative;
 }
 .signup a::after {
   content: "";
-  position: absolute;
   width: 0%;
   height: 2px;
-  left: 0;
+  position: absolute;
   bottom: -2px;
+  left: 0;
   background: #007bff;
-  transition: width 0.3s;
+  transition: width 0.3s ease;
 }
 .signup a:hover::after {
   width: 100%;
 }
 
-/* ===== RIGHT SIDE IMAGE ===== */
+/* ========= RIGHT IMAGE ========= */
 .right {
   flex: 1;
   background: #f0f8ff;
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: fadeInRight 1.2s ease forwards;
 }
 .right img {
   max-width: 85%;
-  animation: float 5s ease-in-out infinite;
+  animation: float 6s ease-in-out infinite;
 }
 
-/* ===== ANIMATIONS ===== */
-@keyframes slideIn {
-  from { transform: translateY(50px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* ========= ANIMATIONS ========= */
 @keyframes float {
   0% { transform: translateY(0); }
   50% { transform: translateY(-15px); }
   100% { transform: translateY(0); }
+}
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleUp {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
 }
