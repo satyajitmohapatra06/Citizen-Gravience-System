@@ -12,23 +12,23 @@
   <div class="bg-shape shape2"></div>
   <!-- HOME BUTTON -->
   <a href="/" class="home-btn">
-  <span class="home-icon">🏠</span> Home
+    <span class="home-icon">🏠</span> Home
   </a>
-
 
   <div class="container">
     <div class="left">
       <h2>Civic Report <span>(Admin)</span></h2>
 
-      <form>
+      <!-- Updated form -->
+      <form method="POST" action="/admin_login">
         <div class="input-group">
-          <label for="Email">Email</label>
-          <input type="email" id="username" placeholder="Enter your Email">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Enter your Email" required>
         </div>
 
         <div class="input-group">
           <label for="password">Password</label>
-          <input type="password" id="password" placeholder="Enter your password">
+          <input type="password" id="password" name="password" placeholder="Enter your password" required>
         </div>
 
         <div class="checkbox">
@@ -40,13 +40,13 @@
         <button type="button" class="btn-outline">Continue with Email</button>
 
         <div class="signup">
-          Don't have an account? <a href="#">Sign up</a>
+          Don't have an account? <a href="#">Sign up</a> <!-- Admin signup not needed -->
         </div>
       </form>
     </div>
 
     <div class="right">
-      <img src="https://image.pngaaa.com/919/4051919-middle.png" alt="Admin login illustration">
+      <img src="https://horizontechconnect.eu/wp-content/uploads/2024/11/TechConnect-image-10.png" alt="Admin login illustration">
     </div>
   </div>
 </body>
