@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Civic Report - User Login</title>
-  <link rel="stylesheet" href="signup.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 <body>
   <!-- Animated background blobs -->
@@ -40,7 +40,7 @@
         <button type="button" class="btn-outline">Continue with Email</button>
 
         <div class="signup">
-          Already have an account? <a href="#">Log in</a>
+          Already have an account? <a href="/user_login">Log in</a>
         </div>
       </form>
     </div>
