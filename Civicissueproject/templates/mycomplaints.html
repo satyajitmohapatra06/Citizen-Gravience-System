@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Complaints</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mycomplaints.css') }}">
+</head>
+
+<body>
+
+    <h2>My Complaints</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>District</th>
+            <th>Block</th>
+            <th>GP</th>
+            <th>Village</th>
+            <th>Post</th>
+            <th>Pincode</th>
+            <th>Department</th>
+            <th>Complaint</th>
+            <th>Proof</th>
+            <th>Status</th>
+        </tr>
+        {% for complaint in complaints %}
+        <tr>
+            <td>{{ complaint[0] }}</td>
+            <td>{{ complaint[1] }}</td>
+            <td>{{ complaint[2] }}</td>
+            <td>{{ complaint[3] }}</td>
+            <td>{{ complaint[4] }}</td>
+            <td>{{ complaint[5] }}</td>
+            <td>{{ complaint[6] }}</td>
+            <td>{{ complaint[7] }}</td>
+            <td>{{ complaint[8] }}</td>
+            <td>
+                {% if complaint[9] %}
+                <a href="{{ url_for('static', filename=complaint[9].split('static/')[-1]) }}" target="_blank">View</a>
+                {% else %}
+                No proof
+                {% endif %}
+            </td>
+            <td>{{ complaint[10] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p><a href="{{ url_for('home') }}">← Back to Home</a></p>
+
+</body>
+
+</html>
