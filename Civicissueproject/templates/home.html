@@ -25,31 +25,48 @@
         <a href="/"><span>Home</span></a>
         <a href="/report"><span>Report</span></a>
         <a href="/about"><span>About</span></a>
-        <button class="login-btn">Login ▾</button>
-        <ul class="dropdown">
-        <li><a href="/user_login">User Login</a></li>
-        <li><a href="/admin_login">Admin Login</a></li>
-        </ul>
+
+        {% if session.get('role') == 'user' %}
+          <button class="login-btn">User ▾</button>
+          <ul class="dropdown">
+            <li><a href="/mycomplaints">My Complaints</a></li>
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        {% elif session.get('role') == 'admin' %}
+          <button class="login-btn">Admin ▾</button>
+          <ul class="dropdown">
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        {% else %}
+          <button class="login-btn">Login ▾</button>
+          <ul class="dropdown">
+            <li><a href="/user_login">User Login</a></li>
+            <li><a href="/admin_login">Admin Login</a></li>
+          </ul>
+        {% endif %}
       </nav>
     </header>
 
-    <!-- <section class="hero">
-      <section class="get-started">
-      <h2>Ready to Make a Difference?</h2>
-      <p>Join us in improving civic life by reporting issues and tracking progress.</p>
-      <a href="/report" class="get-started-btn">Get Started</a>
-    </section>
-      </div> --> -->
+    <!-- 🌟 FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-container">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
 
-         <!-- 🌟 GET STARTED SECTION -->
+    <!-- 🌟 GET STARTED SECTION -->
     <section class="get-started">
       <h2>Ready to Make a Difference?</h2>
       <p>Join us in improving civic life by reporting issues and tracking progress.</p>
       <a href="/report" class="get-started-btn">Get Started</a>
     </section>
 
-
-      <!-- 🌟 EXTRA IMAGES SECTION (ADDED BELOW HERO) -->
+    <!-- 🌟 EXTRA IMAGES SECTION -->
     <section class="extra-images">
       <h2>Our Mission</h2>
       <div class="image-grid">
@@ -68,24 +85,20 @@
       </div>
     </section>
 
-    </section>
-
     <div class="bottombar"></div>
   </div>
 
-
-   
-    <!-- 🌟 FOOTER -->
-    <footer class="site-footer">
-      <div class="footer-content">
-        <p>&copy; 2025 Civic Report. All rights reserved.</p>
-        <nav class="footer-nav">
-          <a href="/">Home</a>
-          <a href="/report">Report</a>
-          <a href="/about">About</a>
-        </nav>
-      </div>
-    </footer>
+  <!-- 🌟 FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <p>&copy; 2025 Civic Report. All rights reserved.</p>
+      <nav class="footer-nav">
+        <a href="/">Home</a>
+        <a href="/report">Report</a>
+        <a href="/about">About</a>
+      </nav>
+    </div>
+  </footer>
 
 </body>
 </html>
