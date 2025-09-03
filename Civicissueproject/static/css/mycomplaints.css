@@ -1,52 +1,144 @@
+/* Base */
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f9;
-    text-align: center;
-    margin: 0;
-    padding: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: linear-gradient(to right, #eef2f3, #ffffff);
+  margin: 0;
+  color: #333;
+}
+.no-scroll { overflow: hidden; }
+
+/* Header */
+header {
+  background: #007bff;
+  color: #fff;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0,0,0,.1);
+}
+header h2 {
+  margin: 0;
+  font-size: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
-h2 {
-    margin: 20px 0;
-    color: #333;
+/* Cards container centered */
+.complaints-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;  /* center on the page */
+  gap: 22px;
+  padding: 28px 18px 40px;
 }
 
-table {
-    width: 95%;
-    margin: 20px auto;
-    border-collapse: collapse;
-    background: white;
-    box-shadow: 0px 3px 10px rgba(0,0,0,0.1);
-    border-radius: 6px;
-    overflow: hidden;
+/* Card */
+.complaint-card {
+  width: 280px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+  padding: 20px 18px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.complaint-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 24px rgba(0,0,0,.14);
+}
+.complaint-card h3 {
+  margin: 0 0 12px;
+  font-size: 18px;
+  color: #0a66ff;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
-th, td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: center;
+/* Status pill on card */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+.status-pill.pending { background: #ffc107; color: #333; }
+.status-pill.resolved { background: #28a745; }
+.status-pill.rejected { background: #dc3545; }
+.status-pill.in-progress { background: #17a2b8; }
+
+/* Empty state */
+.no-data {
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  color: #666;
 }
 
-th {
-    background: #007bff;
-    color: white;
-    font-weight: bold;
+/* Footer */
+footer { text-align: center; padding: 20px; }
+.back-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #007bff;
+  color: #fff; border-radius: 25px;
+  text-decoration: none; font-weight: 700;
+  transition: background .25s ease;
+}
+.back-btn:hover { background: #0056b3; }
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed; inset: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,.6);
+  justify-content: center; align-items: center;
+  animation: fadeIn .25s ease;
+}
+.modal-content {
+  background: #fff;
+  width: 92%; max-width: 640px;
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(0,0,0,.2);
+  padding: 22px 22px 26px;
+  animation: slideIn .28s ease;
+  position: relative;
+}
+.close-btn {
+  position: absolute; right: 12px; top: 8px;
+  border: 0; background: transparent;
+  color: #666; font-size: 26px; line-height: 1;
+  cursor: pointer;
+}
+.close-btn:hover { color: #111; }
+.modal-title {
+  margin: 0 0 8px;
+  color: #0a66ff; font-size: 20px;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.modal-body p {
+  margin: 10px 0;
+  font-size: 15px;
+  display: flex; align-items: center; gap: 8px;
 }
 
-tr:nth-child(even) {
-    background: #f9f9f9;
+/* Status chip inside modal */
+.status-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px; border-radius: 999px;
+  font-weight: 700; color: #fff;
 }
+.status-chip.pending { background: #ffc107; color: #333; }
+.status-chip.resolved { background: #28a745; }
+.status-chip.rejected { background: #dc3545; }
+.status-chip.in-progress { background: #17a2b8; }
 
-a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-p {
-    margin: 20px 0;
-}
+/* Animations */
+@keyframes fadeIn { from {opacity: 0} to {opacity: 1} }
+@keyframes slideIn { from {transform: translateY(-14px); opacity: 0} to {transform: translateY(0); opacity: 1} }
