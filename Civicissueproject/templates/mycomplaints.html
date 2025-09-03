@@ -37,7 +37,7 @@
             <td>{{ complaint[8] }}</td>
             <td>
                 {% if complaint[9] %}
-                <a href="{{ url_for('static', filename=complaint[9].split('static/')[-1]) }}" target="_blank">View</a>
+                <a href="{{ url_for('static', filename='uploads/' ~ complaint[9]) }}" target="_blank">View</a>
                 {% else %}
                 No proof
                 {% endif %}
