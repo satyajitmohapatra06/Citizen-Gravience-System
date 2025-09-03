@@ -1,0 +1,128 @@
+/* ---------------- Original Theme (Unchanged) ---------------- */
+:root{
+  --primary: #0a66ff;
+  --muted: #6b7280;
+  --bg: linear-gradient(180deg,#eef2f3,#fff);
+  --card: #fff;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; font-family: "Segoe UI", Arial, sans-serif; background:var(--bg); color:#222;
+}
+.admin-header{
+  display:flex; justify-content:space-between; align-items:center;
+  background:var(--primary); color:#fff; padding:14px 22px; box-shadow:0 4px 12px rgba(10,102,255,.12);
+}
+.admin-header h1{margin:0; font-size:20px; display:flex; gap:10px; align-items:center}
+.admin-main{padding:20px 28px; max-width:1100px; margin:18px auto}
+
+/* top metrics */
+.top-cards{display:flex; gap:16px; margin-bottom:18px; flex-wrap:wrap}
+.card.metric{background:var(--card); padding:14px; border-radius:10px; min-width:150px; flex:1; box-shadow:0 6px 18px rgba(12,37,77,.06)}
+.card.metric .title{font-size:13px; color:var(--muted)}
+.card.metric .value{font-size:20px; font-weight:800; color:var(--primary); margin-top:6px}
+
+/* charts */
+.charts{display:flex; gap:16px; margin-bottom:18px; flex-wrap:wrap}
+.chart-card{background:var(--card); padding:12px; border-radius:10px; flex:1; min-width:260px; box-shadow:0 8px 22px rgba(12,37,77,.06)}
+.chart-card img{width:100%; height:auto; border-radius:6px; display:block}
+
+/* complaints table */
+.complaints-table .table-wrap{background:var(--card); border-radius:10px; padding:12px; box-shadow:0 8px 22px rgba(12,37,77,.06)}
+table{width:100%; border-collapse:collapse; font-size:14px}
+thead th{background:#f3f6fb; padding:10px; text-align:left}
+tbody td{padding:10px; border-top:1px solid #f0f2f6}
+.truncate{max-width:480px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+
+/* pills and buttons */
+.pill{padding:6px 10px; border-radius:999px; color:#fff; font-weight:700; font-size:13px}
+.pill.pending{background:#ffc107; color:#111}
+.pill.in-progress{background:#17a2b8}
+.pill.resolved{background:#28a745}
+.pill.rejected{background:#dc3545}
+
+.btn{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:8px; text-decoration:none; color:#fff; background:var(--primary); border:0; cursor:pointer}
+.btn.small{padding:6px 8px; font-size:13px}
+.btn.secondary{background:#e5eefc; color:var(--primary)}
+
+/* single complaint / details */
+.single-complaint{display:grid; grid-template-columns: 1fr 340px; gap:18px}
+.details-card, .action-card{background:var(--card); padding:16px; border-radius:10px; box-shadow:0 10px 30px rgba(12,37,77,.06)}
+.details-card h3, .action-card h3{margin-top:0}
+
+/* user view mini cards */
+.mini-card{background:var(--card); padding:12px; border-radius:8px; margin-bottom:10px; box-shadow:0 6px 14px rgba(12,37,77,.04)}
+
+/* small utilities */
+.file-label input[type="file"]{display:block; margin-top:8px}
+.filter-form{display:flex; gap:8px}
+.filter-form input{padding:8px 10px; border-radius:8px; border:1px solid #e6eefc}
+.filter-form button{background:#e6eefc; color:var(--primary); border-radius:8px; padding:8px 10px}
+
+@media (max-width:900px){
+  .single-complaint{grid-template-columns: 1fr; padding-bottom:20px}
+  .charts{flex-direction:column}
+}
+
+/* ---------------- New Upgrades ---------------- */
+
+/* Chart hover effect */
+.chart-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.chart-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(10,102,255,0.15);
+}
+.chart-card img {
+  cursor: zoom-in;
+  transition: transform 0.3s ease;
+}
+.chart-card img:hover {
+  transform: scale(1.05);
+}
+
+/* Chart Lightbox (pure CSS) */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+}
+.lightbox:target {
+  display: flex;
+  animation: fadeIn .3s ease;
+}
+.lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  animation: zoomIn .3s ease;
+}
+.lightbox .close {
+  position: absolute;
+  top: 20px; right: 30px;
+  font-size: 40px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color .2s;
+}
+.lightbox .close:hover {
+  color: #ff4444;
+}
+
+/* Animations */
+@keyframes zoomIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
