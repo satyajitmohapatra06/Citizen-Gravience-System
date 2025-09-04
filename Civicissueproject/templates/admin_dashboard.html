@@ -1,161 +1,111 @@
-<!-- templates/admin_dashboard.html -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <title>Admin Dashboard - Civic</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_styles.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_dashboard.css') }}">
 </head>
-
 <body>
-    <header class="admin-header">
-        <div class="left">
-            <h1><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h1>
-        </div>
-        <div class="right">
-            <a class="btn" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
-        </div>
-    </header>
+  <!-- Header -->
+  <header class="admin-header">
+    <h1>📊 Admin Dashboard</h1>
+    <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+  </header>
 
-    <main class="admin-main">
-        <section class="top-cards">
-            <div class="card metric">
-                <div class="title">Total Complaints</div>
-                <div class="value">{{ total }}</div>
-            </div>
-            <div class="card metric">
-                <div class="title">Pending</div>
-                <div class="value">{{ by_status.get('Pending', 0) }}</div>
-            </div>
-            <div class="card metric">
-                <div class="title">Resolved</div>
-                <div class="value">{{ by_status.get('Resolved', 0) }}</div>
-            </div>
-            <div class="card metric">
-                <div class="title">Departments</div>
-                <div class="value">{{ by_dept|length }}</div>
-            </div>
-        </section>
+  <main class="admin-main">
 
-        <section class="charts">
-            <!-- Status -->
-            <div class="chart-card">
-                <h3><i class="fas fa-chart-bar"></i> By Status</h3>
-                <a href="#status-lightbox">
-                    <img src="{{ url_for('static', filename=charts['status']) }}" alt="status chart">
-                </a>
-            </div>
-            <div id="status-lightbox" class="lightbox">
-                <a href="#" class="close">&times;</a>
-                <img src="{{ url_for('static', filename=charts['status']) }}" alt="status chart">
-            </div>
+    <!-- Metrics -->
+    <section class="top-cards">
+      <div class="card metric">
+        <div class="title">Total Complaints</div>
+        <div class="value">{{ total }}</div>
+      </div>
+      {% for status, count in by_status.items() %}
+      <div class="card metric">
+        <div class="title">{{ status }}</div>
+        <div class="value">{{ count }}</div>
+      </div>
+      {% endfor %}
+    </section>
 
-            <!-- Department -->
-            <div class="chart-card">
-                <h3><i class="fas fa-chart-pie"></i> By Department</h3>
-                <a href="#department-lightbox">
-                    <img src="{{ url_for('static', filename=charts['department']) }}" alt="department chart">
-                </a>
-            </div>
-            <div id="department-lightbox" class="lightbox">
-                <a href="#" class="close">&times;</a>
-                <img src="{{ url_for('static', filename=charts['department']) }}" alt="department chart">
-            </div>
+    <!-- Charts -->
+    <section class="charts">
+      {% for key, chart in charts.items() if key != 'odisha_map' %}
+      <div class="chart-card">
+        <a href="#lightbox-{{ key }}">
+          <img src="{{ url_for('admin_charts', filename=chart.split('/')[-1]) }}" alt="{{ key }}">
+        </a>
+        <h3>{{ key.replace('_', ' ')|title }}</h3>
+      </div>
 
-            <!-- Pincode -->
-            <div class="chart-card">
-                <h3><i class="fas fa-map"></i> Top Pincodes</h3>
-                <a href="#pincode-lightbox">
-                    <img src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart">
-                </a>
-            </div>
-            <div id="pincode-lightbox" class="lightbox">
-                <a href="#" class="close">&times;</a>
-                <img src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart">
-            </div>
+      <!-- Lightbox for chart -->
+      <div id="lightbox-{{ key }}" class="lightbox">
+        <a href="#" class="close">&times;</a>
+        <img src="{{ url_for('admin_charts', filename=chart.split('/')[-1]) }}" alt="{{ key }}">
+      </div>
+      {% endfor %}
+    </section>
 
-            <!-- Over Time -->
-            <div class="chart-card">
-                <h3><i class="fas fa-calendar-alt"></i> Complaints Over Time</h3>
-                <a href="#time-lightbox">
-                    <img src="{{ url_for('static', filename=charts['time']) }}" alt="Complaints over time">
-                </a>
-            </div>
-            <div id="time-lightbox" class="lightbox">
-                <a href="#" class="close">&times;</a>
-                <img src="{{ url_for('static', filename=charts['time']) }}" alt="Complaints over time">
-            </div>
+    <!-- Odisha Map Section -->
+    <section class="odisha-map-section">
+      <div class="chart-card map-card">
+        <a href="#lightbox-map">
+          <img src="{{ url_for('admin_charts', filename=charts['odisha_map'].split('/')[-1]) }}" alt="Odisha Map">
+        </a>
+        <h3><i>🗺</i> Odisha Complaints Map</h3>
+      </div>
 
-            <!-- District -->
-            <div class="chart-card">
-                <h3><i class="fas fa-city"></i> Complaints by District</h3>
-                <a href="#district-lightbox">
-                    <img src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district">
-                </a>
-            </div>
-            <div id="district-lightbox" class="lightbox">
-                <a href="#" class="close">&times;</a>
-                <img src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district">
-            </div>
+      <!-- Lightbox for map -->
+      <div id="lightbox-map" class="lightbox">
+        <a href="#" class="close">&times;</a>
+        <img src="{{ url_for('admin_charts', filename=charts['odisha_map'].split('/')[-1]) }}" alt="Odisha Map">
+      </div>
 
-            <!-- Dept vs Status -->
-            <div class="chart-card">
-                <h3><i class="fas fa-layer-group"></i> Dept vs Status</h3>
-                <a href="#deptstatus-lightbox">
-                    <img src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status">
-                </a>
-            </div>
-            <div id="deptstatus-lightbox" class="lightbox">
-                <a href="#" class="close">&times;</a>
-                <img src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status">
-            </div>
-        </section>
+      <!-- Legend -->
+      <div class="map-legend">
+        <h4>Complaint Status Legend</h4>
+        <ul>
+          <li><span class="dot pending"></span> Pending</li>
+          <li><span class="dot in-progress"></span> In Progress</li>
+          <li><span class="dot resolved"></span> Resolved</li>
+          <li><span class="dot rejected"></span> Rejected</li>
+        </ul>
+      </div>
+    </section>
 
-        <section class="complaints-table">
-            <div class="table-header">
-                <h3><i class="fas fa-list"></i> All Complaints</h3>
-                <form method="get" action="{{ url_for('admin_dashboard') }}" class="filter-form">
-                    <input type="text" name="q" placeholder="Search by phone / dept / pincode" />
-                    <button class="btn secondary"><i class="fas fa-search"></i></button>
-                </form>
-            </div>
+    <!-- Complaints Table -->
+    <section class="complaints-table">
+      <div class="table-wrap">
+        <h3>All Complaints</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>User Phone</th>
+              <th>District</th>
+              <th>Department</th>
+              <th>Complaint</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in complaints %}
+            <tr>
+              <td>{{ row[0] }}</td>
+              <td>{{ row[1] }}</td>
+              <td>{{ row[4] }}</td>
+              <td>{{ row[10] }}</td>
+              <td class="truncate">{{ row[11] }}</td>
+              <td><span class="pill {{ row[13]|lower|replace(' ', '-') }}">{{ row[13] }}</span></td>
+              <td><a class="btn small" href="{{ url_for('admin_complaint_view', cid=row[0]) }}">View</a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>User</th>
-                            <th>Dept</th>
-                            <th>Village</th>
-                            <th>Complaint</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for row in complaints %}
-                        <tr>
-                            <td>{{ row[0] }}</td>
-                            <td><a href="{{ url_for('admin_user_view', user_phone=row[1]) }}">{{ row[1] }}</a></td>
-                            <td>{{ row[11] }}</td>
-                            <td>{{ row[7] }}</td>
-                            <td class="truncate">{{ row[12][:60] ~ ('...' if row[12]|length > 60 else '') }}</td>
-                            <td><span class="pill {{ (row[13] or 'Pending')|lower|replace(' ', '-') }}">{{ row[13] or
-                                    'Pending' }}</span></td>
-                            <td>
-                                <a class="btn small" href="{{ url_for('admin_complaint_view', cid=row[0]) }}"><i
-                                        class="fas fa-eye"></i> View</a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    </main>
+  </main>
 </body>
-
 </html>
