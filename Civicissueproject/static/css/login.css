@@ -146,8 +146,8 @@ body {
 }
 
 /* BUTTONS */
-.btn,
-.btn-outline {
+.btn
+ {
   display: block;
   width: 100%;
   padding: 12px;
@@ -171,7 +171,7 @@ body {
   box-shadow: 0 8px 18px rgba(0, 123, 255, 0.3);
 }
 
-.btn-outline {
+/* .btn-outline {
   background: transparent;
   border: 2px solid #007bff;
   color: #007bff;
@@ -179,7 +179,7 @@ body {
 .btn-outline:hover {
   background: #007bff;
   color: #fff;
-}
+} */
 
 /* SIGNUP */
 .signup {
