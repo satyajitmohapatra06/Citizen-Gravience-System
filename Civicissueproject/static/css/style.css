@@ -1,6 +1,7 @@
 /* ===================== GLOBAL ===================== */
 :root {
-  --primary: #2563eb;  /* blue */
+  --primary: #2563eb;  /*blue */
+  --primary: #2563eb; /* blue */
   --secondary: #14b8a6; /* teal */
   --accent: #f59e0b; /* amber */
   --text: #1f2937;
@@ -300,6 +301,7 @@ nav a:hover::after {
   gap: 32px;
   max-width: 1100px;
   margin: 0 auto;
+  
 }
 
 .image-card {
@@ -308,6 +310,7 @@ nav a:hover::after {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   transition: var(--transition);
+  background-color: rgb(255,255,255,0.2);
 }
 
 .image-card:hover {
@@ -316,15 +319,30 @@ nav a:hover::after {
 }
 
 .image-card img {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   margin-bottom: 16px;
   animation: float 6s ease-in-out infinite;
 }
 
 .image-card p {
   font-size: 16px;
-  color: #444;
+  color:white;
+}
+
+.down{
+    padding-top: 200px;
+}
+
+.thebox{
+    height: 300px;
+    width: 550px;
+    border-radius: 30px;
+    border: 2px solid transparent;
+    position: relative;
+    top: 130px;
+    left: 30%;
+    background-color: rgb(255,255, 255,0.2);
 }
 
 /* ===================== GET STARTED SECTION ===================== */
@@ -333,6 +351,10 @@ nav a:hover::after {
   padding: 80px 20px;
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: white;
+  background-image: url("https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/2b1d478b-658a-41ce-9993-8554d84b734b.png?utm_source=perplexity");
+  height:100%;
+  width: auto;
+  
 }
 
 .get-started h2 {
