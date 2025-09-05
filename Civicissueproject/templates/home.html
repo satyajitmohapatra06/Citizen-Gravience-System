@@ -32,24 +32,26 @@
             <li><a href="/mycomplaints">My Complaints</a></li>
             <li><a href="/logout">Logout</a></li>
           </ul>
-        {% elif session.get('role') == 'admin' %}
-          <button class="login-btn">Admin ▾</button>
+        
+        {% elif session.get('role') == 'admin' %} 
+           <button class="login-btn">Admin ▾</button>
           <ul class="dropdown">
             <li><a href="/admin_dashboard">Dashboard</a></li>
             <li><a href="/logout">Logout</a></li>
-          </ul>
+          </ul> 
         {% else %}
-          <button class="login-btn">Login ▾</button>
+           <button class="login-btn">Login ▾</button>
           <ul class="dropdown">
             <li><a href="/user_login">User Login</a></li>
             <li><a href="/admin_login">Admin Login</a></li>
-          </ul>
-        {% endif %}
+          </ul> 
+         {% endif %}
+         
       </nav>
     </header>
 
     <!-- 🌟 FLASH MESSAGES -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
+     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         <div class="flash-container">
           {% for category, message in messages %}
@@ -57,18 +59,19 @@
           {% endfor %}
         </div>
       {% endif %}
-    {% endwith %}
+    {% endwith %} 
 
     <!-- 🌟 GET STARTED SECTION -->
     <section class="get-started">
-      <h2>Ready to Make a Difference?</h2>
+      <div class="thebox">
+      <h2>Ready  to  Make <br>a Difference?</h2>
+      
+    
       <p>Join us in improving civic life by reporting issues and tracking progress.</p>
       <a href="/report" class="get-started-btn">Get Started</a>
-    </section>
+</div>
 
-    <!-- 🌟 EXTRA IMAGES SECTION -->
-    <section class="extra-images">
-      <h2>Our Mission</h2>
+      <h2 class="down">Our Mission</h2>
       <div class="image-grid">
         <div class="image-card">
           <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Report Issues">
@@ -84,6 +87,9 @@
         </div>
       </div>
     </section>
+
+    <!-- 🌟 EXTRA IMAGES SECTION -->
+    
 
     <div class="bottombar"></div>
   </div>
