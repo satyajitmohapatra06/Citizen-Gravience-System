@@ -352,6 +352,7 @@ nav a:hover::after {
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: white;
   background-image: url("https://user-gen-media-assets.s3.amazonaws.com/gpt4o_images/2b1d478b-658a-41ce-9993-8554d84b734b.png?utm_source=perplexity");
+  background-size: cover;
   height:100%;
   width: auto;
   
