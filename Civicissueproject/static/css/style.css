@@ -1,7 +1,7 @@
 :root {
-  --primary-skyblue: #3498db;
+  --primary-skyblue: #170b85;
   --secondary-skyblue: #87ceeb;
-  --dark-skyblue: #2980b9;
+  --dark-skyblue: #1073b4;
   --accent-orange: #ff7f50;
   --accent-green: #2e8b57;
   --white: #ffffff;
@@ -180,8 +180,8 @@ nav {
 .hero {
   background: linear-gradient(
     135deg,
-    rgba(52, 152, 219, 0.9) 0%,
-    rgba(135, 206, 235, 0.9) 100%
+    rgba(16, 5, 170, 0.9) 0%,
+    rgba(8, 2, 87, 0.9) 100%
   );
   height: 100vh;
   display: flex;
@@ -701,7 +701,7 @@ copyright {
 }
 
 .team-message .section-title h2 {
-  color: #2c82c9;
+  color: #11088d;
   text-align: center;
   margin-bottom: 30px;
   font-size: 2rem;
