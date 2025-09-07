@@ -26,7 +26,7 @@ body {
 .shape1 {
   width: 420px;
   height: 420px;
-  background: #4facfe;
+  background: #170b85;
   top: -120px;
   left: -100px;
 }
@@ -77,7 +77,7 @@ h2 {
 }
 
 h2 span {
-  color: #4facfe;
+  color: #170b85;
 }
 
 /* Form Card */
@@ -117,7 +117,7 @@ h2 span {
 .input-group input:focus,
 .input-group select:focus,
 .input-group textarea:focus {
-  border-color: #4facfe;
+  border-color: #170b85;
   box-shadow: 0 0 12px rgba(79,172,254,0.3);
   outline: none;
 }
@@ -136,7 +136,7 @@ textarea {
 }
 
 .input-group input[type="file"]::-webkit-file-upload-button {
-  background: #4facfe;
+  background: #170b85;
   color: #fff;
   border: none;
   padding: 10px 16px;
@@ -168,7 +168,7 @@ textarea {
 }
 
 .btn {
-  background: linear-gradient(45deg, #4facfe, #43e97b);
+  background: linear-gradient(45deg, #170b85, #43e97b);
   border: none;
   color: #fff;
 }
@@ -180,12 +180,12 @@ textarea {
 
 .btn-outline {
   background: #fff;
-  border: 2px solid #4facfe;
-  color: #4facfe;
+  border: 2px solid #170b85;
+  color: #170b85;
 }
 
 .btn-outline:hover {
-  background: #4facfe;
+  background: #170b85;
   color: #fff;
   transform: translateY(-2px);
 }
@@ -197,17 +197,17 @@ textarea {
   left: 20px;
   text-decoration: none;
   background: #fff;
-  border: 2px solid #4facfe;
+  border: 2px solid #170b85;
   padding: 10px 16px;
   border-radius: 12px;
   font-size: 14px;
   font-weight: 600;
-  color: #4facfe;
+  color: #170b85;
   transition: all 0.3s ease;
 }
 
 .home-btn:hover {
-  background: #4facfe;
+  background: #170b85;
   color: #fff;
   transform: scale(1.05);
 }
