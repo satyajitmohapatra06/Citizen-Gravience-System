@@ -1,104 +1,345 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Civic Report — Landing</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civic Report - Government Civic Issue Reporting Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-  <div class="topbar"></div>
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">
+                <i class="fas fa-landmark"></i>
+                <span>Civic Report</span>
+            </div>
 
-  <div class="frame">
-    <header>
-      <div class="brand">
-        <div class="logo" aria-hidden>
-          <svg viewBox="0 0 24 24" fill="none" stroke="rgb(50,50,50)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 19c3-3 7-8 9-10-1.5-1-5 1-9 5-4-4-7.5-6-9-5 2 2 6 7 9 10z" />
-            <circle cx="6" cy="6" r="1.2" />
-          </svg>
+
+            <ul class="nav-links">
+                <a href="/"><span>Home</span></a>
+                <a href="/report"><span>Report</span></a>
+                <a href="/about"><span>About</span></a>
+                {% if session.get('role') == 'user' %}
+                <button class="login-btn">User ▾</button>
+                <ul class="dropdown">
+                    <li><a href="/mycomplaints">My Complaints</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+
+                {% elif session.get('role') == 'admin' %}
+                <button class="login-btn">Admin ▾</button>
+                <ul class="dropdown">
+                    <li><a href="/admin_dashboard">Dashboard</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+                {% else %}
+                <button class="login-btn">Login ▾</button>
+                <ul class="dropdown">
+                    <li><a href="/user_login">User Login</a></li>
+                    <li><a href="/admin_login">Admin Login</a></li>
+                </ul>
+                {% endif %}
+            </ul>
         </div>
-        <h1>Civic Report</h1>
-      </div>
+    </nav>
 
-      <nav>
-        <a href="/"><span>Home</span></a>
-        <a href="/report"><span>Report</span></a>
-        <a href="/about"><span>About</span></a>
-
-        {% if session.get('role') == 'user' %}
-          <button class="login-btn">User ▾</button>
-          <ul class="dropdown">
-            <li><a href="/mycomplaints">My Complaints</a></li>
-            <li><a href="/logout">Logout</a></li>
-          </ul>
-        {% elif session.get('role') == 'admin' %}
-          <button class="login-btn">Admin ▾</button>
-          <ul class="dropdown">
-            <li><a href="/admin_dashboard">Dashboard</a></li>
-            <li><a href="/logout">Logout</a></li>
-          </ul>
-        {% else %}
-          <button class="login-btn">Login ▾</button>
-          <ul class="dropdown">
-            <li><a href="/user_login">User Login</a></li>
-            <li><a href="/admin_login">Admin Login</a></li>
-          </ul>
-        {% endif %}
-      </nav>
-    </header>
-
-    <!-- 🌟 FLASH MESSAGES -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <div class="flash-container">
-          {% for category, message in messages %}
-            <div class="flash flash-{{ category }}">{{ message }}</div>
-          {% endfor %}
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Your Voice Matters, Your Community Thrives.</h1>
+                <p>Join thousands of citizens making a difference by reporting civic issues directly to your local
+                    government.</p>
+                <a href="/report" class="btn">Report an Issue</a>
+            </div>
         </div>
-      {% endif %}
-    {% endwith %}
+        <div class="hero-image">
+            <img src="{{ url_for('static', filename='images/openhome.png') }}" alt="Community Illustration">
+        </div>
 
-    <!-- 🌟 GET STARTED SECTION -->
-    <section class="get-started">
-      <h2>Ready to Make a Difference?</h2>
-      <p>Join us in improving civic life by reporting issues and tracking progress.</p>
-      <a href="/report" class="get-started-btn">Get Started</a>
     </section>
 
-    <!-- 🌟 EXTRA IMAGES SECTION -->
-    <section class="extra-images">
-      <h2>Our Mission</h2>
-      <div class="image-grid">
-        <div class="image-card">
-          <img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="Report Issues">
-          <p>Report issues in your area with photos.</p>
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <div class="section-title">
+                <h2>Issue Categories</h2>
+            </div>
+
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-road"></i>
+                    </div>
+                    <h3>Roads & Infrastructure</h3>
+                    <p>Report potholes, damaged roads, street light issues, and other infrastructure problems.</p>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <h3>Sanitation</h3>
+                    <p>Report garbage collection issues, overflowing bins, and sanitation concerns in your area.</p>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Public Safety</h3>
+                    <p>Report safety hazards, broken public equipment, and other security concerns.</p>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Environment</h3>
+                    <p>Report pollution, tree maintenance, water logging, and other environmental issues.</p>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <h3>Healthcare</h3>
+                    <p>Report public health concerns, clinic issues, and sanitation problems in healthcare facilities.
+                    </p>
+                </div>
+
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-school"></i>
+                    </div>
+                    <h3>Education</h3>
+                    <p>Report issues with public schools, educational resources, and related infrastructure.</p>
+                </div>
+            </div>
         </div>
-        <div class="image-card">
-          <img src="https://cdn-icons-png.flaticon.com/512/709/709699.png" alt="Track Progress">
-          <p>Track the progress of civic resolutions.</p>
-        </div>
-        <div class="image-card">
-          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Community">
-          <p>Join hands with your community for impact.</p>
-        </div>
-      </div>
     </section>
 
-    <div class="bottombar"></div>
-  </div>
+    <!-- How it Works Section -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>How It Works</h2>
+            </div>
 
-  <!-- 🌟 FOOTER -->
-  <footer class="site-footer">
-    <div class="footer-content">
-      <p>&copy; 2025 Civic Report. All rights reserved.</p>
-      <nav class="footer-nav">
-        <a href="/">Home</a>
-        <a href="/report">Report</a>
-        <a href="/about">About</a>
-      </nav>
-    </div>
-  </footer>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Identify Issue</h3>
+                    <p>Notice a civic issue that needs attention in your community.</p>
+                </div>
 
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Report Online</h3>
+                    <p>Use our platform to submit a detailed report with photos and location.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Track Progress</h3>
+                    <p>Monitor the status of your report until the issue is resolved.</p>
+                </div>
+
+                <div class="steps-connector"></div>
+            </div>
+        </div>
+    </section>
+<!-- Message from the Team Section -->
+    <section class="team-message">
+        <div class="container">
+            <div class="section-title">
+                <h2>🏙 Together for a Better City</h2>
+            </div>
+
+            <div class="message-box">
+                <p>Every day we see problems around us — overflowing garbage bins, potholes, broken streetlights, unsafe
+                    roads, water issues. Too often, we just shake our heads and move on, waiting for “someone” to fix
+                    them.</p>
+
+                <p><strong>But here’s the truth:</strong> change begins with us.
+                    The government cannot solve problems it doesn’t know about. By reporting civic issues, you give
+                    authorities the power to act faster and more effectively.</p>
+
+                <h3>📢 Why Report?</h3>
+                <ul>
+                    <li>✔ Ensure your complaint reaches the right department.</li>
+                    <li>✔ Speed up problem-solving in your neighborhood.</li>
+                    <li>✔ Build a stronger connection between citizens and government.</li>
+                </ul>
+
+                <h3>🌱 Our Shared Responsibility</h3>
+                <ul>
+                    <li>✔ Keep our surroundings clean</li>
+                    <li>✔ Respect and protect public spaces</li>
+                    <li>✔ Take part in community efforts</li>
+                    <li>✔ Inspire others to take responsibility</li>
+                </ul>
+
+                <p class="highlight">✨ This platform is your voice. Use it. Report issues. Take action. Together, we
+                    create the city we dream of.</p>
+
+                <div class="hashtags">#ReportToRepair #MyCityMyDuty #BeTheChange</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Awareness Section -->
+    <section class="awareness">
+        <div class="container">
+            <div class="section-title">
+                <h2>Civic Awareness</h2>
+                <p>Awareness builds responsibility. Let’s work together to create cleaner, safer, and stronger
+                    communities.</p>
+            </div>
+
+            <div class="awareness-list">
+                <div class="awareness-item">
+                    <div class="icon">🗑</div>
+                    <h3>Cleanliness is Everyone’s Duty</h3>
+                    <p>A clean city starts with clean habits. Dispose of waste responsibly. Do not litter. Your small
+                        act keeps your community healthy.</p>
+                </div>
+
+                <div class="awareness-item">
+                    <div class="icon">🚦</div>
+                    <h3>Road & Traffic Discipline</h3>
+                    <p>Obey traffic rules. Don’t block roads. Report broken signals or dangerous spots. Safe roads save
+                        lives.</p>
+                </div>
+
+                <div class="awareness-item">
+                    <div class="icon">💧</div>
+                    <h3>Water Conservation</h3>
+                    <p>Every drop counts. Fix leaks, avoid wastage, and report water supply issues. Conserving today
+                        secures tomorrow.</p>
+                </div>
+
+                <div class="awareness-item">
+                    <div class="icon">🌳</div>
+                    <h3>Protecting Public Spaces</h3>
+                    <p>Parks, footpaths, and public facilities belong to everyone. Respect and protect them—it’s your
+                        right and your responsibility.</p>
+                </div>
+
+                <div class="awareness-item">
+                    <div class="icon">♻</div>
+                    <h3>Reduce, Reuse, Recycle</h3>
+                    <p>Waste less, recycle more. The less we throw, the more we save—for our environment and our future.
+                    </p>
+                </div>
+
+                <div class="awareness-item">
+                    <div class="icon">💡</div>
+                    <h3>Active Citizenship</h3>
+                    <p>Don’t just wait for change—be part of it. Report civic issues, join local initiatives, and
+                        inspire others to act.</p>
+                </div>
+
+                <div class="awareness-item">
+                    <div class="icon">🔒</div>
+                    <h3>Safety & Security</h3>
+                    <p>If you see something unsafe—whether it’s a broken streetlight, open manhole, or suspicious
+                        activity—report it immediately. A safe city is a shared responsibility.</p>
+                </div>
+
+                <div class="awareness-item">
+                    <div class="icon">🏘</div>
+                    <h3>Community First</h3>
+                    <p>Strong communities are built when citizens care for each other. Encourage neighbors to
+                        participate in solving local issues.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>Community Testimonials</h2>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"I reported a large pothole on my street and it was fixed within 3 days! This platform really
+                            works."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-image">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-details">
+                            <h4>Rajesh Mohanty</h4>
+                            <p>Bhubaneswar</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"The sanitation issue in our area was resolved quickly after I reported it. Great service for
+                            citizens!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-image">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-details">
+                            <h4>Priyanka Das</h4>
+                            <p>Cuttack</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <p>"I love how I can track the progress of my reports. It makes me feel involved in the
+                            process."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-image">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="author-details">
+                            <h4>Amir Khan</h4>
+                            <p>Puri</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">Civic Report</div>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Civic Report - Government Civic Issue Reporting Platform. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 </body>
+
 </html>
