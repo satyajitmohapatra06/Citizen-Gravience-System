@@ -833,16 +833,16 @@ copyright {
 
 .hero-image {
     position: absolute;
-    right: 50px;
-    bottom: 50px;
+    right: 150px;
+    bottom: 200px;
     max-width: 400px;
     z-index: 1;
     animation: floatImage 4s ease-in-out infinite;
 }
 
 .hero-image img {
-    width: 100%;
-    height: auto;
+    width: 500px;
+    height: 500px;
 }
 
 @keyframes floatImage {
