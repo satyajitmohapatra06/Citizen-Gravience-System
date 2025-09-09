@@ -850,3 +850,175 @@ copyright {
     50%  { transform: translateY(-15px) rotate(-2deg); }
     100% { transform: translateY(0); }
 }
+/* ============================
+   EXTRA RESPONSIVENESS FIXES
+   (Extend only, no overwrite)
+=============================== */
+
+/* Ultra-wide desktops */
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1400px;
+  }
+  .hero h1 {
+    font-size: 3.5rem;
+  }
+  .hero p {
+    font-size: 1.4rem;
+  }
+  .hero-image {
+    right: 200px;
+    bottom: 220px;
+    max-width: 500px;
+  }
+  .hero-image img {
+    width: 550px;
+    height: auto;
+  }
+}
+
+/* Large laptops (1200px - 1599px) */
+@media (max-width: 1599px) {
+  .hero-image {
+    right: 100px;
+    bottom: 180px;
+    max-width: 400px;
+  }
+  .hero h1 {
+    font-size: 2.8rem;
+  }
+}
+
+/* Tablets (768px - 1199px) */
+@media (max-width: 1199px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    padding-top: 120px;
+  }
+  .hero-content {
+    max-width: 100%;
+    margin-bottom: 40px;
+  }
+  .hero-image {
+    position: relative;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+    max-width: 350px;
+  }
+  .hero-image img {
+    width: 100%;
+    height: auto;
+  }
+  .categories-grid,
+  .testimonials-grid,
+  .awareness-list {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  .steps {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .steps-connector {
+    display: none;
+  }
+}
+
+/* Mobiles (up to 767px) */
+@media (max-width: 767px) {
+  nav .nav-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .hero {
+    padding: 100px 15px 40px;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+  .btn {
+    padding: 12px 22px;
+    font-size: 0.9rem;
+  }
+  .hero-image {
+    max-width: 260px;
+    margin-top: 20px;
+  }
+
+  .categories-grid,
+  .testimonials-grid,
+  .awareness-list {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title h2 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  footer .footer-content {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+  .social-icons {
+    justify-content: center;
+  }
+}
+
+/* Small phones (up to 480px) */
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 1.6rem;
+  }
+  .hero p {
+    font-size: 0.9rem;
+  }
+  .btn {
+    padding: 10px 18px;
+    font-size: 0.85rem;
+  }
+  .hero-image {
+    max-width: 220px;
+  }
+  .author-details h4 {
+    font-size: 0.9rem;
+  }
+  .author-details p {
+    font-size: 0.8rem;
+  }
+}
+/* 🔹 Mobile Navbar Visibility Fix (CSS-only) */
+@media (max-width: 768px) {
+  /* Show nav-links as a vertical menu when parent is focused */
+  nav:focus-within .nav-links,
+  nav:hover .nav-links {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    height: auto;
+  }
+
+  /* Make login button toggle dropdown on focus */
+  .login-btn:focus + .dropdown,
+  .login-btn:active + .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* Ensure nav-links take full width */
+  .nav-links a {
+    margin: 10px 0;
+    font-size: 1.1rem;
+  }
+}
