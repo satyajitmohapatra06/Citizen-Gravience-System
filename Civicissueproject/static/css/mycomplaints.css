@@ -1,13 +1,73 @@
-/* Base */
-body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: linear-gradient(to right, #eef2f3, #ffffff);
+/* RESET */
+* {
   margin: 0;
-  color: #333;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
 }
-.no-scroll { overflow: hidden; }
 
-/* Header */
+body {
+  background: #f9faff;
+  color: #333;
+  overflow-x: hidden;
+}
+
+/* HOME BUTTON */
+.home-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: #170b85;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+  z-index: 1100;
+}
+
+.home-btn:hover {
+  background: #0056b3;
+  transform: translateY(-3px);
+}
+
+/* BACKGROUND SHAPES */
+.bg-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.6;
+  z-index: -1;
+  animation: float 8s infinite alternate ease-in-out;
+}
+
+.shape1 {
+  width: 300px;
+  height: 300px;
+  background: #1602c7;
+  top: -100px;
+  left: -100px;
+}
+
+.shape2 {
+  width: 300px;
+  height: 300px;
+  background: #e7073f;
+  bottom: -120px;
+  right: -120px;
+}
+
+@keyframes float {
+  from { transform: translateY(0px); }
+  to { transform: translateY(-30px); }
+}
+
+/* HEADER */
 header {
   background: #170b85;
   color: #fff;
@@ -27,7 +87,7 @@ header h2 {
 .complaints-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;  /* center on the page */
+  justify-content: center;
   gap: 22px;
   padding: 28px 18px 40px;
 }
@@ -109,6 +169,10 @@ footer { text-align: center; padding: 20px; }
   padding: 22px 22px 26px;
   animation: slideIn .28s ease;
   position: relative;
+
+  /* ✅ ensure scroll works on small devices */
+  max-height: 90vh;
+  overflow-y: auto;
 }
 .close-btn {
   position: absolute; right: 12px; top: 8px;
@@ -142,3 +206,121 @@ footer { text-align: center; padding: 20px; }
 /* Animations */
 @keyframes fadeIn { from {opacity: 0} to {opacity: 1} }
 @keyframes slideIn { from {transform: translateY(-14px); opacity: 0} to {transform: translateY(0); opacity: 1} }
+
+/* ========= RESPONSIVENESS ========= */
+
+/* Tablets (≤1024px) */
+@media (max-width: 1024px) {
+  header h2 {
+    font-size: 20px;
+  }
+
+  .complaint-card {
+    width: 240px;
+    padding: 18px 14px;
+  }
+
+  .complaint-card h3 {
+    font-size: 16px;
+  }
+
+  .modal-content {
+    max-width: 520px;
+    padding: 20px;
+  }
+}
+
+/* Mobile (≤768px) */
+@media (max-width: 768px) {
+  header {
+    padding: 12px;
+  }
+  header h2 {
+    font-size: 18px;
+  }
+
+  .complaints-container {
+    gap: 16px;
+    padding: 20px 12px 30px;
+  }
+
+  .complaint-card {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+
+  .complaint-card h3 {
+    font-size: 15px;
+  }
+
+  .status-pill {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .modal-content {
+    width: 95%;
+    padding: 18px;
+  }
+
+  .modal-title {
+    font-size: 18px;
+  }
+
+  .modal-body p {
+    font-size: 14px;
+  }
+
+  .back-btn {
+    padding: 10px 18px; /* ✅ keep tap target big */
+    font-size: 14px;
+  }
+}
+
+/* Small Mobile (≤480px) */
+@media (max-width: 480px) {
+  header h2 {
+    font-size: 16px;
+  }
+
+  .complaint-card {
+    padding: 14px;
+    border-radius: 10px;
+    max-width: 100%; /* ✅ always fit small screens */
+  }
+
+  .complaint-card h3 {
+    font-size: 14px;
+  }
+
+  .status-pill {
+    font-size: 11px;
+    padding: 6px 10px; /* ✅ better tap area */
+  }
+
+  /* ✅ improve contrast for pending pill */
+  .status-pill.pending {
+    background: #e0a800;
+    color: #222;
+  }
+
+  .modal-content {
+    width: 92%;
+    border-radius: 10px;
+    padding: 16px;
+  }
+
+  .modal-title {
+    font-size: 16px;
+  }
+
+  .modal-body p {
+    font-size: 13px;
+  }
+
+  footer {
+    font-size: 13px;
+  }
+}

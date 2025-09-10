@@ -235,3 +235,128 @@ footer {
 @keyframes fadeInUp {
   to { opacity: 1; transform: translateY(0); }
 }
+/* ========= RESPONSIVENESS ========= */
+
+/* Tablets (≤1024px) */
+@media (max-width: 1024px) {
+  .container {
+    padding: 40px;
+    max-width: 95%;
+  }
+
+  h2 {
+    font-size: 32px;
+  }
+
+  .btn, .btn-outline {
+    min-width: 150px;
+    padding: 14px 20px;
+  }
+
+  .shape1 {
+    width: 300px;
+    height: 300px;
+  }
+  .shape2 {
+    width: 280px;
+    height: 280px;
+  }
+  .shape3 {
+    width: 220px;
+    height: 220px;
+  }
+}
+
+/* Mobile (≤768px) */
+@media (max-width: 768px) {
+  body {
+    padding: 20px;
+    align-items: flex-start;
+  }
+
+  .container {
+    padding: 25px 20px;
+    margin-top: 40px;
+  }
+
+  h2 {
+    font-size: 26px;
+  }
+
+  .form-card {
+    gap: 16px;
+  }
+
+  .input-group label {
+    font-size: 14px;
+  }
+
+  .input-group input,
+  .input-group select,
+  .input-group textarea {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .btn, .btn-outline {
+    width: 100%;
+    min-width: unset;
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .shape1 {
+    width: 220px;
+    height: 220px;
+    top: -70px;
+    left: -50px;
+  }
+  .shape2 {
+    width: 200px;
+    height: 200px;
+    bottom: -80px;
+    right: -50px;
+  }
+  .shape3 {
+    width: 180px;
+    height: 180px;
+    top: 60%;
+    left: 50%;
+  }
+}
+
+/* Small Mobile (≤480px) */
+@media (max-width: 480px) {
+  .container {
+    padding: 20px 15px;
+    border-radius: 16px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  .input-group label {
+    font-size: 13px;
+  }
+
+  .btn, .btn-outline {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  footer {
+    font-size: 12px;
+    margin: 20px 0 10px;
+  }
+
+  .shape1, .shape2, .shape3 {
+    filter: blur(80px);
+    opacity: 0.35;
+  }
+}

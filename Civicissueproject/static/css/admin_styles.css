@@ -126,3 +126,105 @@ tbody td{padding:10px; border-top:1px solid #f0f2f6}
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+/* ========= RESPONSIVENESS ========= */
+
+/* Tablets (≤1024px) */
+@media (max-width: 1024px) {
+  .admin-main {
+    padding: 16px;
+  }
+
+  .top-cards {
+    gap: 12px;
+  }
+
+  .card.metric {
+    min-width: 140px;
+    padding: 12px;
+  }
+
+  .chart-card {
+    min-width: 220px;
+  }
+
+  table {
+    font-size: 13px;
+  }
+}
+
+/* Mobile (≤768px) */
+@media (max-width: 768px) {
+  .admin-header {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+    padding: 12px;
+  }
+
+  .admin-header h1 {
+    font-size: 18px;
+  }
+
+  .top-cards {
+    flex-direction: column;
+  }
+
+  .charts {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .chart-card {
+    width: 100%;
+  }
+
+  .complaints-table {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 600px; /* allows horizontal scroll instead of breaking */
+  }
+
+  .single-complaint {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .details-card, .action-card {
+    padding: 14px;
+  }
+}
+
+/* Small Mobile (≤480px) */
+@media (max-width: 480px) {
+  .admin-header h1 {
+    font-size: 16px;
+  }
+
+  .card.metric {
+    padding: 10px;
+    text-align: center;
+  }
+
+  .card.metric .title {
+    font-size: 12px;
+  }
+
+  .card.metric .value {
+    font-size: 16px;
+  }
+
+  .chart-card {
+    padding: 10px;
+  }
+
+  thead th, tbody td {
+    padding: 8px;
+  }
+
+  .btn {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}
