@@ -258,3 +258,31 @@ tbody td{padding:10px; border-top:1px solid #f0f2f6}
 .admin-alert .close:hover {
   color: #ff4444;
 }
+/* ================= FIX: Chart fallback styling ================= */
+
+/* Placeholder box when chart not available */
+.chart-card .no-data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 180px;
+  background: repeating-linear-gradient(
+    45deg,
+    #f9f9f9,
+    #f9f9f9 10px,
+    #f0f0f0 10px,
+    #f0f0f0 20px
+  );
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 600;
+  text-align: center;
+  padding: 12px;
+  box-shadow: inset 0 4px 12px rgba(0,0,0,0.05);
+}
+
+/* Ensure <p>No data available</p> inherits proper style */
+.chart-card p {
+  margin: 0;
+}

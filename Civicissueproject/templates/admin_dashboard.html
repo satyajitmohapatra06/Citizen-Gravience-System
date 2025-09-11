@@ -7,6 +7,20 @@
     <title>Admin Dashboard - Civic</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .chart-fallback {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 14px;
+            border: 1px dashed #ccc;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+    </style>
 </head>
 
 <body>
@@ -56,94 +70,73 @@
             <!-- Status -->
             <div class="chart-card">
                 <h3><i class="fas fa-chart-bar"></i> By Status</h3>
-                <a href="#status-lightbox">
-                    <img src="{{ url_for('static', filename=charts['status']) }}" alt="status chart">
-                </a>
-            </div>
-            <div id="status-lightbox" class="lightbox">
-                <a href="#" class="close">&times;</a>
-                <img src="{{ url_for('static', filename=charts['status']) }}" alt="status chart">
+                {% if charts['status'] %}
+                <img src="{{ url_for('static', filename=charts['status']) }}" alt="status chart" loading="lazy">
+                {% else %}
+                <div class="chart-fallback">No Status Chart Available</div>
+                {% endif %}
             </div>
 
             <!-- Department -->
             <div class="chart-card">
                 <h3><i class="fas fa-chart-pie"></i> By Department</h3>
-                <a href="#department-lightbox">
-                    <img src="{{ url_for('static', filename=charts['department']) }}" alt="department chart">
-                </a>
-            </div>
-            <div id="department-lightbox" class="lightbox">
-                <a href="#" class="close">&times;</a>
-                <img src="{{ url_for('static', filename=charts['department']) }}" alt="department chart">
+                {% if charts['department'] %}
+                <img src="{{ url_for('static', filename=charts['department']) }}" alt="department chart" loading="lazy">
+                {% else %}
+                <div class="chart-fallback">No Department Chart Available</div>
+                {% endif %}
             </div>
 
             <!-- Pincode -->
             <div class="chart-card">
                 <h3><i class="fas fa-map"></i> Top Pincodes</h3>
-                <a href="#pincode-lightbox">
-                    <img src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart">
-                </a>
-            </div>
-            <div id="pincode-lightbox" class="lightbox">
-                <a href="#" class="close">&times;</a>
-                <img src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart">
+                {% if charts['pincode'] %}
+                <img src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart" loading="lazy">
+                {% else %}
+                <div class="chart-fallback">No Pincode Chart Available</div>
+                {% endif %}
             </div>
 
             <!-- Over Time -->
             <div class="chart-card">
                 <h3><i class="fas fa-calendar-alt"></i> Complaints Over Time</h3>
-                <a href="#time-lightbox">
-                    <img src="{{ url_for('static', filename=charts['time']) }}" alt="Complaints over time">
-                </a>
-            </div>
-            <div id="time-lightbox" class="lightbox">
-                <a href="#" class="close">&times;</a>
-                <img src="{{ url_for('static', filename=charts['time']) }}" alt="Complaints over time">
+                {% if charts['time'] %}
+                <img src="{{ url_for('static', filename=charts['time']) }}" alt="Complaints over time" loading="lazy">
+                {% else %}
+                <div class="chart-fallback">No Time Chart Available</div>
+                {% endif %}
             </div>
 
             <!-- District -->
             <div class="chart-card">
                 <h3><i class="fas fa-city"></i> Complaints by District</h3>
-                <a href="#district-lightbox">
-                    <img src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district">
-                </a>
-            </div>
-            <div id="district-lightbox" class="lightbox">
-                <a href="#" class="close">&times;</a>
-                <img src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district">
+                {% if charts['district'] %}
+                <img src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district" loading="lazy">
+                {% else %}
+                <div class="chart-fallback">No District Chart Available</div>
+                {% endif %}
             </div>
 
             <!-- Dept vs Status -->
             <div class="chart-card">
                 <h3><i class="fas fa-layer-group"></i> Dept vs Status</h3>
-                <a href="#deptstatus-lightbox">
-                    <img src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status">
-                </a>
+                {% if charts['dept_status'] %}
+                <img src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status" loading="lazy">
+                {% else %}
+                <div class="chart-fallback">No Dept vs Status Chart Available</div>
+                {% endif %}
             </div>
-            <div id="deptstatus-lightbox" class="lightbox">
-                <a href="#" class="close">&times;</a>
-                <img src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status">
-            </div>
+
             <!-- Odisha Heatmap -->
             <div class="chart-card" style="width:100%;">
                 <h3><i class="fas fa-map-marked-alt"></i> Odisha Pending Complaints Heatmap</h3>
-                <a href="#odisha-map-lightbox">
-                    <iframe src="{{ url_for('static', filename=charts['odisha_map']) }}" width="100%" height="400px"
-                        style="border:none;"></iframe>
-                </a>
+                {% if charts['odisha_map'] %}
+                <iframe src="{{ url_for('static', filename=charts['odisha_map']) }}" width="100%" height="400px"
+                    style="border:none;" loading="lazy"></iframe>
+                {% else %}
+                <div class="chart-fallback">No Heatmap Available</div>
+                {% endif %}
             </div>
-
-            <div id="odisha-map-lightbox" class="lightbox">
-                <a href="#" class="close">&times;</a>
-                <div
-                    style="width:100%; height:600px; border-radius: 10px; overflow:hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-                    <iframe src="{{ url_for('static', filename=charts['odisha_map']) }}" width="100%" height="100%"
-                        style="border:none;">
-                    </iframe>
-                </div>
-
-            </div>
-
         </section>
 
         <section class="complaints-table">

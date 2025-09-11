@@ -23,7 +23,8 @@
   <div class="container fade-in-up">
     <h2>Lodge Your <span>Complaint</span></h2>
 
-    <form method="landmark" action="/submit_complaint" enctype="multipart/form-data" class="form-card">
+    <!-- ✅ FIXED: method="POST" -->
+    <form method="POST" action="/submit_complaint" enctype="multipart/form-data" class="form-card">
       
       <!-- Full Name -->
       <div class="input-group">
@@ -34,55 +35,54 @@
       <!-- Phone -->
       <div class="input-group">
         <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" maxlength="10" placeholder="Enter 10-digit phone number" required>
       </div>
 
-      <!-- District (Dropdown, moved UP) -->
+      <!-- District -->
       <div class="input-group">
-  <label for="district">District Name:</label>
-  <select id="district" name="district" required>
-    <option value="">-- Select District --</option>
-    <option value="angul">Angul</option>
-    <option value="balangir">Balangir</option>
-    <option value="balasore">Balasore</option>
-    <option value="bargarh">Bargarh</option>
-    <option value="bhadrak">Bhadrak</option>
-    <option value="boudh">Boudh</option>
-    <option value="cuttack">Cuttack</option>
-    <option value="deogarh">Deogarh</option>
-    <option value="dhenkanal">Dhenkanal</option>
-    <option value="gajapati">Gajapati</option>
-    <option value="ganjam">Ganjam</option>
-    <option value="jagatsinghpur">Jagatsinghpur</option>
-    <option value="jajpur">Jajpur</option>
-    <option value="jharsuguda">Jharsuguda</option>
-    <option value="kalahandi">Kalahandi</option>
-    <option value="kandhamal">Kandhamal</option>
-    <option value="kendrapara">Kendrapara</option>
-    <option value="keonjhar">Keonjhar</option>
-    <option value="khordha">Khordha</option>
-    <option value="koraput">Koraput</option>
-    <option value="malkangiri">Malkangiri</option>
-    <option value="mayurbhanj">Mayurbhanj</option>
-    <option value="nabarangpur">Nabarangpur</option>
-    <option value="nayagarh">Nayagarh</option>
-    <option value="nuapada">Nuapada</option>
-    <option value="puri">Puri</option>
-    <option value="rayagada">Rayagada</option>
-    <option value="sambalpur">Sambalpur</option>
-    <option value="subarnapur">Subarnapur (Sonepur)</option>
-    <option value="sundargarh">Sundargarh</option>
-  </select>
-</div>
+        <label for="district">District Name:</label>
+        <select id="district" name="district" required>
+          <option value="">-- Select District --</option>
+          <option value="angul">Angul</option>
+          <option value="balangir">Balangir</option>
+          <option value="balasore">Balasore</option>
+          <option value="bargarh">Bargarh</option>
+          <option value="bhadrak">Bhadrak</option>
+          <option value="boudh">Boudh</option>
+          <option value="cuttack">Cuttack</option>
+          <option value="deogarh">Deogarh</option>
+          <option value="dhenkanal">Dhenkanal</option>
+          <option value="gajapati">Gajapati</option>
+          <option value="ganjam">Ganjam</option>
+          <option value="jagatsinghpur">Jagatsinghpur</option>
+          <option value="jajpur">Jajpur</option>
+          <option value="jharsuguda">Jharsuguda</option>
+          <option value="kalahandi">Kalahandi</option>
+          <option value="kandhamal">Kandhamal</option>
+          <option value="kendrapara">Kendrapara</option>
+          <option value="keonjhar">Keonjhar</option>
+          <option value="khordha">Khordha</option>
+          <option value="koraput">Koraput</option>
+          <option value="malkangiri">Malkangiri</option>
+          <option value="mayurbhanj">Mayurbhanj</option>
+          <option value="nabarangpur">Nabarangpur</option>
+          <option value="nayagarh">Nayagarh</option>
+          <option value="nuapada">Nuapada</option>
+          <option value="puri">Puri</option>
+          <option value="rayagada">Rayagada</option>
+          <option value="sambalpur">Sambalpur</option>
+          <option value="subarnapur">Subarnapur (Sonepur)</option>
+          <option value="sundargarh">Sundargarh</option>
+        </select>
+      </div>
 
-<!-- PIN Code -->
+      <!-- PIN Code -->
       <div class="input-group">
         <label for="pincode">PIN Code:</label>
-        <input type="number" id="pincode" name="pincode" placeholder="Enter PIN code" required>
+        <input type="number" id="pincode" name="pincode" placeholder="Enter 6-digit PIN code" required>
       </div>
 
-
-      <!-- Block (Text, below District) -->
+      <!-- Block -->
       <div class="input-group">
         <label for="block">Block Name:</label>
         <input type="text" id="block" name="block" placeholder="Enter your block name" required>
@@ -94,16 +94,16 @@
         <input type="text" id="gp" name="gp" placeholder="Enter GP name" required>
       </div>
 
-      <!-- Village (Moved below GP) -->
+      <!-- Village -->
       <div class="input-group">
         <label for="village">Village Name:</label>
         <input type="text" id="village" name="village" placeholder="Enter your village name" required>
       </div>
 
-      <!-- landmark -->
+      <!-- Landmark -->
       <div class="input-group">
         <label for="landmark">Landmark:</label>
-        <input type="text" id="landmark" name="landmark" placeholder="Enter Landmark" required>
+        <input type="text" id="landmark" name="landmark" placeholder="Enter landmark" required>
       </div>
 
       <!-- Department -->
