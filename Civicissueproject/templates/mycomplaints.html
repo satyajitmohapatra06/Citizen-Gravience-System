@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>My Complaints</title>
@@ -7,52 +8,68 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/mycomplaints.css') }}">
 </head>
+
 <body>
 
   <header>
     <h2><i class="fas fa-clipboard-list"></i> My Complaints</h2>
   </header>
+  <a href="{{ url_for('home') }}" class="home-btn">
+    <i class="fas fa-home"></i> Home
+  </a>
+
 
   <!-- Flash messages -->
   {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      <div class="flash-messages">
-        {% for category, message in messages %}
-          <div class="flash {{ category }}">{{ message }}</div>
-        {% endfor %}
-      </div>
-    {% endif %}
+  {% if messages %}
+  <div class="flash-messages">
+    {% for category, message in messages %}
+    <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endif %}
   {% endwith %}
 
   <section class="complaints-container">
     {% if complaints %}
-      {% for c in complaints %}
-      <div
-        class="complaint-card"
-        role="button"
-        tabindex="0"
-        data-id="{{ c[0] }}"
-        data-district="{{ c[1]|e }}"
-        data-block="{{ c[2]|e }}"
-        data-gp="{{ c[3]|e }}"
-        data-village="{{ c[4]|e }}"
-        data-post="{{ c[5]|e }}"
-        data-pincode="{{ c[6]|e }}"
-        data-department="{{ c[7]|e }}"
-        data-complaint="{{ c[8]|e }}"
-        data-proof="{{ c[9] or '' }}"
-        data-status="{{ (c[10] or 'Pending')|e }}"
-        onclick="openModal(this)"
-        onkeydown="if(event.key==='Enter'||event.key===' '){openModal(this)}"
-      >
+    {% for c in complaints %}
+    <details class="complaint-card">
+      <summary>
         <h3><i class="fas fa-file-alt"></i> Complaint #{{ c[0] }}</h3>
         <span class="status-pill {{ ((c[10] or 'Pending')|lower|replace(' ', '-')) }}">
           <i class="fas fa-circle"></i> {{ c[10] or 'Pending' }}
         </span>
+      </summary>
+
+      <div class="complaint-details">
+        <p><i class="fas fa-building"></i> <strong>Department:</strong> {{ c[7]|e }}</p>
+        <p><i class="fas fa-comment-dots"></i> <strong>Complaint:</strong> {{ c[8]|e }}</p>
+        <hr />
+        <p><i class="fas fa-map-marker-alt"></i> <strong>District:</strong> {{ c[1]|e }}</p>
+        <p><i class="fas fa-location-dot"></i> <strong>Block:</strong> {{ c[2]|e }}</p>
+        <p><i class="fas fa-landmark"></i> <strong>GP:</strong> {{ c[3]|e }}</p>
+        <p><i class="fas fa-house"></i> <strong>Village:</strong> {{ c[4]|e }}</p>
+        <p><i class="fas fa-envelope"></i> <strong>Post:</strong> {{ c[5]|e }}</p>
+        <p><i class="fas fa-hashtag"></i> <strong>Pincode:</strong> {{ c[6]|e }}</p>
+        <p><i class="fas fa-paperclip"></i> <strong>Proof:</strong>
+          {% if c[9] %}
+          <a href="{{ url_for('static', filename='uploads/' + c[9]) }}" target="_blank">View Proof</a>
+          {% else %}
+          No proof provided
+          {% endif %}
+        </p>
+        <p><i class="fas fa-file-circle-check"></i> <strong>Admin Proof:</strong>
+          {% if c[11] %}
+          <a href="{{ url_for('admin_proofs', filename=c[11]) }}" target="_blank">View Admin Proof</a>
+          {% else %}
+          Not available
+          {% endif %}
+        </p>
       </div>
-      {% endfor %}
+    </details>
+    {% endfor %}
     {% else %}
-      <p class="no-data"><i class="fas fa-folder-open"></i> You haven't submitted any complaints yet.</p>
+    <p class="no-data"><i class="fas fa-folder-open"></i> You haven't submitted any complaints yet.</p>
     {% endif %}
   </section>
 
@@ -101,7 +118,8 @@
 
       <div class="form-group">
         <label for="feedbackMessage"><i class="fas fa-message"></i> Your Feedback</label>
-        <textarea id="feedbackMessage" name="message" placeholder="Share your thoughts, suggestions, or concerns..." required></textarea>
+        <textarea id="feedbackMessage" name="message" placeholder="Share your thoughts, suggestions, or concerns..."
+          required></textarea>
       </div>
 
       <button type="submit" class="submit-feedback-btn">
@@ -110,92 +128,7 @@
     </form>
   </section>
 
-  <footer>
-    <a href="{{ url_for('home') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
-  </footer>
 
-  <!-- Modal -->
-  <div id="complaintModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="modal-content">
-      <button class="close-btn" onclick="closeModal()" aria-label="Close">&times;</button>
-      <h3 class="modal-title"><i class="fas fa-file-alt"></i> Complaint Details</h3>
-      <div class="modal-body">
-        <p><i class="fas fa-circle-info"></i> <strong>ID:</strong> <span id="m-id"></span></p>
-        <p><i class="fas fa-building"></i> <strong>Department:</strong> <span id="m-dept"></span></p>
-        <p><i class="fas fa-comment-dots"></i> <strong>Complaint:</strong> <span id="m-complaint"></span></p>
-        <hr />
-        <p><i class="fas fa-map-marker-alt"></i> <strong>District:</strong> <span id="m-district"></span></p>
-        <p><i class="fas fa-location-dot"></i> <strong>Block:</strong> <span id="m-block"></span></p>
-        <p><i class="fas fa-landmark"></i> <strong>GP:</strong> <span id="m-gp"></span></p>
-        <p><i class="fas fa-house"></i> <strong>Village:</strong> <span id="m-village"></span></p>
-        <p><i class="fas fa-envelope"></i> <strong>Post:</strong> <span id="m-post"></span></p>
-        <p><i class="fas fa-hashtag"></i> <strong>Pincode:</strong> <span id="m-pincode"></span></p>
-        <p><i class="fas fa-paperclip"></i> <strong>Proof:</strong> <span id="m-proof"></span></p>
-        <p><i class="fas fa-circle"></i> <strong>Status:</strong> <span id="m-status" class="status-chip"></span></p>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // base path for static uploads from Flask
-    const STATIC_UPLOADS_BASE = "{{ url_for('static', filename='uploads/') }}";
-
-    function openModal(el) {
-      const d = el.dataset;
-
-      // Fill fields
-      document.getElementById('m-id').textContent = d.id || '';
-      document.getElementById('m-dept').textContent = d.department || '';
-      document.getElementById('m-complaint').textContent = d.complaint || '';
-      document.getElementById('m-district').textContent = d.district || '';
-      document.getElementById('m-block').textContent = d.block || '';
-      document.getElementById('m-gp').textContent = d.gp || '';
-      document.getElementById('m-village').textContent = d.village || '';
-      document.getElementById('m-post').textContent = d.post || '';
-      document.getElementById('m-pincode').textContent = d.pincode || '';
-
-      // Proof link
-      const proofWrap = document.getElementById('m-proof');
-      proofWrap.innerHTML = '';
-      if (d.proof) {
-        const a = document.createElement('a');
-        a.href = STATIC_UPLOADS_BASE + encodeURIComponent(d.proof);
-        a.target = '_blank';
-        a.textContent = 'View Proof';
-        proofWrap.appendChild(a);
-      } else {
-        proofWrap.textContent = 'No proof provided';
-      }
-
-      // Status
-      const statusEl = document.getElementById('m-status');
-      const status = (d.status || 'Pending').trim();
-      statusEl.textContent = status;
-
-      // color class
-      statusEl.className = 'status-chip';
-      const cls = status.toLowerCase().replace(/\s+/g, '-');
-      statusEl.classList.add(cls);
-
-      // Show modal
-      const modal = document.getElementById('complaintModal');
-      modal.style.display = 'flex';
-      document.body.classList.add('no-scroll');
-    }
-
-    function closeModal() {
-      document.getElementById('complaintModal').style.display = 'none';
-      document.body.classList.remove('no-scroll');
-    }
-
-    // Close on outside click / ESC
-    window.addEventListener('click', (e) => {
-      const modal = document.getElementById('complaintModal');
-      if (e.target === modal) closeModal();
-    });
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
-    });
-  </script>
 </body>
+
 </html>

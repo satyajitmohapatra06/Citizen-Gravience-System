@@ -1,5 +1,3 @@
-css
-
 /* RESET */
 * {
   margin: 0;
@@ -38,42 +36,6 @@ body {
   transform: translateY(-3px);
 }
 
-/* BACKGROUND SHAPES */
-.bg-shape {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.6;
-  z-index: -1;
-  animation: float 8s infinite alternate ease-in-out;
-}
-
-.shape1 {
-  width: 300px;
-  height: 300px;
-  background: #1602c7;
-  top: -100px;
-  left: -100px;
-}
-
-.shape2 {
-  width: 300px;
-  height: 300px;
-  background: #e7073f;
-  bottom: -120px;
-  right: -120px;
-}
-
-@keyframes float {
-  from {
-    transform: translateY(0px);
-  }
-
-  to {
-    transform: translateY(-30px);
-  }
-}
-
 /* HEADER */
 header {
   background: #170b85;
@@ -91,7 +53,7 @@ header h2 {
   gap: 8px;
 }
 
-/* Cards container centered */
+/* Cards container */
 .complaints-container {
   display: flex;
   flex-wrap: wrap;
@@ -100,7 +62,7 @@ header h2 {
   padding: 28px 18px 40px;
 }
 
-/* Card */
+/* Complaint card */
 .complaint-card {
   width: 280px;
   background: #fff;
@@ -126,7 +88,7 @@ header h2 {
   gap: 8px;
 }
 
-/* Status pill on card */
+/* Status pill */
 .status-pill {
   display: inline-flex;
   align-items: center;
@@ -163,7 +125,7 @@ header h2 {
   color: #666;
 }
 
-/* FEEDBACK SECTION */
+/* Feedback section */
 .feedback-section {
   background: #fff;
   border-radius: 14px;
@@ -227,16 +189,12 @@ header h2 {
   min-height: 100px;
 }
 
-.rating-group {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
+/* Star rating */
 .star-rating {
   display: flex;
   gap: 5px;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .star-rating input[type="radio"] {
@@ -253,15 +211,6 @@ header h2 {
 .star-rating input[type="radio"]:checked~label,
 .star-rating label:hover,
 .star-rating label:hover~label {
-  color: #ffc107;
-}
-
-.star-rating input[type="radio"]:checked+label,
-.star-rating input[type="radio"]:checked+label~label {
-  color: #ddd;
-}
-
-.star-rating input[type="radio"]:checked~label {
   color: #ffc107;
 }
 
@@ -287,322 +236,44 @@ header h2 {
   box-shadow: 0 6px 16px rgba(0, 0, 0, .15);
 }
 
-.submit-feedback-btn:active {
-  transform: translateY(0);
-}
+/* Footer removed */
 
-/* Footer */
-footer {
-  text-align: center;
-  padding: 20px;
-}
+/* ====== RESPONSIVENESS ====== */
 
-.back-btn {
-  display: inline-block;
-  padding: 10px 20px;
-  background: #170b85;
-  color: #fff;
-  border-radius: 25px;
-  text-decoration: none;
-  font-weight: 700;
-  transition: background .25s ease;
-}
-
-.back-btn:hover {
-  background: #0056b3;
-}
-
-/* Modal */
-.modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  background: rgba(0, 0, 0, .6);
-  justify-content: center;
-  align-items: center;
-  animation: fadeIn .25s ease;
-}
-
-.modal-content {
-  background: #fff;
-  width: 92%;
-  max-width: 640px;
-  border-radius: 14px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, .2);
-  padding: 22px 22px 26px;
-  animation: slideIn .28s ease;
-  position: relative;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.close-btn {
-  position: absolute;
-  right: 12px;
-  top: 8px;
-  border: 0;
-  background: transparent;
-  color: #666;
-  font-size: 26px;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.close-btn:hover {
-  color: #111;
-}
-
-.modal-title {
-  margin: 0 0 8px;
-  color: #0a66ff;
-  font-size: 20px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.modal-body p {
-  margin: 10px 0;
-  font-size: 15px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Status chip inside modal */
-.status-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-weight: 700;
-  color: #fff;
-}
-
-.status-chip.pending {
-  background: #ffc107;
-  color: #333;
-}
-
-.status-chip.resolved {
-  background: #28a745;
-}
-
-.status-chip.rejected {
-  background: #dc3545;
-}
-
-.status-chip.in-progress {
-  background: #17a2b8;
-}
-
-/* Success Message */
-.success-message {
-  display: none;
-  background: #d4edda;
-  color: #155724;
-  padding: 12px 18px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  border: 1px solid #c3e6cb;
-  align-items: center;
-  gap: 8px;
-}
-
-.success-message.show {
-  display: flex;
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0
-  }
-
-  to {
-    opacity: 1
-  }
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateY(-14px);
-    opacity: 0
-  }
-
-  to {
-    transform: translateY(0);
-    opacity: 1
-  }
-}
-
-/* ========= RESPONSIVENESS ========= */
-
-/* Tablets (≤1024px) */
+/* Tablets ≤1024px */
 @media (max-width: 1024px) {
-  header h2 {
-    font-size: 20px;
-  }
-
-  .complaint-card {
-    width: 240px;
-    padding: 18px 14px;
-  }
-
-  .complaint-card h3 {
-    font-size: 16px;
-  }
-
-  .modal-content {
-    max-width: 520px;
-    padding: 20px;
-  }
-
-  .feedback-section {
-    padding: 24px;
-  }
-
-  .feedback-title {
-    font-size: 20px;
-  }
+  header h2 { font-size: 20px; }
+  .complaint-card { width: 240px; padding: 18px 14px; }
+  .complaint-card h3 { font-size: 16px; }
+  .feedback-section { padding: 24px; }
+  .feedback-title { font-size: 20px; }
 }
 
-/* Mobile (≤768px) */
+/* Mobile ≤768px */
 @media (max-width: 768px) {
-  header {
-    padding: 12px;
-  }
-
-  header h2 {
-    font-size: 18px;
-  }
-
-  .complaints-container {
-    gap: 16px;
-    padding: 20px 12px 30px;
-  }
-
-  .complaint-card {
-    width: 100%;
-    max-width: 360px;
-    margin: 0 auto;
-    padding: 16px;
-  }
-
-  .complaint-card h3 {
-    font-size: 15px;
-  }
-
-  .status-pill {
-    font-size: 12px;
-    padding: 5px 10px;
-  }
-
-  .modal-content {
-    width: 95%;
-    padding: 18px;
-  }
-
-  .modal-title {
-    font-size: 18px;
-  }
-
-  .modal-body p {
-    font-size: 14px;
-  }
-
-  .back-btn {
-    padding: 10px 18px;
-    font-size: 14px;
-  }
-
-  .feedback-section {
-    padding: 20px;
-    width: 95%;
-  }
-
-  .feedback-title {
-    font-size: 18px;
-  }
-
-  .form-group label {
-    font-size: 13px;
-  }
-
+  header { padding: 12px; }
+  header h2 { font-size: 18px; }
+  .complaints-container { gap: 16px; padding: 20px 12px 30px; }
+  .complaint-card { width: 100%; max-width: 360px; margin: 0 auto; padding: 16px; }
+  .complaint-card h3 { font-size: 15px; }
+  .status-pill { font-size: 12px; padding: 5px 10px; }
+  .feedback-section { padding: 20px; width: 95%; }
+  .feedback-title { font-size: 18px; }
+  .form-group label { font-size: 13px; }
   .form-group input,
   .form-group select,
-  .form-group textarea {
-    font-size: 14px;
-    padding: 8px 12px;
-  }
-
-  .submit-feedback-btn {
-    font-size: 15px;
-    padding: 10px 20px;
-  }
+  .form-group textarea { font-size: 14px; padding: 8px 12px; }
+  .submit-feedback-btn { font-size: 15px; padding: 10px 20px; width: 100%; }
 }
 
-/* Small Mobile (≤480px) */
+/* Small mobile ≤480px */
 @media (max-width: 480px) {
-  header h2 {
-    font-size: 16px;
-  }
-
-  .complaint-card {
-    padding: 14px;
-    border-radius: 10px;
-    max-width: 100%;
-  }
-
-  .complaint-card h3 {
-    font-size: 14px;
-  }
-
-  .status-pill {
-    font-size: 11px;
-    padding: 6px 10px;
-  }
-
-  .status-pill.pending {
-    background: #e0a800;
-    color: #222;
-  }
-
-  .modal-content {
-    width: 92%;
-    border-radius: 10px;
-    padding: 16px;
-  }
-
-  .modal-title {
-    font-size: 16px;
-  }
-
-  .modal-body p {
-    font-size: 13px;
-  }
-
-  footer {
-    font-size: 13px;
-  }
-
-  .feedback-section {
-    padding: 18px;
-    border-radius: 10px;
-  }
-
-  .feedback-title {
-    font-size: 16px;
-  }
-
-  .star-rating label {
-    font-size: 20px;
-  }
-
-  .submit-feedback-btn {
-    font-size: 14px;
-    width: 100%;
-  }
+  header h2 { font-size: 16px; }
+  .complaint-card { padding: 14px; border-radius: 10px; max-width: 100%; }
+  .complaint-card h3 { font-size: 14px; }
+  .status-pill { font-size: 11px; padding: 6px 10px; }
+  .feedback-section { padding: 18px; border-radius: 10px; }
+  .feedback-title { font-size: 16px; }
+  .star-rating label { font-size: 20px; }
+  .submit-feedback-btn { font-size: 14px; width: 100%; }
 }
