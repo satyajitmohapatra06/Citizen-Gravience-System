@@ -168,7 +168,10 @@
                             <td><a href="{{ url_for('admin_user_view', user_phone=row[1]) }}">{{ row[1] }}</a></td>
                             <td>{{ row[11] }}</td>
                             <td>{{ row[7] }}</td>
-                            <td class="truncate">{{ row[12][:60] ~ ('...' if row[12]|length > 60 else '') }}</td>
+                            <!-- ✅ Fixed complaint text safe slicing -->
+                            <td class="truncate">
+                                {{ (row[11] or '')[:60] ~ ('...' if row[11] and row[11]|length > 60 else '') }}
+                            </td>
                             <td><span class="pill {{ (row[13] or 'Pending')|lower|replace(' ', '-') }}">{{ row[13] or
                                     'Pending' }}</span></td>
                             <td>
