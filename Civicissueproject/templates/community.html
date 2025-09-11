@@ -25,15 +25,14 @@
   <div class="filter-section">
     <form method="get" action="{{ url_for('community') }}" style="display: contents;">
       <div class="filter-control">
-        <label for="department-filter"><i class="fas fa-building"></i> Filter by Department</label>
+        <label for="department-filter"><i class="fas fa-building"></i> Filter by Type</label>
         <select id="department-filter" name="department" onchange="this.form.submit()">
-          <option value="all" {% if selected_department == 'all' %}selected{% endif %}>All Departments</option>
-          <option value="roads" {% if selected_department == 'roads' %}selected{% endif %}>Roads & Infrastructure</option>
-          <option value="sanitation" {% if selected_department == 'sanitation' %}selected{% endif %}>Sanitation</option>
-          <option value="safety" {% if selected_department == 'safety' %}selected{% endif %}>Public Safety</option>
-          <option value="environment" {% if selected_department == 'environment' %}selected{% endif %}>Environment</option>
-          <option value="healthcare" {% if selected_department == 'healthcare' %}selected{% endif %}>Healthcare</option>
-          <option value="education" {% if selected_department == 'education' %}selected{% endif %}>Education</option>
+          <option value="all" {% if selected_department == 'all' %}selected{% endif %}>All Types</option>
+          <option value="general" {% if selected_department == 'general' %}selected{% endif %}>General Feedback</option>
+          <option value="complaint" {% if selected_department == 'complaint' %}selected{% endif %}>Complaint Process</option>
+          <option value="suggestion" {% if selected_department == 'suggestion' %}selected{% endif %}>Suggestion</option>
+          <option value="technical" {% if selected_department == 'technical' %}selected{% endif %}>Technical Issue</option>
+          <option value="other" {% if selected_department == 'other' %}selected{% endif %}>Other</option>
         </select>
       </div>
 
@@ -92,18 +91,16 @@
         </div>
 
         <div class="feedback-department">
-          {% if fb[3] == 'roads' %}
-            <i class="fas fa-road"></i> Roads & Infrastructure
-          {% elif fb[3] == 'sanitation' %}
-            <i class="fas fa-trash-alt"></i> Sanitation
-          {% elif fb[3] == 'safety' %}
-            <i class="fas fa-lightbulb"></i> Public Safety
-          {% elif fb[3] == 'environment' %}
-            <i class="fas fa-leaf"></i> Environment
-          {% elif fb[3] == 'healthcare' %}
-            <i class="fas fa-hospital"></i> Healthcare
-          {% elif fb[3] == 'education' %}
-            <i class="fas fa-book"></i> Education
+          {% if fb[3] == 'general' %}
+            <i class="fas fa-comments"></i> General Feedback
+          {% elif fb[3] == 'complaint' %}
+            <i class="fas fa-file-alt"></i> Complaint Process
+          {% elif fb[3] == 'suggestion' %}
+            <i class="fas fa-lightbulb"></i> Suggestion
+          {% elif fb[3] == 'technical' %}
+            <i class="fas fa-bug"></i> Technical Issue
+          {% elif fb[3] == 'other' %}
+            <i class="fas fa-ellipsis-h"></i> Other
           {% else %}
             <i class="fas fa-building"></i> {{ fb[3] }}
           {% endif %}
