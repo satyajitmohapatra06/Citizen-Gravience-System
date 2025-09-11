@@ -25,6 +25,17 @@ def init_db():
                     proof TEXT,
                     status TEXT DEFAULT 'Pending'
                 )''')
+    # Feedback table
+    c.execute('''CREATE TABLE IF NOT EXISTS feedback (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    email TEXT NOT NULL,
+                    type TEXT NOT NULL,
+                    rating INTEGER NOT NULL,
+                    message TEXT NOT NULL,
+                    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+                )''')
+
 
     conn.commit()
     conn.close()

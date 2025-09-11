@@ -3,15 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <title>My Complaints</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/mycomplaints.css') }}">
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mycomplaints.css') }}">
 </head>
 <body>
 
   <header>
     <h2><i class="fas fa-clipboard-list"></i> My Complaints</h2>
   </header>
+
+  <!-- Flash messages -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
 
   <section class="complaints-container">
     {% if complaints %}
@@ -41,8 +52,62 @@
       </div>
       {% endfor %}
     {% else %}
-      <p class="no-data"><i class="fas fa-folder-open"></i> You haven’t submitted any complaints yet.</p>
+      <p class="no-data"><i class="fas fa-folder-open"></i> You haven't submitted any complaints yet.</p>
     {% endif %}
+  </section>
+
+  <!-- Feedback Form Section -->
+  <section class="feedback-section">
+    <h3 class="feedback-title"><i class="fas fa-comment-dots"></i> Share Your Feedback</h3>
+
+    <form class="feedback-form" action="{{ url_for('submit_feedback') }}" method="POST">
+      <div class="form-group">
+        <label for="feedbackName"><i class="fas fa-user"></i> Name</label>
+        <input type="text" id="feedbackName" name="name" placeholder="Enter your name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="feedbackEmail"><i class="fas fa-envelope"></i> Email</label>
+        <input type="email" id="feedbackEmail" name="email" placeholder="Enter your email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="feedbackType"><i class="fas fa-list"></i> Feedback Type</label>
+        <select id="feedbackType" name="type" required>
+          <option value="">Select feedback type</option>
+          <option value="general">General Feedback</option>
+          <option value="complaint">Complaint Process</option>
+          <option value="suggestion">Suggestion</option>
+          <option value="technical">Technical Issue</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label><i class="fas fa-star"></i> Rate Your Experience</label>
+        <div class="star-rating">
+          <input type="radio" id="star5" name="rating" value="5" required>
+          <label for="star5">★</label>
+          <input type="radio" id="star4" name="rating" value="4">
+          <label for="star4">★</label>
+          <input type="radio" id="star3" name="rating" value="3">
+          <label for="star3">★</label>
+          <input type="radio" id="star2" name="rating" value="2">
+          <label for="star2">★</label>
+          <input type="radio" id="star1" name="rating" value="1">
+          <label for="star1">★</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="feedbackMessage"><i class="fas fa-message"></i> Your Feedback</label>
+        <textarea id="feedbackMessage" name="message" placeholder="Share your thoughts, suggestions, or concerns..." required></textarea>
+      </div>
+
+      <button type="submit" class="submit-feedback-btn">
+        <i class="fas fa-paper-plane"></i> Submit Feedback
+      </button>
+    </form>
   </section>
 
   <footer>
@@ -109,7 +174,7 @@
 
       // color class
       statusEl.className = 'status-chip';
-      const cls = status.toLowerCase().replace(/\s+/g, '-'); // e.g. "in progress" -> "in-progress"
+      const cls = status.toLowerCase().replace(/\s+/g, '-');
       statusEl.classList.add(cls);
 
       // Show modal
