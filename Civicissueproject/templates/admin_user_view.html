@@ -17,10 +17,19 @@
     <section class="complaints-list">
       {% for row in complaints %}
       <div class="mini-card">
-        <div><strong>#{{ row[0] }}</strong> - <span class="pill {{ (row[13] or 'Pending')|lower|replace(' ', '-') }}">{{ row[13] or 'Pending' }}</span></div>
-        <div>{{ row[12][:120] ~ ('...' if row[12]|length > 120 else '') }}</div>
+        <div>
+          <strong>#{{ row[0] }}</strong> - 
+          <span class="pill {{ (row[13] or 'Pending')|lower|replace(' ', '-') }}">
+            {{ row[13] or 'Pending' }}
+          </span>
+        </div>
+        <div>
+          {{ (row[12] or '')[:120] ~ ('...' if row[12] and row[12]|length > 120 else '') }}
+        </div>
         <div style="margin-top:8px;">
-          <a class="btn small" href="{{ url_for('admin_complaint_view', cid=row[0]) }}"><i class="fas fa-eye"></i> Open</a>
+          <a class="btn small" href="{{ url_for('admin_complaint_view', cid=row[0]) }}">
+            <i class="fas fa-eye"></i> Open
+          </a>
         </div>
       </div>
       {% else %}
