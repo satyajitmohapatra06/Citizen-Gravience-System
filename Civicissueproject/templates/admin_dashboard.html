@@ -29,6 +29,19 @@
                 <div class="title">Pending</div>
                 <div class="value">{{ by_status.get('Pending', 0) }}</div>
             </div>
+            {% if alerts and alerts|length > 0 %}
+            <div id="pending-alert" class="admin-alert">
+                <strong><i class="fas fa-exclamation-triangle"></i> Alert:</strong>
+                There are <b>{{ alerts|length }}</b> complaints pending for more than 5 days.
+                <ul style="margin-top:8px;">
+                    {% for a in alerts %}
+                    <li>Complaint #{{ a[0] }} ({{ a[1] }} / {{ a[2] }}) - "{{ a[3][:50] }}..."</li>
+                    {% endfor %}
+                </ul>
+                <a href="#" class="close">&times;</a>
+            </div>
+            {% endif %}
+
             <div class="card metric">
                 <div class="title">Resolved</div>
                 <div class="value">{{ by_status.get('Resolved', 0) }}</div>
