@@ -20,6 +20,42 @@
             border-radius: 8px;
             background: #f9f9f9;
         }
+
+        /* Lightbox styling */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .lightbox:target {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .lightbox .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .lightbox .close:hover {
+            color: #ff4444;
+        }
     </style>
 </head>
 
@@ -71,7 +107,9 @@
             <div class="chart-card">
                 <h3><i class="fas fa-chart-bar"></i> By Status</h3>
                 {% if charts['status'] %}
-                <img src="{{ url_for('static', filename=charts['status']) }}" alt="status chart" loading="lazy">
+                <a href="#lightbox-status">
+                    <img src="{{ url_for('static', filename=charts['status']) }}" alt="status chart" loading="lazy">
+                </a>
                 {% else %}
                 <div class="chart-fallback">No Status Chart Available</div>
                 {% endif %}
@@ -81,7 +119,9 @@
             <div class="chart-card">
                 <h3><i class="fas fa-chart-pie"></i> By Department</h3>
                 {% if charts['department'] %}
-                <img src="{{ url_for('static', filename=charts['department']) }}" alt="department chart" loading="lazy">
+                <a href="#lightbox-department">
+                    <img src="{{ url_for('static', filename=charts['department']) }}" alt="department chart" loading="lazy">
+                </a>
                 {% else %}
                 <div class="chart-fallback">No Department Chart Available</div>
                 {% endif %}
@@ -91,7 +131,9 @@
             <div class="chart-card">
                 <h3><i class="fas fa-map"></i> Top Pincodes</h3>
                 {% if charts['pincode'] %}
-                <img src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart" loading="lazy">
+                <a href="#lightbox-pincode">
+                    <img src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart" loading="lazy">
+                </a>
                 {% else %}
                 <div class="chart-fallback">No Pincode Chart Available</div>
                 {% endif %}
@@ -101,7 +143,9 @@
             <div class="chart-card">
                 <h3><i class="fas fa-calendar-alt"></i> Complaints Over Time</h3>
                 {% if charts['time'] %}
-                <img src="{{ url_for('static', filename=charts['time']) }}" alt="Complaints over time" loading="lazy">
+                <a href="#lightbox-time">
+                    <img src="{{ url_for('static', filename=charts['time']) }}" alt="Complaints over time" loading="lazy">
+                </a>
                 {% else %}
                 <div class="chart-fallback">No Time Chart Available</div>
                 {% endif %}
@@ -111,7 +155,9 @@
             <div class="chart-card">
                 <h3><i class="fas fa-city"></i> Complaints by District</h3>
                 {% if charts['district'] %}
-                <img src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district" loading="lazy">
+                <a href="#lightbox-district">
+                    <img src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district" loading="lazy">
+                </a>
                 {% else %}
                 <div class="chart-fallback">No District Chart Available</div>
                 {% endif %}
@@ -121,13 +167,15 @@
             <div class="chart-card">
                 <h3><i class="fas fa-layer-group"></i> Dept vs Status</h3>
                 {% if charts['dept_status'] %}
-                <img src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status" loading="lazy">
+                <a href="#lightbox-deptstatus">
+                    <img src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status" loading="lazy">
+                </a>
                 {% else %}
                 <div class="chart-fallback">No Dept vs Status Chart Available</div>
                 {% endif %}
             </div>
 
-            <!-- Odisha Heatmap -->
+            <!-- Odisha Heatmap (iframe cannot use lightbox zoom) -->
             <div class="chart-card" style="width:100%;">
                 <h3><i class="fas fa-map-marked-alt"></i> Odisha Pending Complaints Heatmap</h3>
                 {% if charts['odisha_map'] %}
@@ -168,7 +216,6 @@
                             <td><a href="{{ url_for('admin_user_view', user_phone=row[1]) }}">{{ row[1] }}</a></td>
                             <td>{{ row[11] }}</td>
                             <td>{{ row[7] }}</td>
-                            <!-- ✅ Fixed complaint text safe slicing -->
                             <td class="truncate">
                                 {{ (row[11] or '')[:60] ~ ('...' if row[11] and row[11]|length > 60 else '') }}
                             </td>
@@ -185,6 +232,37 @@
             </div>
         </section>
     </main>
+
+    <!-- ✅ Lightboxes moved here -->
+    <div id="lightbox-status" class="lightbox">
+        <a href="#" class="close">&times;</a>
+        <img src="{{ url_for('static', filename=charts['status']) }}" alt="status chart full">
+    </div>
+
+    <div id="lightbox-department" class="lightbox">
+        <a href="#" class="close">&times;</a>
+        <img src="{{ url_for('static', filename=charts['department']) }}" alt="department chart full">
+    </div>
+
+    <div id="lightbox-pincode" class="lightbox">
+        <a href="#" class="close">&times;</a>
+        <img src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart full">
+    </div>
+
+    <div id="lightbox-time" class="lightbox">
+        <a href="#" class="close">&times;</a>
+        <img src="{{ url_for('static', filename=charts['time']) }}" alt="Complaints over time full">
+    </div>
+
+    <div id="lightbox-district" class="lightbox">
+        <a href="#" class="close">&times;</a>
+        <img src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district full">
+    </div>
+
+    <div id="lightbox-deptstatus" class="lightbox">
+        <a href="#" class="close">&times;</a>
+        <img src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status full">
+    </div>
 </body>
 
 </html>
