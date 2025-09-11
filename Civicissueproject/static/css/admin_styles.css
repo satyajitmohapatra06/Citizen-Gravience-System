@@ -228,3 +228,7 @@ tbody td{padding:10px; border-top:1px solid #f0f2f6}
     font-size: 13px;
   }
 }
+.chart-card iframe {
+    border-radius: 8px;
+    box-shadow: 0 8px 22px rgba(12,37,77,.06);
+}
