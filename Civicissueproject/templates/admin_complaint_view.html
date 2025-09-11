@@ -19,15 +19,17 @@
       <p><strong>User:</strong> {{ complaint[1] }}</p>
       <p><strong>Name:</strong> {{ complaint[2] }}</p>
       <p><strong>Phone:</strong> {{ complaint[3] }}</p>
-      <p><strong>Department:</strong> {{ complaint[11] }}</p>
-      <p><strong>Complaint:</strong><br/> {{ complaint[12] }}</p>
+      <p><strong>Department:</strong> {{ complaint[10] }}</p>
+      <p><strong>Complaint:</strong><br/> {{ complaint[11] }}</p>
+
       <p><strong>Proof (user):</strong>
-        {% if complaint[13] %}
-          <a href="{{ url_for('static', filename='uploads/' ~ complaint[13]) }}" target="_blank">View</a>
+        {% if complaint[12] %}
+          <a href="{{ url_for('static', filename='uploads/' ~ complaint[12]) }}" target="_blank">View</a>
         {% else %}
           None
         {% endif %}
       </p>
+
       <p><strong>Admin Proof:</strong>
         {% if complaint[14] %}
           <a href="{{ url_for('admin_proofs', filename=complaint[14]) }}" target="_blank">View</a>
@@ -35,7 +37,12 @@
           None
         {% endif %}
       </p>
-      <p><strong>Status:</strong> <span class="pill {{ (complaint[13] or 'Pending')|lower|replace(' ', '-') }}">{{ complaint[13] or 'Pending' }}</span></p>
+
+      <p><strong>Status:</strong> 
+        <span class="pill {{ (complaint[13] or 'Pending')|lower|replace(' ', '-') }}">
+          {{ complaint[13] or 'Pending' }}
+        </span>
+      </p>
     </section>
 
     <section class="action-card">
