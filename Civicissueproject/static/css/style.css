@@ -834,7 +834,8 @@ copyright {
 .hero-image {
     position: absolute;
     right: 150px;
-    bottom: 200px;
+    /* bottom: 2000px; */
+    top: 100px;
     max-width: 400px;
     z-index: 1;
     animation: floatImage 4s ease-in-out infinite;
