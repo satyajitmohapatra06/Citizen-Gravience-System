@@ -1023,3 +1023,20 @@ copyright {
     font-size: 1.1rem;
   }
 }
+/* Responsive Video Embed */
+.how-it-works-video {
+  position: relative;
+  width: 100%;
+  max-width: 800px; /* limit on large screens */
+  margin: 20px auto;
+  overflow: hidden;
+  border-radius: 12px; /* optional, matches card style */
+  box-shadow: var(--shadow);
+}
+
+.how-it-works-video video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
