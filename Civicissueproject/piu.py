@@ -86,6 +86,9 @@ def generate_charts():
 # -------------------------
 # Generate Odisha Heatmap
 # -------------------------
+# -------------------------
+# Generate Odisha Heatmap
+# -------------------------
 def generate_odisha_heatmap():
     conn = get_connection()
     cur = conn.cursor()
@@ -95,14 +98,24 @@ def generate_odisha_heatmap():
     rows = cur.fetchall()
     conn.close()
 
+    # Map DB statuses → normalized keys
+    STATUS_MAP = {
+        "pending": "Pending",
+        "in progress": "InProgress",
+        "inprogress": "InProgress",
+        "resolved": "Resolved"
+    }
+
     # Build dictionary {district: {"Pending": x, "InProgress": y, "Resolved": z}}
     district_stats = {}
     for d, s, c in rows:
         d = d.lower().strip()
+        norm_status = STATUS_MAP.get(s.lower().strip(), None)
+        if not norm_status:
+            continue  # ignore unknown statuses
         if d not in district_stats:
             district_stats[d] = {"Pending": 0, "InProgress": 0, "Resolved": 0}
-        if s in district_stats[d]:
-            district_stats[d][s] = c
+        district_stats[d][norm_status] += c   # ✅ counts will now match correctly
 
     print("📊 District complaint stats:", district_stats)
 
@@ -128,6 +141,9 @@ def generate_odisha_heatmap():
     )
     odisha_gdf["total"] = odisha_gdf["pending"] + odisha_gdf["inprogress"] + odisha_gdf["resolved"]
 
+    # Map
+    m = folium.Map(location=[20.9517, 85.0985], zoom_start=7, tiles="cartodbpositron")
+
     # Choropleth
     folium.Choropleth(
         geo_data=odisha_gdf,
@@ -138,7 +154,7 @@ def generate_odisha_heatmap():
         fill_opacity=0.7,
         line_opacity=0.8,
         legend_name="Total Complaints",
-    ).add_to(m := folium.Map(location=[20.9517, 85.0985], zoom_start=7, tiles="cartodbpositron"))
+    ).add_to(m)
 
     # Tooltip
     folium.GeoJson(
