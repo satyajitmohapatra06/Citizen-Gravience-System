@@ -160,12 +160,10 @@
             <!-- YouTube Video Embed -->
             </div>
                 <div class="how-it-works-video" style="text-align:center; margin-top:40px;">
-                    <iframe width="800" height="500" 
-                        src="https://www.youtube.com/embed/lhnfQ426E7g?si=LA5zdahvy13YUkRv?rel=0&modestbranding=1&controls=1&showinfo=0"
-                        title="How It Works Video" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen>">
-                    </iframe>
+                    <video width="640" height="360" controls>
+        <source src="{{ url_for('static', filename='images/Recap - PODs with YAML - KodeKloud 2022-09-21 21_18.mp4') }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
                 </div>
         </div>
     </section>
