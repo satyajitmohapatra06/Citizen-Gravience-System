@@ -69,3 +69,20 @@ def update_complaint_proof(cid, proof_filename):
     conn.execute("UPDATE complaints SET proof = ? WHERE id = ?", (proof_filename, cid))
     conn.commit()
     conn.close()
+# database.py (add this new function at the end)
+
+def update_complaint_details(cid, data):
+    """Updates the editable fields of a specific complaint."""
+    conn = get_db_connection()
+    conn.execute("""
+        UPDATE complaints 
+        SET name = ?, phone = ?, district = ?, block = ?, gp = ?, 
+            village = ?, landmark = ?, pincode = ?, department = ?, complaint = ?
+        WHERE id = ?
+    """, (
+        data.get('name'), data.get('phone'), data.get('district'), data.get('block'),
+        data.get('gp'), data.get('village'), data.get('landmark'), data.get('pincode'),
+        data.get('department'), data.get('complaint'), cid
+    ))
+    conn.commit()
+    conn.close()

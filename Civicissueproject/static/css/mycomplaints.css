@@ -1,4 +1,4 @@
-/* mycomplaints.css (Complete with Feedback Form Styles) */
+/* mycomplaints.css (Complete with Card Buttons & Modal Fix) */
 
 /* Global Styles */
 :root {
@@ -21,7 +21,6 @@ header {
     box-shadow: 0 3px 6px rgba(0, 0, 0, .1);
 }
 header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px; }
-
 .home-btn {
     position: fixed; top: 20px; left: 20px; background: var(--primary-blue);
     color: #fff; padding: 10px 18px; border-radius: 30px; font-weight: 600;
@@ -29,6 +28,7 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); transition: all 0.3s ease; z-index: 1100;
 }
 .home-btn:hover { background: var(--light-blue); transform: translateY(-3px); }
+
 
 /* Complaints Grid & Card Styles */
 .complaints-container {
@@ -41,7 +41,8 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
 }
 .complaint-card {
     background: var(--card-bg); border-radius: 16px; box-shadow: var(--shadow);
-    overflow: hidden; cursor: pointer; transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex; flex-direction: column;
 }
 .complaint-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12); }
@@ -52,67 +53,181 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
 .complaint-id { font-weight: 600; color: var(--primary-blue); }
 .card-image-container { width: 100%; aspect-ratio: 16 / 10; background-color: #f0f2f5; }
 .card-image-container img { width: 100%; height: 100%; object-fit: cover; }
-.no-image-placeholder {
-    width: 100%; height: 100%; display: flex; flex-direction: column;
-    justify-content: center; align-items: center; color: #b0b8c5;
-}
-.no-image-placeholder i { font-size: 3rem; }
-.no-image-placeholder span { font-size: 0.9rem; margin-top: 10px; }
-.card-info { padding: 15px; background: #fafbff; margin-top: auto; }
+.card-info { padding: 15px; }
 .card-info p { font-size: 0.9rem; color: var(--text-light); margin: 5px 0; }
 .card-info strong { color: var(--text-dark); }
 
-/* Modal (Floating Window) Styles */
+/* Card Footer & Buttons */
+.card-footer {
+    display: flex;
+    gap: 10px;
+    padding: 0 15px 15px;
+    border-top: 1px solid var(--border-color);
+    margin-top: auto;
+    background-color: #fcfdff;
+}
+.card-btn {
+    flex-grow: 1;
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.details-btn {
+    background-color: var(--primary-blue);
+    color: white;
+}
+.details-btn:hover {
+    background-color: var(--light-blue);
+    box-shadow: 0 4px 10px rgba(79, 128, 225, 0.3);
+}
+.card-btn.edit-btn {
+    background-color: transparent;
+    border-color: var(--accent-gold);
+    color: #b38600;
+}
+.card-btn.edit-btn:hover {
+    background-color: var(--accent-gold);
+    color: #333;
+}
+
+/* ======================================= */
+/* ====== MODAL STYLES WITH FIX ====== */
+/* ======================================= */
 .modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.6); display: flex; justify-content: center;
-    align-items: center; z-index: 1000; opacity: 1; transition: opacity 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    z-index: 1000; /* FIX: Ensures modal is on top of everything */
 }
-.modal-overlay.hidden { opacity: 0; pointer-events: none; }
+.modal-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
 .modal-content {
-    background: var(--card-bg); border-radius: 16px; padding: 25px;
-    width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto;
-    position: relative; transform: scale(1); transition: transform 0.3s ease;
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 25px;
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: scale(1);
+    transition: transform 0.3s ease;
 }
-.modal-overlay.hidden .modal-content { transform: scale(0.9); }
+.modal-overlay.hidden .modal-content {
+    transform: scale(0.9);
+}
 .modal-close-btn {
-    position: absolute; top: 15px; right: 15px; background: var(--bg-color);
-    border: none; border-radius: 50%; width: 35px; height: 35px;
-    font-size: 1.5rem; cursor: pointer; color: var(--text-light);
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-light);
 }
 .modal-header {
-    display: flex; align-items: center; gap: 15px;
-    padding-bottom: 15px; border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
 }
-.modal-header h2 { color: var(--primary-blue); font-size: 1.5rem; }
-.modal-body { padding-top: 20px; }
-.modal-image-container { width: 100%; border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
-.modal-image-container img { width: 100%; display: block; }
-.modal-details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.modal-header h2 {
+    color: var(--primary-blue);
+    font-size: 1.5rem;
+}
+.modal-body {
+    padding-top: 20px;
+}
+.modal-image-container {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.modal-image-container img {
+    width: 100%;
+    display: block;
+}
+.modal-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
 .modal-detail-item {
-    background: var(--bg-color); border-radius: 10px; padding: 15px;
-    display: flex; align-items: flex-start; gap: 12px;
+    background: var(--bg-color);
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
 }
-.modal-detail-item i { color: var(--light-blue); font-size: 1.2rem; margin-top: 3px; }
-.modal-detail-item strong { display: block; font-size: 0.9rem; color: var(--text-dark); }
-.modal-detail-item p { font-size: 0.95rem; color: var(--text-light); margin: 0; }
-.modal-detail-item.full-width { grid-column: 1 / -1; }
-.modal-detail-item a { color: var(--primary-blue); font-weight: 600; text-decoration: none; }
-.modal-detail-item a:hover { text-decoration: underline; }
+.modal-detail-item i {
+    color: var(--light-blue);
+    font-size: 1.2rem;
+    margin-top: 3px;
+}
+.modal-detail-item strong {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+}
+.modal-detail-item p {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    margin: 0;
+    word-break: break-word;
+}
+.modal-detail-item.full-width {
+    grid-column: 1 / -1;
+}
+.modal-detail-item a {
+    color: var(--primary-blue);
+    font-weight: 600;
+    text-decoration: none;
+}
+.modal-detail-item a:hover {
+    text-decoration: underline;
+}
 
 /* Status Pill */
 .status-pill {
-    padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700;
-    display: inline-flex; align-items: center; gap: 6px; color: #fff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #fff;
 }
 .status-pill.pending { background: var(--accent-gold); color: #333; }
 .status-pill.resolved { background: #28a745; }
 .status-pill.rejected { background: #dc3545; }
 .status-pill.in-progress { background: #17a2b8; }
 
-/* ======================================= */
-/* ===== Redesigned Feedback Form ====== */
-/* ======================================= */
+
+/* Feedback Form Styles */
 .feedback-section {
     max-width: 900px; margin: 30px auto; background: var(--card-bg);
     border-radius: 16px; box-shadow: var(--shadow);
@@ -177,3 +292,4 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
     }
     .modal-content { padding: 20px; }
 }
+

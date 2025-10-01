@@ -1,73 +1,66 @@
-# features.py
-import io
-import sqlite3
+from flask import Blueprint, jsonify, request, session, make_response
+from database import get_complaint_by_id, update_complaint_details, get_db_df
 import pandas as pd
-from flask import Blueprint, jsonify, Response, session, flash, redirect, url_for
+import io
 
-# --------------------
-# Setup Blueprints
-# --------------------
-# A Blueprint is a way to organize a group of related views and other code.
-# Instead of registering views and other code directly with an application,
-# they are registered with a blueprint. Then the blueprint is registered
-# with the application when it is available in a factory function.
+api_bp = Blueprint('api', __name__, url_prefix='/api')
+admin_features_bp = Blueprint('admin_features', __name__)
 
-# Blueprint for our new API functionality
-api_bp = Blueprint('api', __name__, url_prefix='/api/v1')
-
-# Blueprint for new admin features
-admin_features_bp = Blueprint('admin_features', __name__, url_prefix='/admin')
-
-DB_NAME = "civic.db"
-
-# --------------------
-# ⚙️ API Feature: Get Complaints as JSON
-# --------------------
-@api_bp.route('/complaints', methods=['GET'])
-def get_complaints_api():
-    """
-    Provides a list of all complaints in JSON format.
-    This is the foundation for building a mobile app or for other services to interact with your data.
-    """
-    conn = sqlite3.connect(DB_NAME)
-    conn.row_factory = sqlite3.Row # This allows accessing columns by name
-    c = conn.cursor()
-    c.execute("SELECT id, user_phone, name, district, department, complaint, status, updated_at FROM complaints ORDER BY id DESC")
-    rows = c.fetchall()
-    conn.close()
-
-    # Convert the database rows to a list of dictionaries
-    complaints = [dict(row) for row in rows]
-    return jsonify(complaints)
-
-# --------------------
-# 📈 Admin Feature: Export Complaints to CSV
-# --------------------
-@admin_features_bp.route('/export/complaints.csv')
+# --- FIX: ADD THIS NEW ROUTE ---
+@admin_features_bp.route('/admin/export/complaints.csv')
 def export_complaints_csv():
     """
-    Pulls all complaint data into a Pandas DataFrame and returns it as a downloadable CSV file.
+    Fetches all complaints from the database and returns them as a downloadable CSV file.
     """
     # Security check: ensure an admin is logged in
     if session.get("role") != "admin":
-        flash("Admin access required for this feature.", "danger")
-        return redirect(url_for("admin_login"))
+        return "Unauthorized", 401
 
-    conn = sqlite3.connect(DB_NAME)
     try:
-        # Use pandas to easily read the SQL table into a DataFrame
-        df = pd.read_sql_query("SELECT * FROM complaints", conn)
-        
-        # Use an in-memory buffer to hold the CSV data
+        # Get all complaints as a pandas DataFrame
+        df = get_db_df()
+
+        if df.empty:
+            return "No complaints to export.", 404
+
+        # Use an in-memory string buffer to create the CSV
         output = io.StringIO()
         df.to_csv(output, index=False, encoding='utf-8')
-        csv_data = output.getvalue()
+        output.seek(0)
 
-        # Create a Flask Response object to send the file to the user
-        return Response(
-            csv_data,
-            mimetype="text/csv",
-            headers={"Content-disposition": "attachment; filename=complaints_export.csv"}
-        )
-    finally:
-        conn.close()
+        # Create a Flask response to send the file
+        response = make_response(output.getvalue())
+        response.headers["Content-Disposition"] = "attachment; filename=complaints.csv"
+        response.headers["Content-type"] = "text/csv"
+        
+        return response
+
+    except Exception as e:
+        print(f"Error exporting CSV: {e}")
+        return "Failed to generate CSV.", 500
+
+
+@api_bp.route('/complaint/<int:cid>', methods=['PUT'])
+def update_complaint(cid):
+    # Security Check 1: User must be logged in
+    if 'user' not in session:
+        return jsonify({'success': False, 'error': 'Authentication required'}), 401
+
+    complaint = get_complaint_by_id(cid)
+    
+    # Security Check 2: User must own the complaint they are trying to edit
+    if not complaint or complaint['user_phone'] != session['user']:
+        return jsonify({'success': False, 'error': 'Forbidden'}), 403
+
+    # Logic Check: Only pending complaints can be edited
+    if complaint['status'].lower() != 'pending':
+        return jsonify({'success': False, 'error': 'Only pending complaints can be edited'}), 400
+
+    data = request.get_json()
+    if not data:
+        return jsonify({'success': False, 'error': 'No data provided'}), 400
+
+    # Call the database function to update the complaint
+    update_complaint_details(cid, data)
+    
+    return jsonify({'success': True, 'message': 'Complaint updated successfully'})

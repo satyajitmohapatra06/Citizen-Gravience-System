@@ -1,22 +1,31 @@
 import sqlite3
 
-DB = "civic.db"
+DB_NAME = "civic.db"
 
-def ensure_column(c, table, name, coltype):
-    c.execute(f"PRAGMA table_info({table})")
-    cols = [row[1] for row in c.fetchall()]
-    if name not in cols:
-        print(f"Adding column {name}...")
-        c.execute(f"ALTER TABLE {table} ADD COLUMN {name} {coltype}")
-    else:
-        print(f"Column {name} already exists")
+def migrate():
+    """Adds the new voice_proof column to the complaints table if it doesn't exist."""
+    try:
+        conn = sqlite3.connect(DB_NAME)
+        c = conn.cursor()
 
-conn = sqlite3.connect(DB)
-c = conn.cursor()
+        # Check if the column already exists
+        c.execute("PRAGMA table_info(complaints)")
+        columns = [column[1] for column in c.fetchall()]
 
-ensure_column(c, "complaints", "admin_proof", "TEXT")
-ensure_column(c, "complaints", "updated_at", "TEXT")
+        if 'voice_proof' not in columns:
+            print("Adding 'voice_proof' column to 'complaints' table...")
+            # Add the new column to the existing table
+            c.execute("ALTER TABLE complaints ADD COLUMN voice_proof TEXT")
+            conn.commit()
+            print("Migration successful: 'voice_proof' column added.")
+        else:
+            print("'voice_proof' column already exists.")
 
-conn.commit()
-conn.close()
-print("Migration complete ✅")
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
+    finally:
+        if conn:
+            conn.close()
+
+if __name__ == "__main__":
+    migrate()
