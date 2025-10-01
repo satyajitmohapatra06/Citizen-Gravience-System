@@ -1037,10 +1037,14 @@ copyright {
     CHATBOT STYLES
 =============================== */
 .chatbot-container {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    z-index: 1001;
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+   z-index: 1001;
+    /* --- Add these three lines --- */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 .chat-fab {
@@ -1194,4 +1198,5 @@ copyright {
     color: var(--white);
     transform: translateY(-2px);
 }
+
 

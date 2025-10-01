@@ -36,7 +36,7 @@ def chat():
                 bot_response = "You must be logged in to check a status. Please log in first."
         else: # Handles "initial_greeting" and any other unrecognized text
             if 'user' in session:
-                bot_response = "Hi! I'm the CityZen Assistant. How can I help you?"
+                bot_response = "Hi! I’m Citra, your CityZen assistant. 😊 You can report any city issues here or check the status of a report you’ve submitted. How can I help you today?"
                 options = ["Report an Issue", "Check Status"]
             else:
                 bot_response = "Welcome! Please log in to use the chatbot."
