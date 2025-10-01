@@ -4,13 +4,62 @@
 <head>
   <meta charset="UTF-8" />
   <title>My Complaints</title>
-  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/mycomplaints.css') }}">
+  <style>
+    /* Helper classes for the edit feature */
+    .editable-field.hidden,
+    .readonly-field.hidden,
+    .modal-btn.hidden {
+      display: none;
+    }
+
+    .modal-footer {
+      padding: 20px 0 0;
+      margin-top: 20px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .modal-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .edit-btn {
+      background-color: #ffc107;
+      color: #333;
+    }
+
+    .save-btn {
+      background-color: #28a745;
+      color: #fff;
+    }
+
+    .modal-details-grid input,
+    .modal-details-grid textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      font-family: "Poppins", sans-serif;
+    }
+  </style>
 </head>
 
 <body>
-
   <header>
     <h2><i class="fas fa-clipboard-list"></i> My Complaints</h2>
   </header>
@@ -18,66 +67,143 @@
     <i class="fas fa-home"></i> Home
   </a>
 
-
-  <!-- Flash messages -->
-  {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-  <div class="flash-messages">
-    {% for category, message in messages %}
-    <div class="flash {{ category }}">{{ message }}</div>
-    {% endfor %}
-  </div>
-  {% endif %}
-  {% endwith %}
-
-  <section class="complaints-container">
+  <main class="complaints-container">
     {% if complaints %}
     {% for c in complaints %}
-    <details class="complaint-card">
-      <summary>
-        <h3><i class="fas fa-file-alt"></i> Complaint #{{ c[0] }}</h3>
-        <span class="status-pill {{ ((c[10] or 'Pending')|lower|replace(' ', '-')) }}">
-          <i class="fas fa-circle"></i> {{ c[10] or 'Pending' }}
-        </span>
-      </summary>
+    <div class="complaint-card" data-id="{{ c.id }}" data-status="{{ c.status or 'Pending' }}"
+      data-department="{{ c.department|e }}" data-complaint="{{ c.complaint|e }}" data-name="{{ c.name|e }}"
+      data-phone="{{ c.phone|e }}" data-district="{{ c.district|e }}" data-block="{{ c.block|e }}"
+      data-gp="{{ c.gp|e }}" data-village="{{ c.village|e }}" data-landmark="{{ c.landmark|e }}"
+      data-pincode="{{ c.pincode|e }}"
+      data-updatedat="{{ c.updated_at | datetimeformat if c.updated_at else 'Not yet updated' }}"
+      data-proof="{{ c.proof }}" data-adminproof="{{ c.admin_proof }}"
+      data-proofurl="{{ url_for('static', filename='uploads/' + c.proof) if c.proof else '' }}"
+      data-adminproofurl="{{ url_for('admin_proofs', filename=c.admin_proof) if c.admin_proof else '' }}"
+      data-uploadurl="{{ url_for('uploads.upload_proof_page', cid=c.id) }}">
 
-      <div class="complaint-details">
-        <p><i class="fas fa-building"></i> <strong>Department:</strong> {{ c[7]|e }}</p>
-        <p><i class="fas fa-comment-dots"></i> <strong>Complaint:</strong> {{ c[8]|e }}</p>
-        <hr />
-        <p><i class="fas fa-map-marker-alt"></i> <strong>District:</strong> {{ c[1]|e }}</p>
-        <p><i class="fas fa-location-dot"></i> <strong>Block:</strong> {{ c[2]|e }}</p>
-        <p><i class="fas fa-landmark"></i> <strong>GP:</strong> {{ c[3]|e }}</p>
-        <p><i class="fas fa-house"></i> <strong>Village:</strong> {{ c[4]|e }}</p>
-        <p><i class="fas fa-envelope"></i> <strong>Lndmark:</strong> {{ c[5]|e }}</p>
-        <p><i class="fas fa-hashtag"></i> <strong>Pincode:</strong> {{ c[6]|e }}</p>
-        <p><i class="fas fa-paperclip"></i> <strong>Proof:</strong>
-          {% if c[9] %}
-          <a href="{{ url_for('static', filename='uploads/' + c[9]) }}" target="_blank">View Proof</a>
-          {% else %}
-          No proof provided
-          {% endif %}
-        </p>
-        <p><i class="fas fa-file-circle-check"></i> <strong>Admin Proof:</strong>
-          {% if c[11] %}
-          <a href="{{ url_for('admin_proofs', filename=c[11]) }}" target="_blank">View Admin Proof</a>
-          {% else %}
-          Not available
-          {% endif %}
-        </p>
+      <div class="card-header">
+        <span class="complaint-id">Complaint #{{ c.id }}</span>
+        <span class="status-pill {{ (c.status or 'Pending')|lower|replace(' ', '-') }}">{{ c.status or 'Pending'
+          }}</span>
       </div>
-    </details>
+
+      <div class="card-image-container">
+        {% if c.proof %}
+        <img src="{{ url_for('static', filename='uploads/' + c.proof) }}" alt="Proof for Complaint #{{ c.id }}">
+        {% else %}
+        <img src="{{ url_for('static', filename='images/default_proof.png') }}" alt="Default Proof Image">
+        {% endif %}
+      </div>
+
+      <div class="card-info">
+        <p><strong>Department:</strong> {{ c.department|e }}</p>
+        <p><strong>Location:</strong> {{ c.district|e }}</p>
+      </div>
+    </div>
     {% endfor %}
     {% else %}
     <p class="no-data"><i class="fas fa-folder-open"></i> You haven't submitted any complaints yet.</p>
     {% endif %}
-  </section>
+  </main>
 
-  <!-- Feedback Form Section -->
+  <div id="complaintModal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <button class="modal-close-btn">&times;</button>
+      <div class="modal-header">
+        <h2 id="modalComplaintId">Complaint #000</h2>
+        <span id="modalStatus" class="status-pill"></span>
+      </div>
+      <div class="modal-body">
+        <div id="modalImageContainer" class="modal-image-container"></div>
+        <div class="modal-details-grid">
+          <div class="modal-detail-item"><i class="fas fa-building"></i>
+            <div><strong>Department</strong>
+              <p id="modalDepartment" class="readonly-field"></p><input id="modalDepartmentInput"
+                class="editable-field hidden" type="text">
+            </div>
+          </div>
+          <div class="modal-detail-item"><i class="fas fa-user"></i>
+            <div><strong>Name</strong>
+              <p id="modalName" class="readonly-field"></p><input id="modalNameInput" class="editable-field hidden"
+                type="text">
+            </div>
+          </div>
+          <div class="modal-detail-item"><i class="fas fa-phone"></i>
+            <div><strong>Phone</strong>
+              <p id="modalPhone" class="readonly-field"></p><input id="modalPhoneInput" class="editable-field hidden"
+                type="text">
+            </div>
+          </div>
+          <div class="modal-detail-item"><i class="fas fa-map-marker-alt"></i>
+            <div><strong>District</strong>
+              <p id="modalDistrict" class="readonly-field"></p><input id="modalDistrictInput"
+                class="editable-field hidden" type="text">
+            </div>
+          </div>
+          <div class="modal-detail-item"><i class="fas fa-location-dot"></i>
+            <div><strong>Block</strong>
+              <p id="modalBlock" class="readonly-field"></p><input id="modalBlockInput" class="editable-field hidden"
+                type="text">
+            </div>
+          </div>
+          <div class="modal-detail-item"><i class="fas fa-landmark"></i>
+            <div><strong>GP</strong>
+              <p id="modalGp" class="readonly-field"></p><input id="modalGpInput" class="editable-field hidden"
+                type="text">
+            </div>
+          </div>
+          <div class="modal-detail-item"><i class="fas fa-house"></i>
+            <div><strong>Village</strong>
+              <p id="modalVillage" class="readonly-field"></p><input id="modalVillageInput"
+                class="editable-field hidden" type="text">
+            </div>
+          </div>
+          <div class="modal-detail-item"><i class="fas fa-map-pin"></i>
+            <div><strong>Landmark</strong>
+              <p id="modalLandmark" class="readonly-field"></p><input id="modalLandmarkInput"
+                class="editable-field hidden" type="text">
+            </div>
+          </div>
+          <div class="modal-detail-item"><i class="fas fa-hashtag"></i>
+            <div><strong>Pincode</strong>
+              <p id="modalPincode" class="readonly-field"></p><input id="modalPincodeInput"
+                class="editable-field hidden" type="text">
+            </div>
+          </div>
+          <div class="modal-detail-item full-width"><i class="fas fa-comment-dots"></i>
+            <div><strong>Complaint Details</strong>
+              <p id="modalComplaintText" class="readonly-field"></p><textarea id="modalComplaintInput"
+                class="editable-field hidden"></textarea>
+            </div>
+          </div>
+          <div class="modal-detail-item"><i class="fas fa-paperclip"></i>
+            <div><strong>Your Proof</strong>
+              <p id="modalProofLink"></p>
+            </div>
+          </div>
+          <div class="modal-detail-item"><i class="fas fa-file-circle-check"></i>
+            <div><strong>Admin Resolution</strong>
+              <p id="modalAdminProofLink"></p>
+            </div>
+          </div>
+          <div class="modal-detail-item full-width"><i class="fas fa-clock"></i>
+            <div><strong>Last Updated</strong>
+              <p id="modalUpdatedAt"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="modalEditBtn" class="modal-btn edit-btn hidden"><i class="fas fa-pen"></i> Edit</button>
+        <button id="modalSaveBtn" class="modal-btn save-btn hidden"><i class="fas fa-save"></i> Save Changes</button>
+      </div>
+    </div>
+  </div>
+
   <section class="feedback-section">
     <h3 class="feedback-title"><i class="fas fa-comment-dots"></i> Share Your Feedback</h3>
-
     <form class="feedback-form" action="{{ url_for('submit_feedback') }}" method="POST">
+
       <div class="form-group">
         <label for="feedbackName"><i class="fas fa-user"></i> Name</label>
         <input type="text" id="feedbackName" name="name" placeholder="Enter your name" required>
@@ -88,7 +214,7 @@
         <input type="email" id="feedbackEmail" name="email" placeholder="Enter your email" required>
       </div>
 
-      <div class="form-group">
+      <div class="form-group full-width">
         <label for="feedbackType"><i class="fas fa-list"></i> Feedback Type</label>
         <select id="feedbackType" name="type" required>
           <option value="">Select feedback type</option>
@@ -100,7 +226,7 @@
         </select>
       </div>
 
-      <div class="form-group">
+      <div class="form-group rating-group">
         <label><i class="fas fa-star"></i> Rate Your Experience</label>
         <div class="star-rating">
           <input type="radio" id="star5" name="rating" value="5" required>
@@ -116,8 +242,8 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="feedbackMessage"><i class="fas fa-message"></i> Your Feedback</label>
+      <div class="form-group message-group">
+        <label for="feedbackMessage"><i class="fas fa-pen"></i> Your Feedback</label>
         <textarea id="feedbackMessage" name="message" placeholder="Share your thoughts, suggestions, or concerns..."
           required></textarea>
       </div>
@@ -128,7 +254,143 @@
     </form>
   </section>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('complaintModal');
+      const cards = document.querySelectorAll('.complaint-card');
+      const closeModalBtn = document.querySelector('.modal-close-btn');
 
+      const openModal = (card) => {
+        const cardData = card.dataset;
+
+        document.getElementById('modalComplaintId').textContent = `Complaint #${cardData.id}`;
+        const statusPill = document.getElementById('modalStatus');
+        statusPill.textContent = cardData.status;
+        statusPill.className = `status-pill ${cardData.status.toLowerCase().replace(' ', '-')}`;
+
+        const fields = ['department', 'name', 'phone', 'district', 'block', 'gp', 'village', 'landmark', 'pincode'];
+        const complaintField = 'complaint';
+
+        fields.forEach(f => {
+          const key = f.charAt(0).toUpperCase() + f.slice(1);
+          document.getElementById(`modal${key}`).textContent = cardData[f];
+          document.getElementById(`modal${key}Input`).value = cardData[f];
+        });
+        document.getElementById('modalComplaintText').textContent = cardData.complaint;
+        document.getElementById('modalComplaintInput').value = cardData.complaint;
+        document.getElementById('modalUpdatedAt').textContent = cardData.updatedat;
+
+        const imageContainer = document.getElementById('modalImageContainer');
+        if (cardData.proofurl) {
+          imageContainer.innerHTML = `<img src="${cardData.proofurl}" alt="Proof">`;
+        } else {
+          imageContainer.innerHTML = `<img src="{{ url_for('static', filename='images/default_proof.png') }}" alt="Default Proof Image">`;
+        }
+
+        const proofLinkEl = document.getElementById('modalProofLink');
+        if (cardData.proof) {
+          proofLinkEl.innerHTML = `<a href="${cardData.proofurl}" target="_blank">View Full Proof</a>`;
+        } else {
+          proofLinkEl.innerHTML = `<a href="${cardData.uploadurl}" class="upload-link">Upload Proof</a>`;
+        }
+        const adminProofLinkEl = document.getElementById('modalAdminProofLink');
+        if (cardData.adminproof) {
+          adminProofLinkEl.innerHTML = `<a href="${cardData.adminproofurl}" target="_blank">View Resolution Proof</a>`;
+        } else {
+          adminProofLinkEl.textContent = 'Not available yet';
+        }
+
+        // Associate the card with the modal buttons for later reference
+        document.getElementById('modalEditBtn').dataset.cardId = card.id = `card-${cardData.id}`;
+        document.getElementById('modalSaveBtn').dataset.cardId = `card-${cardData.id}`;
+
+        setModalMode('read');
+        modal.classList.remove('hidden');
+      };
+
+      const setModalMode = (mode) => {
+        const readonlyFields = modal.querySelectorAll('.readonly-field');
+        const editableFields = modal.querySelectorAll('.editable-field');
+        const editBtn = document.getElementById('modalEditBtn');
+        const saveBtn = document.getElementById('modalSaveBtn');
+
+        if (mode === 'edit') {
+          readonlyFields.forEach(f => f.classList.add('hidden'));
+          editableFields.forEach(f => f.classList.remove('hidden'));
+          editBtn.classList.add('hidden');
+          saveBtn.classList.remove('hidden');
+        } else {
+          readonlyFields.forEach(f => f.classList.remove('hidden'));
+          editableFields.forEach(f => f.classList.add('hidden'));
+          saveBtn.classList.add('hidden');
+          if (document.getElementById('modalStatus').textContent.toLowerCase() === 'pending') {
+            editBtn.classList.remove('hidden');
+          } else {
+            editBtn.classList.add('hidden');
+          }
+        }
+      };
+
+      document.getElementById('modalEditBtn').addEventListener('click', () => setModalMode('edit'));
+
+      document.getElementById('modalSaveBtn').addEventListener('click', async (event) => {
+        const complaintId = document.getElementById('modalComplaintId').textContent.replace('Complaint #', '');
+
+        const updatedData = {
+          department: document.getElementById('modalDepartmentInput').value,
+          name: document.getElementById('modalNameInput').value,
+          phone: document.getElementById('modalPhoneInput').value,
+          district: document.getElementById('modalDistrictInput').value,
+          block: document.getElementById('modalBlockInput').value,
+          gp: document.getElementById('modalGpInput').value,
+          village: document.getElementById('modalVillageInput').value,
+          landmark: document.getElementById('modalLandmarkInput').value,
+          pincode: document.getElementById('modalPincodeInput').value,
+          complaint: document.getElementById('modalComplaintInput').value,
+        };
+
+        const response = await fetch(`/api/complaint/${complaintId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedData)
+        });
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          alert('Changes saved successfully!');
+
+          const cardId = event.target.dataset.cardId;
+          const card = document.getElementById(cardId);
+
+          for (const key in updatedData) {
+            const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
+            // Update modal's readonly fields
+            const p_element = document.getElementById(`modal${(key === 'complaint') ? 'ComplaintText' : capitalizedKey}`);
+            if (p_element) p_element.textContent = updatedData[key];
+            // Update card's data attributes
+            if (card) card.dataset[key] = updatedData[key];
+          }
+
+          // Also update the visible card info
+          if (card) {
+            card.querySelector('.card-info p:first-of-type strong').nextSibling.textContent = ` ${updatedData.department}`;
+            card.querySelector('.card-info p:last-of-type strong').nextSibling.textContent = ` ${updatedData.district}`;
+          }
+
+          setModalMode('read');
+        } else {
+          alert(`Error: ${result.error || 'Could not save changes.'}`);
+        }
+      });
+
+      const closeModal = () => modal.classList.add('hidden');
+      cards.forEach(card => card.addEventListener('click', () => openModal(card)));
+      closeModalBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+    });
+  </script>
 </body>
 
 </html>
