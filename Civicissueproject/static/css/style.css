@@ -41,7 +41,7 @@ h4 {
 }
 
 /* ============================
-   NAVIGATION
+    NAVIGATION
 =============================== */
 nav {
   position: fixed;
@@ -120,7 +120,7 @@ nav {
 }
 
 /* ============================
-   DROPDOWN FIX + ANIMATION
+    DROPDOWN FIX + ANIMATION
 =============================== */
 .login-btn {
   position: relative;
@@ -175,7 +175,7 @@ nav {
 }
 
 /* ============================
-   HERO SECTION
+    HERO SECTION
 =============================== */
 .hero {
   background: linear-gradient(
@@ -271,7 +271,7 @@ nav {
 }
 
 /* ============================
-   SECTIONS
+    SECTIONS
 =============================== */
 section {
   padding: 80px 0;
@@ -313,7 +313,7 @@ section {
 }
 
 /* ============================
-   CATEGORIES
+    CATEGORIES
 =============================== */
 .categories-grid {
   display: grid;
@@ -365,7 +365,7 @@ section {
 }
 
 /* ============================
-   HOW IT WORKS
+    HOW IT WORKS
 =============================== */
 .how-it-works {
   background: linear-gradient(to bottom, var(--white), var(--secondary-skyblue));
@@ -445,7 +445,7 @@ section {
 }
 
 /* ============================
-   TESTIMONIALS
+    TESTIMONIALS
 =============================== */
 .testimonials-grid {
   display: grid;
@@ -515,7 +515,7 @@ section {
 }
 
 /* ============================
-   FOOTER
+    FOOTER
 =============================== */
 footer {
   background: var(--primary-skyblue);
@@ -559,7 +559,7 @@ copyright {
 }
 
 /* ============================
-   RESPONSIVE
+    RESPONSIVE
 =============================== */
 @media (max-width: 992px) {
   .steps {
@@ -834,7 +834,6 @@ copyright {
 .hero-image {
     position: absolute;
     right: 150px;
-    /* bottom: 2000px; */
     top: 100px;
     max-width: 400px;
     z-index: 1;
@@ -852,8 +851,7 @@ copyright {
     100% { transform: translateY(0); }
 }
 /* ============================
-   EXTRA RESPONSIVENESS FIXES
-   (Extend only, no overwrite)
+    EXTRA RESPONSIVENESS FIXES
 =============================== */
 
 /* Ultra-wide desktops */
@@ -869,7 +867,6 @@ copyright {
   }
   .hero-image {
     right: 200px;
-    bottom: 220px;
     max-width: 500px;
   }
   .hero-image img {
@@ -882,7 +879,6 @@ copyright {
 @media (max-width: 1599px) {
   .hero-image {
     right: 100px;
-    bottom: 180px;
     max-width: 400px;
   }
   .hero h1 {
@@ -998,7 +994,6 @@ copyright {
 }
 /* 🔹 Mobile Navbar Visibility Fix (CSS-only) */
 @media (max-width: 768px) {
-  /* Show nav-links as a vertical menu when parent is focused */
   nav:focus-within .nav-links,
   nav:hover .nav-links {
     display: flex;
@@ -1009,7 +1004,6 @@ copyright {
     height: auto;
   }
 
-  /* Make login button toggle dropdown on focus */
   .login-btn:focus + .dropdown,
   .login-btn:active + .dropdown {
     opacity: 1;
@@ -1017,7 +1011,6 @@ copyright {
     transform: translateY(0);
   }
 
-  /* Ensure nav-links take full width */
   .nav-links a {
     margin: 10px 0;
     font-size: 1.1rem;
@@ -1027,10 +1020,10 @@ copyright {
 .how-it-works-video {
   position: relative;
   width: 100%;
-  max-width: 800px; /* limit on large screens */
+  max-width: 800px; 
   margin: 20px auto;
   overflow: hidden;
-  border-radius: 12px; /* optional, matches card style */
+  border-radius: 12px; 
   box-shadow: var(--shadow);
 }
 
@@ -1040,3 +1033,165 @@ copyright {
   display: block;
   border-radius: 12px;
 }
+/* ============================
+    CHATBOT STYLES
+=============================== */
+.chatbot-container {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 1001;
+}
+
+.chat-fab {
+    background-color: var(--primary-skyblue);
+    color: var(--white);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.chat-fab:hover {
+    background-color: var(--accent-orange);
+    transform: scale(1.1);
+}
+
+.chat-widget {
+    width: 350px;
+    max-height: 500px;
+    background: var(--white);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-in-out;
+}
+
+.chat-widget.active {
+    transform: scale(1);
+}
+
+.chat-header {
+    background: var(--primary-skyblue);
+    color: var(--white);
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.chat-header .close-btn {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.chat-messages {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message {
+    padding: 10px 15px;
+    border-radius: 20px;
+    max-width: 80%;
+    line-height: 1.4;
+}
+
+.message.bot {
+    background-color: #f1f0f0;
+    color: var(--dark-text);
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+}
+
+.message.user {
+    background-color: var(--dark-skyblue);
+    color: var(--white);
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+}
+
+.chat-input-area {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #eee;
+}
+
+#chat-input {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 10px 15px;
+    font-size: 1rem;
+    outline: none;
+}
+
+#chat-send-btn {
+    background: var(--primary-skyblue);
+    color: var(--white);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: var(--transition);
+}
+
+#chat-send-btn:hover {
+    background-color: var(--accent-orange);
+}
+
+/* ============================
+    CHATBOT OPTIONS (BUTTONS)
+=============================== */
+.chat-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+    align-self: flex-start;
+}
+
+.option-btn {
+    background-color: var(--white);
+    color: var(--primary-skyblue);
+    border: 2px solid var(--primary-skyblue);
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.option-btn:hover {
+    background-color: var(--primary-skyblue);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
