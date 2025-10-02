@@ -11,6 +11,7 @@
     --shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     --border-color: #e9eef5;
     --accent-gold: #ffc107;
+    --danger-red: #dc3545; /* Added a red variable */
 }
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
 body { background: var(--bg-color); color: var(--text-dark); }
@@ -132,6 +133,28 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
 .modal-overlay.hidden .modal-content {
     transform: scale(0.9);
 }
+
+/* ===== NEW STYLES FOR MODAL FOOTER AND DELETE BUTTON ===== */
+.modal-footer {
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end; /* Aligns buttons to the right */
+    gap: 10px;
+}
+
+.modal-btn.delete-btn {
+    background-color: var(--danger-red);
+    color: white;
+    margin-right: auto; /* This pushes the delete button to the far left */
+}
+
+.modal-btn.delete-btn:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+/* ===== END NEW STYLES ===== */
+
 .modal-close-btn {
     position: absolute;
     top: 15px;
@@ -223,7 +246,7 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
 }
 .status-pill.pending { background: var(--accent-gold); color: #333; }
 .status-pill.resolved { background: #28a745; }
-.status-pill.rejected { background: #dc3545; }
+.status-pill.rejected { background: var(--danger-red); }
 .status-pill.in-progress { background: #17a2b8; }
 
 
@@ -292,4 +315,3 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
     }
     .modal-content { padding: 20px; }
 }
-
