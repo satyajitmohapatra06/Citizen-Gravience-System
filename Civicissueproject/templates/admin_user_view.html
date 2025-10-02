@@ -1,41 +1,53 @@
-<!-- templates/admin_user_view.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>User {{ user_phone }} - Complaints</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_styles.css') }}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="utf-8" />
+    <title>User {{ user_phone }} - Complaints</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_userview.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body>
-  <header class="admin-header">
-    <h1><i class="fas fa-user"></i> User: {{ user_phone }}</h1>
-    <div><a class="btn" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-arrow-left"></i> Back</a></div>
-  </header>
+<body class="admin-page-bg">
 
-  <main class="admin-main">
-    <section class="complaints-list">
-      {% for row in complaints %}
-      <div class="mini-card">
-        <div>
-          <strong>#{{ row[0] }}</strong> - 
-          <span class="pill {{ (row[13] or 'Pending')|lower|replace(' ', '-') }}">
-            {{ row[13] or 'Pending' }}
-          </span>
-        </div>
-        <div>
-          {{ (row[12] or '')[:120] ~ ('...' if row[12] and row[12]|length > 120 else '') }}
-        </div>
-        <div style="margin-top:8px;">
-          <a class="btn small" href="{{ url_for('admin_complaint_view', cid=row[0]) }}">
-            <i class="fas fa-eye"></i> Open
-          </a>
-        </div>
-      </div>
-      {% else %}
-      <p>No complaints from this user.</p>
-      {% endfor %}
-    </section>
-  </main>
+    <header class="admin-header">
+        <h1><i class="fas fa-user-check"></i> User Activity: {{ user_phone }}</h1>
+        <a class="btn" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    </header>
+
+    <main class="admin-main">
+        <section class="complaints-list">
+            {% for row in complaints %}
+            <div class="complaint-card">
+                <div class="card-header">
+                    <h3>Complaint #{{ row.id }}</h3>
+                    <span class="pill {{ (row.status or 'Pending')|lower|replace(' ', '-') }}">
+                        {{ row.status or 'Pending' }}
+                    </span>
+                </div>
+                <div class="card-body">
+                    <p>{{ (row.complaint or '')[:150] ~ ('...' if row.complaint and row.complaint|length > 150 else '') }}</p>
+                </div>
+                <div class="card-footer">
+                    <span class="footer-item">
+                        <i class="fas fa-building"></i>
+                        {{ row.department or 'N/A' }}
+                    </span>
+                    <span class="footer-item">
+                        <i class="fas fa-clock"></i>
+                        {{ row.updated_at | datetimeformat if row.updated_at else 'No date' }}
+                    </span>
+                    <a class="btn small primary" href="{{ url_for('admin_complaint_view', cid=row.id) }}">
+                        <i class="fas fa-eye"></i> View Details
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="fas fa-file-circle-xmark"></i>
+                <p>No complaints have been filed by this user.</p>
+            </div>
+            {% endfor %}
+        </section>
+    </main>
+
 </body>
 </html>

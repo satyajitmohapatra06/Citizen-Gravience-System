@@ -1,0 +1,207 @@
+/* ===================================================================
+   Civic Admin Panel - Modern Theme
+   =================================================================== */
+
+/* 1. GLOBAL STYLES & THEME VARIABLES
+   =================================================================== */
+:root {
+    --primary-color: #4f46e5;      /* A modern indigo */
+    --primary-hover: #4338ca;
+    --bg-color: #f8fafc;          /* A very light, clean gray */
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --text-dark: #1e293b;
+    --text-light: #64748b;
+    --success: #16a34a;
+    --warning: #f59e0b;
+    --danger: #dc2626;
+    
+    --font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body.admin-page-bg {
+    margin: 0;
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-dark);
+}
+
+/* 2. LAYOUT & HEADER
+   =================================================================== */
+.admin-header {
+    background-color: var(--card-bg);
+    padding: 1.25rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-md);
+}
+
+.admin-header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.admin-main {
+    padding: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 3. COMPLAINT CARDS
+   =================================================================== */
+.complaints-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.complaint-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Ensures footer background doesn't bleed out */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.complaint-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.complaint-card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.complaint-card h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.complaint-card .card-body {
+    padding: 1.5rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    flex-grow: 1;
+}
+.complaint-card .card-body p {
+    margin: 0;
+}
+
+.complaint-card .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: var(--bg-color);
+    font-size: 0.875rem;
+}
+
+.complaint-card .footer-item {
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+}
+
+/* 4. UI COMPONENTS (Buttons, Pills, etc.)
+   =================================================================== */
+.pill {
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pill.pending { background-color: #fef9c3; color: #a16207; border: 1px solid #fde68a;}
+.pill.resolved { background-color: #dcfce7; color: #15803d; border: 1px solid #bbf7d0;}
+.pill.in-progress { background-color: #cffafe; color: #0891b2; border: 1px solid #a5f3fc;}
+.pill.rejected { background-color: #fee2e2; color: #b91c1c; border: 1px solid #fecaca;}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #fff;
+    background-color: var(--primary-color);
+    border: 0;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+.btn:hover {
+    background-color: var(--primary-hover);
+}
+.btn.small {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.875rem;
+}
+/* The primary class from your HTML is now the default .btn style */
+.btn.primary { 
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+/* 5. EMPTY STATE MESSAGE
+   =================================================================== */
+.empty-state {
+    grid-column: 1 / -1; /* Make it span all grid columns */
+    text-align: center;
+    padding: 4rem 2rem;
+    background-color: var(--card-bg);
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    color: var(--text-light);
+}
+
+.empty-state i {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    color: #cbd5e1;
+}
+.empty-state p {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* 6. RESPONSIVE DESIGN
+   =================================================================== */
+@media (max-width: 768px) {
+    .admin-header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    .admin-main {
+        padding: 1.5rem 1rem;
+    }
+    .complaints-list {
+        grid-template-columns: 1fr; /* Single column on mobile */
+    }
+}
