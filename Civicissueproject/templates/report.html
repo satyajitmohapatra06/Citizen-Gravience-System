@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-translate="report_title">CityZen - Lodge Complaint</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Leaflet CSS for the map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/report.css') }}">
 </head>
 
@@ -24,126 +26,138 @@
     <div class="container fade-in-up">
         <h2><span data-translate="report_heading1">Lodge Your</span> <span data-translate="report_heading2">Complaint</span></h2>
 
-        <form method="POST" action="/submit_complaint" enctype="multipart/form-data" class="form-card">
+        <div class="report-layout">
+            <form method="POST" action="/submit_complaint" enctype="multipart/form-data" class="form-card" id="complaintForm">
 
-            <!-- Hidden input for voice file -->
-            <input type="file" name="voice_complaint" id="voice_proof_input" style="display: none;">
+                <!-- Hidden inputs for coordinates and voice file -->
+                <input type="hidden" name="latitude" id="latitude">
+                <input type="hidden" name="longitude" id="longitude">
+                <input type="file" name="voice_complaint" id="voice_proof_input" style="display: none;">
 
-            <!-- Personal Details -->
-            <div class="input-group">
-                <label for="name" data-translate="label_fullname">Full Name:</label>
-                <input type="text" id="name" name="name" placeholder="Enter your full name" data-translate-placeholder="placeholder_name" required aria-required="true">
-            </div>
-
-            <div class="input-group">
-                <label for="phone" data-translate="label_phone_number">Phone Number:</label>
-                <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" maxlength="10" placeholder="Enter 10-digit phone number" data-translate-placeholder="placeholder_phone" required aria-required="true">
-            </div>
-
-            <!-- Location Details -->
-            <div class="input-group">
-                <label for="district" data-translate="label_district">District Name:</label>
-                <select id="district" name="district" required aria-required="true">
-                    <option value="" data-translate="select_district">-- Select District --</option>
-                    <option value="angul">Angul</option>
-                    <option value="balangir">Balangir</option>
-                    <option value="balasore">Balasore</option>
-                    <option value="bargarh">Bargarh</option>
-                    <option value="bhadrak">Bhadrak</option>
-                    <option value="boudh">Boudh</option>
-                    <option value="cuttack">Cuttack</option>
-                    <option value="deogarh">Deogarh</option>
-                    <option value="dhenkanal">Dhenkanal</option>
-                    <option value="gajapati">Gajapati</option>
-                    <option value="ganjam">Ganjam</option>
-                    <option value="jagatsinghpur">Jagatsinghpur</option>
-                    <option value="jajpur">Jajpur</option>
-                    <option value="jharsuguda">Jharsuguda</option>
-                    <option value="kalahandi">Kalahandi</option>
-                    <option value="kandhamal">Kandhamal</option>
-                    <option value="kendrapara">Kendrapara</option>
-                    <option value="keonjhar">Keonjhar</option>
-                    <option value="khordha">Khordha</option>
-                    <option value="koraput">Koraput</option>
-                    <option value="malkangiri">Malkangiri</option>
-                    <option value="mayurbhanj">Mayurbhanj</option>
-                    <option value="nabarangpur">Nabarangpur</option>
-                    <option value="nayagarh">Nayagarh</option>
-                    <option value="nuapada">Nuapada</option>
-                    <option value="puri">Puri</option>
-                    <option value="rayagada">Rayagada</option>
-                    <option value="sambalpur">Sambalpur</option>
-                    <option value="subarnapur">Subarnapur (Sonepur)</option>
-                    <option value="sundargarh">Sundargarh</option>
-                </select>
-            </div>
-
-            <div class="input-group">
-                <label for="pincode" data-translate="label_pincode">PIN Code:</label>
-                <input type="text" id="pincode" name="pincode" pattern="[0-9]{6}" maxlength="6" placeholder="Enter 6-digit PIN code" data-translate-placeholder="placeholder_pincode" required aria-required="true">
-            </div>
-
-            <div class="input-group">
-                <label for="block" data-translate="label_block">Block Name:</label>
-                <input type="text" id="block" name="block" placeholder="Enter your block name" data-translate-placeholder="placeholder_block" required aria-required="true">
-            </div>
-
-            <div class="input-group">
-                <label for="gp" data-translate="label_gp">Gram Panchayat (GP) Name:</label>
-                <input type="text" id="gp" name="gp" placeholder="Enter GP name" data-translate-placeholder="placeholder_gp" required aria-required="true">
-            </div>
-
-            <div class="input-group full-width">
-                <label for="village" data-translate="label_village">Village Name:</label>
-                <input type="text" id="village" name="village" placeholder="Enter your village name" data-translate-placeholder="placeholder_village" required aria-required="true">
-            </div>
-
-            <div class="input-group full-width">
-                <label for="landmark" data-translate="label_landmark">Landmark:</label>
-                <input type="text" id="landmark" name="landmark" placeholder="Enter landmark" data-translate-placeholder="placeholder_landmark" required aria-required="true">
-            </div>
-
-            <!-- Complaint Details -->
-            <div class="input-group full-width">
-                <label for="department" data-translate="label_department_concerned">Department Concerned:</label>
-                <select id="department" name="department" required aria-required="true">
-                    <option value="" data-translate="select_department">-- Select Department --</option>
-                    <option value="Water Supply" data-translate="dept_water">Water Supply</option>
-                    <option value="Electricity" data-translate="dept_electricity">Electricity</option>
-                    <option value="Roads & Transport" data-translate="dept_roads">Roads & Transport</option>
-                    <option value="Health & Sanitation" data-translate="dept_health">Health & Sanitation</option>
-                    <option value="Education" data-translate="dept_education">Education</option>
-                    <option value="Other" data-translate="dept_other">Other</option>
-                </select>
-            </div>
-
-            <div class="input-group full-width">
-                <label for="complaint" data-translate="label_complaint_details">Complaint Details:</label>
-                <textarea id="complaint" name="complaint" rows="5" placeholder="Describe your issue in detail" data-translate-placeholder="placeholder_complaint_details" required aria-required="true"></textarea>
-                <div class="voice-recorder">
-                    <button type="button" id="recordBtn" class="record-btn"><i class="fas fa-microphone"></i></button>
-                    <span id="timer" class="timer">00:00</span>
-                    <audio id="audioPlayback" controls class="hidden"></audio>
+                <!-- Personal Details -->
+                <div class="input-group">
+                    <label for="name" data-translate="label_fullname">Full Name:</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your full name" data-translate-placeholder="placeholder_name" required aria-required="true">
                 </div>
-            </div>
 
-            <div class="input-group full-width">
-                <label for="proof" data-translate="label_attach_proof">Attach Proof (Image/Video):</label>
-                <input type="file" id="proof" name="proof" accept="image/*,video/*">
-            </div>
+                <div class="input-group">
+                    <label for="phone" data-translate="label_phone_number">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" maxlength="10" placeholder="Enter 10-digit phone number" data-translate-placeholder="placeholder_phone" required aria-required="true">
+                </div>
 
-            <!-- Action Buttons -->
-            <div class="btn-group">
-                <button type="submit" class="btn" data-translate="submit_complaint_button">Submit Complaint</button>
-                <button type="reset" class="btn-outline" data-translate="clear_form_button">Clear Form</button>
+                <!-- Location Details -->
+                <div class="input-group">
+                    <label for="district" data-translate="label_district">District Name:</label>
+                    <select id="district" name="district" required aria-required="true">
+                        <option value="" data-translate="select_district">-- Select District --</option>
+                        <option value="angul">Angul</option>
+                        <option value="balangir">Balangir</option>
+                        <option value="balasore">Balasore</option>
+                        <option value="bargarh">Bargarh</option>
+                        <option value="bhadrak">Bhadrak</option>
+                        <option value="boudh">Boudh</option>
+                        <option value="cuttack">Cuttack</option>
+                        <option value="deogarh">Deogarh</option>
+                        <option value="dhenkanal">Dhenkanal</option>
+                        <option value="gajapati">Gajapati</option>
+                        <option value="ganjam">Ganjam</option>
+                        <option value="jagatsinghpur">Jagatsinghpur</option>
+                        <option value="jajpur">Jajpur</option>
+                        <option value="jharsuguda">Jharsuguda</option>
+                        <option value="kalahandi">Kalahandi</option>
+                        <option value="kandhamal">Kandhamal</option>
+                        <option value="kendrapara">Kendrapara</option>
+                        <option value="keonjhar">Keonjhar</option>
+                        <option value="khordha">Khordha</option>
+                        <option value="koraput">Koraput</option>
+                        <option value="malkangiri">Malkangiri</option>
+                        <option value="mayurbhanj">Mayurbhanj</option>
+                        <option value="nabarangpur">Nabarangpur</option>
+                        <option value="nayagarh">Nayagarh</option>
+                        <option value="nuapada">Nuapada</option>
+                        <option value="puri">Puri</option>
+                        <option value="rayagada">Rayagada</option>
+                        <option value="sambalpur">Sambalpur</option>
+                        <option value="subarnapur">Subarnapur (Sonepur)</option>
+                        <option value="sundargarh">Sundargarh</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="pincode" data-translate="label_pincode">PIN Code:</label>
+                    <input type="text" id="pincode" name="pincode" pattern="[0-9]{6}" maxlength="6" placeholder="Enter 6-digit PIN code" data-translate-placeholder="placeholder_pincode" required aria-required="true">
+                </div>
+
+                <div class="input-group">
+                    <label for="block" data-translate="label_block">Block Name:</label>
+                    <input type="text" id="block" name="block" placeholder="Enter your block name" data-translate-placeholder="placeholder_block" required aria-required="true">
+                </div>
+
+                <div class="input-group">
+                    <label for="gp" data-translate="label_gp">Gram Panchayat (GP) Name:</label>
+                    <input type="text" id="gp" name="gp" placeholder="Enter GP name" data-translate-placeholder="placeholder_gp" required aria-required="true">
+                </div>
+                
+                <div class="input-group full-width">
+                    <label for="village" data-translate="label_village">Village Name:</label>
+                    <input type="text" id="village" name="village" placeholder="Enter your village name" data-translate-placeholder="placeholder_village" required aria-required="true">
+                </div>
+
+                <div class="input-group full-width">
+                    <label for="landmark" data-translate="label_landmark">Landmark:</label>
+                    <button type="button" class="btn-location" id="getLandmarkBtn"><i class="fas fa-location-crosshairs"></i> Get Exact Location as Landmark</button>
+                    <input type="text" id="landmark" name="landmark" placeholder="Click button above to auto-fill" data-translate-placeholder="placeholder_landmark_auto" required aria-required="true">
+                </div>
+
+                <!-- Complaint Details -->
+                <div class="input-group full-width">
+                    <label for="department" data-translate="label_department_concerned">Department Concerned:</label>
+                    <select id="department" name="department" required aria-required="true">
+                        <option value="" data-translate="select_department">-- Select Department --</option>
+                        <option value="Water Supply" data-translate="dept_water">Water Supply</option>
+                        <option value="Electricity" data-translate="dept_electricity">Electricity</option>
+                        <option value="Roads & Transport" data-translate="dept_roads">Roads & Transport</option>
+                        <option value="Health & Sanitation" data-translate="dept_health">Health & Sanitation</option>
+                        <option value="Education" data-translate="dept_education">Education</option>
+                        <option value="Other" data-translate="dept_other">Other</option>
+                    </select>
+                </div>
+
+                <div class="input-group full-width">
+                    <label for="complaint" data-translate="label_complaint_details">Complaint Details:</label>
+                    <textarea id="complaint" name="complaint" rows="5" placeholder="Describe your issue in detail" data-translate-placeholder="placeholder_complaint_details" required aria-required="true"></textarea>
+                    <div class="voice-recorder">
+                        <button type="button" id="recordBtn" class="record-btn"><i class="fas fa-microphone"></i></button>
+                        <span id="timer" class="timer">00:00</span>
+                        <audio id="audioPlayback" controls class="hidden"></audio>
+                    </div>
+                </div>
+
+                <div class="input-group full-width">
+                    <label for="proof" data-translate="label_attach_proof">Attach Proof (Image/Video):</label>
+                    <input type="file" id="proof" name="proof" accept="image/*,video/*">
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="btn-group">
+                    <button type="submit" class="btn" data-translate="submit_complaint_button">Submit Complaint</button>
+                    <button type="reset" class="btn-outline" data-translate="clear_form_button">Clear Form</button>
+                </div>
+            </form>
+            
+            <div class="map-container">
+                <div id="map"></div>
             </div>
-        </form>
+        </div>
     </div>
 
     <!-- Footer -->
     <footer>
         <p data-translate="report_footer">© 2025 CityZen | Designed with ❤️ for better governance</p>
     </footer>
+
+    <!-- Leaflet JS for the map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <!-- Scripts -->
     <script>
@@ -222,6 +236,73 @@
                 clearInterval(timerInterval);
                 timerEl.textContent = '00:00';
             };
+            
+            // --- GPS & MAP SCRIPT ---
+            const mapElement = document.getElementById('map');
+            const getLandmarkBtn = document.getElementById('getLandmarkBtn');
+            const landmarkInput = document.getElementById('landmark');
+            const latInput = document.getElementById('latitude');
+            const lonInput = document.getElementById('longitude');
+
+            // Default to Bhubaneswar, Odisha
+            const defaultCoords = [20.2961, 85.8245]; 
+            const map = L.map(mapElement).setView(defaultCoords, 13);
+            let marker = L.marker(defaultCoords, { draggable: true }).addTo(map);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            const updateMarkerPosition = (lat, lng) => {
+                marker.setLatLng([lat, lng]);
+                map.setView([lat, lng], 16);
+                // Update hidden form fields
+                latInput.value = lat.toFixed(6);
+                lonInput.value = lng.toFixed(6);
+            };
+
+            const reverseGeocodeAndFillLandmark = async (lat, lon) => {
+                try {
+                    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+                    const data = await response.json();
+                    
+                    if (data && data.display_name) {
+                        // ONLY update the landmark field
+                        landmarkInput.value = data.display_name;
+                    } else {
+                        // Fallback to coordinates if address not found
+                        landmarkInput.value = `Coordinates: ${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+                    }
+                } catch (error) {
+                    console.error("Reverse geocoding failed:", error);
+                    // Fallback to coordinates on error
+                    landmarkInput.value = `Coordinates: ${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+                }
+            };
+            
+            marker.on('dragend', async (event) => {
+                const position = event.target.getLatLng();
+                updateMarkerPosition(position.lat, position.lng);
+                await reverseGeocodeAndFillLandmark(position.lat, position.lng);
+            });
+
+            getLandmarkBtn.addEventListener('click', () => {
+                if ('geolocation' in navigator) {
+                    getLandmarkBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Fetching Location...';
+                    navigator.geolocation.getCurrentPosition(async position => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        updateMarkerPosition(lat, lon);
+                        await reverseGeocodeAndFillLandmark(lat, lon);
+                        getLandmarkBtn.innerHTML = '<i class="fas fa-location-crosshairs"></i> Get Exact Location as Landmark';
+                    }, error => {
+                        alert('Could not get your location. Please ensure location services are enabled.');
+                        getLandmarkBtn.innerHTML = '<i class="fas fa-location-crosshairs"></i> Get Exact Location as Landmark';
+                    });
+                } else {
+                    alert('Geolocation is not supported by your browser.');
+                }
+            });
         });
     </script>
     <script src="{{ url_for('static', filename='js/translate.js') }}"></script>

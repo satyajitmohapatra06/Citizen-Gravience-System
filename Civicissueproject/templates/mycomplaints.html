@@ -7,13 +7,15 @@
     <title data-translate="mc_title">My Complaints</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/mycomplaints.css') }}">
 
     <style>
         /* Helper classes for the edit feature */
         .editable-field.hidden,
         .readonly-field.hidden,
-        .modal-btn.hidden {
+        .modal-btn.hidden,
+        .modal-footer.hidden {
             display: none;
         }
 
@@ -39,7 +41,8 @@
             transition: all 0.3s ease;
         }
 
-        .edit-btn {
+        /* This style is now for the button on the card */
+        .card-btn.edit-btn {
             background-color: #ffc107;
             color: #333;
         }
@@ -65,6 +68,33 @@
             border-radius: 4px;
             font-size: 0.95rem;
             font-family: "Poppins", sans-serif;
+        }
+        
+        #modalMap {
+            height: 300px; /* Adjusted map height */
+            width: 100%;
+            border-radius: 8px;
+            margin-top: 10px;
+            z-index: 1001; /* Ensure map is interactive inside the modal */
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-header-main {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .modal-header h2 {
+            margin: 0;
+        }
+
+        /* --- NEW: Style to make the modal wider --- */
+        .modal-content {
+            max-width: 850px; /* Increased from 700px */
         }
     </style>
 </head>
@@ -105,7 +135,9 @@
              data-proofurl="{{ url_for('static', filename='uploads/' + c.proof) if c.proof else '' }}"
              data-adminproofurl="{{ url_for('admin_proofs', filename=c.admin_proof) if c.admin_proof else '' }}"
              data-uploadurl="{{ url_for('uploads.upload_proof_page', cid=c.id) }}"
-             data-voiceproofurl="{{ url_for('static', filename='uploads/' + c.voice_proof) if c.voice_proof else '' }}">
+             data-voiceproofurl="{{ url_for('static', filename='uploads/' + c.voice_proof) if c.voice_proof else '' }}"
+             data-latitude="{{ c.latitude }}"
+             data-longitude="{{ c.longitude }}">
 
             <div class="card-header">
                 <span class="complaint-id"><span data-translate="complaint_id_prefix">Complaint #</span>{{ c.id }}</span>
@@ -145,13 +177,21 @@
         <div class="modal-content">
             <button class="modal-close-btn">&times;</button>
             <div class="modal-header">
-                <h2 id="modal-text-id">Complaint #000</h2>
-                <span id="modal-text-status" class="status-pill"></span>
+                <div class="modal-header-main">
+                    <h2 id="modal-text-id">Complaint #000</h2>
+                    <span id="modal-text-status" class="status-pill"></span>
+                </div>
             </div>
             <div class="modal-body">
                 <div id="modalImageContainer" class="modal-image-container"></div>
                 <div class="modal-details-grid">
-                    <!-- Complaint Details Grid Items -->
+                    <div class="modal-detail-item full-width">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <div>
+                            <strong data-translate="mc_pinned_location">Pinned Location</strong>
+                            <div id="modalMap"></div>
+                        </div>
+                    </div>
                     <div class="modal-detail-item"><i class="fas fa-building"></i>
                         <div><strong data-translate="mc_department">Department</strong>
                             <p id="modal-text-department" class="readonly-field"></p>
@@ -234,9 +274,9 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button id="modalDeleteBtn" class="modal-btn delete-btn hidden"><i class="fas fa-trash"></i> <span data-translate="delete_button">Delete</span></button>
-                <button id="modalSaveBtn" class="modal-btn save-btn hidden"><i class="fas fa-save"></i> <span data-translate="save_changes_button">Save Changes</span></button>
+            <div class="modal-footer hidden">
+                <button id="modalDeleteBtn" class="modal-btn delete-btn"><i class="fas fa-trash"></i> <span data-translate="delete_button">Delete</span></button>
+                <button id="modalSaveBtn" class="modal-btn save-btn"><i class="fas fa-save"></i> <span data-translate="save_changes_button">Save Changes</span></button>
             </div>
         </div>
     </div>
@@ -302,13 +342,18 @@
         </button>
     </div>
 
-    <!-- Inline Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- MODAL & COMPLAINT EDIT/DELETE SCRIPT ---
             const modal = document.getElementById('complaintModal');
             const closeModalBtn = document.querySelector('.modal-close-btn');
             const fields = ['department', 'name', 'phone', 'district', 'block', 'gp', 'village', 'landmark', 'pincode', 'complaint'];
+            let modalMap;
+            
+            const modalSaveBtn = document.getElementById('modalSaveBtn');
+            const modalDeleteBtn = document.getElementById('modalDeleteBtn');
+            const modalFooter = document.querySelector('.modal-footer');
 
             const openModal = (card, mode = 'read') => {
                 const cardData = card.dataset;
@@ -324,16 +369,10 @@
                 document.getElementById('modal-text-updatedat').textContent = cardData.updatedat;
 
                 const imageContainer = document.getElementById('modalImageContainer');
-                imageContainer.innerHTML = cardData.proofurl ?
-                    `<img src="${cardData.proofurl}" alt="Proof">` :
-                    `<img src="{{ url_for('static', filename='images/default_proof.png') }}" alt="Default Proof Image">`;
+                imageContainer.innerHTML = cardData.proofurl ? `<img src="${cardData.proofurl}" alt="Proof">` : `<img src="{{ url_for('static', filename='images/default_proof.png') }}" alt="Default Proof Image">`;
 
-                document.getElementById('modal-link-proof').innerHTML = cardData.proof ?
-                    `<a href="${cardData.proofurl}" target="_blank">View Full Proof</a>` :
-                    `<a href="${cardData.uploadurl}" class="upload-link">Upload Proof</a>`;
-
-                document.getElementById('modal-link-adminproof').innerHTML = cardData.adminproof ?
-                    `<a href="${cardData.adminproofurl}" target="_blank">View Resolution Proof</a>` : 'Not available yet';
+                document.getElementById('modal-link-proof').innerHTML = cardData.proof ? `<a href="${cardData.proofurl}" target="_blank">View Full Proof</a>` : `<a href="${cardData.uploadurl}" class="upload-link">Upload Proof</a>`;
+                document.getElementById('modal-link-adminproof').innerHTML = cardData.adminproof ? `<a href="${cardData.adminproofurl}" target="_blank">View Resolution Proof</a>` : 'Not available yet';
 
                 const voiceItem = document.getElementById('modalVoiceItem');
                 const voicePlayer = document.getElementById('modal-player-voice');
@@ -344,21 +383,46 @@
                     voicePlayer.innerHTML = '';
                     voiceItem.style.display = 'none';
                 }
-
-                document.getElementById('modalSaveBtn').dataset.cardId = `card-${cardData.id}`;
-                document.getElementById('modalDeleteBtn').dataset.cardId = `card-${cardData.id}`;
-                card.id = `card-${cardData.id}`;
-
+                
                 setModalMode(mode);
                 modal.classList.remove('hidden');
+                
+                const lat = parseFloat(cardData.latitude);
+                const lon = parseFloat(cardData.longitude);
+                const mapContainer = document.getElementById('modalMap');
+                setTimeout(() => {
+                    if (lat && lon) {
+                        mapContainer.innerHTML = '';
+                        if (!modalMap) {
+                            modalMap = L.map('modalMap');
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(modalMap);
+                        }
+                        modalMap.setView([lat, lon], 16);
+                        L.marker([lat, lon]).addTo(modalMap);
+                    } else {
+                        mapContainer.innerHTML = '<p style="padding:10px; text-align:center; color: #888;">No location data.</p>';
+                    }
+                }, 100);
             };
-
+            
             const setModalMode = (mode) => {
                 const isEdit = mode === 'edit';
                 modal.querySelectorAll('.readonly-field').forEach(f => f.classList.toggle('hidden', isEdit));
                 modal.querySelectorAll('.editable-field').forEach(f => f.classList.toggle('hidden', !isEdit));
-                document.getElementById('modalSaveBtn').classList.toggle('hidden', !isEdit);
-                document.getElementById('modalDeleteBtn').classList.toggle('hidden', !isEdit);
+                // CORRECTED LOGIC: Explicitly show or hide the footer
+                if (isEdit) {
+                    modalFooter.classList.remove('hidden');
+                } else {
+                    modalFooter.classList.add('hidden');
+                }
+            };
+
+            const closeModal = () => {
+                modal.classList.add('hidden');
+                if (modalMap) {
+                    modalMap.remove();
+                    modalMap = null;
+                }
             };
 
             document.querySelectorAll('.complaint-card').forEach(card => {
@@ -366,7 +430,12 @@
                 card.querySelector('.edit-btn')?.addEventListener('click', () => openModal(card, 'edit'));
             });
 
-            document.getElementById('modalDeleteBtn').addEventListener('click', async (event) => {
+            closeModalBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            modalDeleteBtn.addEventListener('click', async (event) => {
                 const complaintId = document.getElementById('modal-text-id').textContent.replace('Complaint #', '');
                 if (confirm('Are you sure you want to delete this complaint? This action cannot be undone.')) {
                     const response = await fetch(`/api/complaint/${complaintId}`, {
@@ -383,10 +452,8 @@
                 }
             });
 
-            document.getElementById('modalSaveBtn').addEventListener('click', async (event) => {
+            modalSaveBtn.addEventListener('click', async (event) => {
                 const complaintId = document.getElementById('modal-text-id').textContent.replace('Complaint #', '');
-                const cardId = event.target.dataset.cardId;
-                const card = document.getElementById(cardId);
                 const updatedData = {};
                 fields.forEach(field => {
                     updatedData[field] = document.getElementById(`modal-input-${field}`).value;
@@ -401,28 +468,13 @@
 
                 if (response.ok && result.success) {
                     alert('Changes saved successfully!');
-                    for (const key in updatedData) {
-                        document.getElementById(`modal-text-${key}`).textContent = updatedData[key];
-                        if (card) card.dataset[key] = updatedData[key];
-                    }
-                    if (card) {
-                        card.querySelector('.card-info p:first-of-type strong').nextSibling.textContent = ` ${updatedData.department}`;
-                        card.querySelector('.card-info p:last-of-type strong').nextSibling.textContent = ` ${updatedData.district}`;
-                    }
-                    setModalMode('read');
+                    location.reload(); // Reload to show updated card
                 } else {
                     alert(`Error: ${result.error || 'Could not save changes.'}`);
                 }
             });
-
-            const closeModal = () => modal.classList.add('hidden');
-            closeModalBtn.addEventListener('click', closeModal);
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) closeModal();
-            });
         });
     </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // --- CHATBOT SCRIPT ---
@@ -511,10 +563,10 @@
             initialGreeting();
         });
     </script>
-
     <!-- External Scripts -->
     <script src="{{ url_for('static', filename='js/translate.js') }}"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 
 </html>
+

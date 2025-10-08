@@ -8,8 +8,9 @@
 
     <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admincomplaintview.css') }}">
-    
+
     <!-- Inline styles for layout and status pills -->
     <style>
         body {
@@ -19,6 +20,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
+
         .pill {
             display: inline-block;
             padding: 6px 14px;
@@ -28,11 +30,31 @@
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
-        .pill.pending { background-color: #fff3cd; color: #856404; }
-        .pill.in-progress { background-color: #d1ecf1; color: #0c5460; }
-        .pill.resolved { background-color: #d4edda; color: #155724; }
-        .pill.rejected { background-color: #e9ecef; color: #343a40; }
-        .pill.escalated { background-color: #f8d7da; color: #721c24; }
+
+        .pill.pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .pill.in-progress {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .pill.resolved {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .pill.rejected {
+            background-color: #e9ecef;
+            color: #343a40;
+        }
+
+        .pill.escalated {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
 
         .view-wrapper {
             max-width: 1200px;
@@ -47,22 +69,20 @@
             align-items: flex-start;
         }
 
-        /* --- NEW: Grid container for detail boxes --- */
         .details-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1.5rem;
         }
-        
-        /* --- NEW: Style for individual detail boxes --- */
+
         .detail-box {
             background: #fff;
             padding: 1.5rem 2rem;
             border-radius: 16px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             border: 1px solid #e3e6f0;
         }
-        
+
         .detail-box.full-width {
             grid-column: 1 / -1;
         }
@@ -78,16 +98,18 @@
             align-items: center;
             gap: 0.75rem;
         }
-        
+
         .details-list {
             display: grid;
             grid-template-columns: 1fr;
             gap: 1.25rem;
         }
+
         .details-list div {
             font-size: 1rem;
             line-height: 1.5;
         }
+
         .details-list strong {
             color: #858796;
             display: block;
@@ -101,12 +123,13 @@
             background: #fff;
             padding: 2rem;
             border-radius: 16px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             border: 1px solid #e3e6f0;
             position: sticky;
             top: 2rem;
             border-top: 4px solid #4e73df;
         }
+
         .action-card h3 {
             text-align: center;
             margin-top: 0;
@@ -114,29 +137,35 @@
             border-bottom: 1px solid #e9ecef;
             font-size: 1.25rem;
         }
+
         .action-card label {
             font-weight: 600;
             color: #5a5c69;
             margin-bottom: 0.5rem;
             display: block;
         }
-        .action-card select, .action-card input[type="file"] {
+
+        .action-card select,
+        .action-card input[type="file"] {
             width: 100%;
             margin-bottom: 1rem;
         }
+
         .action-card .btn.primary {
             background-color: #4e73df;
             border-color: #4e73df;
             transition: background-color 0.2s, transform 0.2s;
             font-weight: 600;
         }
+
         .action-card .btn.primary:hover {
             background-color: #2e59d9;
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(78, 115, 223, 0.25);
         }
-        
-        .proof-image {
+
+        .proof-image,
+        .proof-video {
             max-width: 100%;
             border-radius: 8px;
             margin-top: 10px;
@@ -144,7 +173,10 @@
             padding: 4px;
         }
 
-        /* --- Flash Message Styles --- */
+        .proof-video {
+            background: #f1f3f5;
+        }
+
         .alert {
             padding: 1rem 1.5rem;
             margin-bottom: 1.5rem;
@@ -154,18 +186,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
         }
+
         .alert-danger {
             color: #721c24;
             background-color: #f8d7da;
             border-color: #f5c6cb;
         }
+
         .alert-success {
             color: #0f5132;
             background-color: #d1e7dd;
             border-color: #badbcc;
         }
+
         .alert .close {
             text-decoration: none;
             color: inherit;
@@ -174,12 +209,36 @@
             opacity: 0.7;
             transition: opacity 0.2s;
         }
+
         .alert .close:hover {
             opacity: 1;
         }
 
+        .location-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        #complaintMap {
+            height: 100%;
+            min-height: 250px;
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid #e3e6f0;
+        }
+
         @media (max-width: 992px) {
-            .content-layout, .details-grid {
+
+            .content-layout,
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .location-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -190,7 +249,8 @@
 
     <div class="view-wrapper">
         <!-- Page Header -->
-        <header class="admin-header" style="background: none; padding: 0; margin-bottom: 2rem; border-bottom: 1px solid #e3e6f0; padding-bottom: 1rem;">
+        <header class="admin-header"
+            style="background: none; padding: 0; margin-bottom: 2rem; border-bottom: 1px solid #e3e6f0; padding-bottom: 1rem;">
             <h1>
                 <i class="fas fa-file-invoice"></i>
                 <span data-translate="acv_complaint_id">Complaint</span> #{{ complaint.id }}
@@ -204,16 +264,16 @@
 
         <!-- Flash Message Display Area -->
         {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    {% if 'proof' in message|lower or 'updated' in message|lower %}
-                    <div class="alert alert-{{ category }}">
-                        <span>{{ message }}</span>
-                        <a href="#" class="close" onclick="this.parentElement.style.display='none';">&times;</a>
-                    </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
+        {% if messages %}
+        {% for category, message in messages %}
+        {% if 'proof' in message|lower or 'updated' in message|lower %}
+        <div class="alert alert-{{ category }}">
+            <span>{{ message }}</span>
+            <a href="#" class="close" onclick="this.parentElement.style.display='none';">&times;</a>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
         {% endwith %}
 
         <!-- Main Content Grid -->
@@ -225,10 +285,13 @@
                 <div class="detail-box">
                     <h4><i class="fas fa-info-circle"></i> Complaint Details</h4>
                     <div class="details-list">
-                        <div><strong>Status:</strong> <span class="pill {{ (complaint.status or 'Pending')|lower|replace(' ', '-') }}">{{ complaint.status or 'Pending' }}</span></div>
+                        <div><strong>Status:</strong> <span
+                                class="pill {{ (complaint.status or 'Pending')|lower|replace(' ', '-') }}">{{
+                                complaint.status or 'Pending' }}</span></div>
                         <div><strong>Department:</strong> {{ complaint.department }}</div>
-                        <div><strong>Last Updated:</strong> {{ complaint.updated_at | datetimeformat if complaint.updated_at else 'N/A' }}</div>
-                        <div><strong>Complaint Text:</strong><br/> {{ complaint.complaint }}</div>
+                        <div><strong>Last Updated:</strong> {{ complaint.updated_at | datetimeformat if
+                            complaint.updated_at else 'N/A' }}</div>
+                        <div><strong>Complaint Text:</strong><br /> {{ complaint.complaint }}</div>
                     </div>
                 </div>
 
@@ -241,17 +304,27 @@
                         <div><strong>Contact Phone:</strong> {{ complaint.phone }}</div>
                     </div>
                 </div>
-                
-                <!-- Location Details Box -->
+
+                <!-- Location Details & Map Box -->
                 <div class="detail-box full-width">
                     <h4><i class="fas fa-map-marker-alt"></i> Location Details</h4>
-                    <div class="details-list" style="grid-template-columns: 1fr 1fr;">
-                        <div><strong>District:</strong> {{ complaint.district }}</div>
-                        <div><strong>Block:</strong> {{ complaint.block }}</div>
-                        <div><strong>Gram Panchayat (GP):</strong> {{ complaint.gp }}</div>
-                        <div><strong>Village:</strong> {{ complaint.village }}</div>
-                        <div><strong>Landmark:</strong> {{ complaint.landmark }}</div>
-                        <div><strong>Pincode:</strong> {{ complaint.pincode }}</div>
+                    <div class="location-grid">
+                        <div class="location-info">
+                            <div class="details-list" style="grid-template-columns: 1fr 1fr;">
+                                <div><strong>District:</strong> {{ complaint.district }}</div>
+                                <div><strong>Block:</strong> {{ complaint.block }}</div>
+                                <div><strong>Gram Panchayat (GP):</strong> {{ complaint.gp }}</div>
+                                <div><strong>Village:</strong> {{ complaint.village }}</div>
+                                <div><strong>Pincode:</strong> {{ complaint.pincode }}</div>
+                                <div style="grid-column: 1 / -1;"><strong>Landmark:</strong> {{ complaint.landmark }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="location-map">
+                            <div id="complaintMap" data-latitude="{{ complaint.latitude }}"
+                                data-longitude="{{ complaint.longitude }}">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -262,42 +335,62 @@
                         <div>
                             <strong>Proof (Image/Video):</strong>
                             {% if complaint.proof %}
-                                {% set proof_lower = complaint.proof|lower %}
-                                {% if proof_lower.endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')) %}
-                                    <a href="{{ url_for('static', filename='uploads/' + complaint.proof) }}" target="_blank">
-                                        <img src="{{ url_for('static', filename='uploads/' + complaint.proof) }}" alt="User Proof" class="proof-image">
-                                    </a>
-                                {% else %}
-                                     <a href="{{ url_for('static', filename='uploads/' + complaint.proof) }}" target="_blank" data-translate="acv_view_proof">View Proof File</a>
-                                {% endif %}
+                            {% set proof_lower = complaint.proof|lower %}
+                            {% if proof_lower.endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp', '.bmp', '.svg',
+                            '.tiff', '.jfif')) %}
+                            <a href="{{ url_for('static', filename='uploads/' + complaint.proof) }}" target="_blank">
+                                <img src="{{ url_for('static', filename='uploads/' + complaint.proof) }}"
+                                    alt="User Proof" class="proof-image">
+                            </a>
+                            {% elif proof_lower.endswith(('.mp4', '.webm', '.mov', '.ogg')) %}
+                            <video controls class="proof-video">
+                                <source src="{{ url_for('static', filename='uploads/' + complaint.proof) }}">
+                                Your browser does not support the video tag.
+                            </video>
                             {% else %}
-                                <span data-translate="none_provided">None provided</span>
+                            <a href="{{ url_for('static', filename='uploads/' + complaint.proof) }}" target="_blank"
+                                data-translate="acv_view_proof">View Proof File</a>
+                            {% endif %}
+                            {% else %}
+                            <span data-translate="none_provided">None provided</span>
                             {% endif %}
                         </div>
                         <div>
                             <strong>Audio Description:</strong>
                             {% if complaint.voice_proof %}
                             <audio controls style="width: 100%; margin-top: 8px;">
-                                <source src="{{ url_for('static', filename='uploads/' + complaint.voice_proof) }}" type="audio/webm">
-                                <span data-translate="audio_not_supported">Your browser does not support the audio element.</span>
+                                <source src="{{ url_for('static', filename='uploads/' + complaint.voice_proof) }}"
+                                    type="audio/webm">
+                                <span data-translate="audio_not_supported">Your browser does not support the audio
+                                    element.</span>
                             </audio>
                             {% else %}
-                                <span data-translate="none_provided">None provided</span>
+                            <span data-translate="none_provided">None provided</span>
                             {% endif %}
                         </div>
                         <div>
                             <strong>Admin Proof:</strong>
                             {% if complaint.admin_proof %}
-                                {% set admin_proof_lower = complaint.admin_proof|lower %}
-                                {% if admin_proof_lower.endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')) %}
-                                     <a href="{{ url_for('static', filename='admin_proofs/' + complaint.admin_proof) }}" target="_blank">
-                                        <img src="{{ url_for('static', filename='admin_proofs/' + complaint.admin_proof) }}" alt="Admin Proof" class="proof-image">
-                                    </a>
-                                {% else %}
-                                    <a href="{{ url_for('static', filename='admin_proofs/' + complaint.admin_proof) }}" target="_blank" data-translate="acv_view_resolution_proof">View Resolution Proof File</a>
-                                {% endif %}
+                            {% set admin_proof_lower = complaint.admin_proof|lower %}
+                            {% if admin_proof_lower.endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp', '.bmp', '.svg',
+                            '.tiff', '.jfif')) %}
+                            <a href="{{ url_for('static', filename='admin_proofs/' + complaint.admin_proof) }}"
+                                target="_blank">
+                                <img src="{{ url_for('static', filename='admin_proofs/' + complaint.admin_proof) }}"
+                                    alt="Admin Proof" class="proof-image">
+                            </a>
+                            {% elif admin_proof_lower.endswith(('.mp4', '.webm', '.mov', '.ogg')) %}
+                            <video controls class="proof-video">
+                                <source src="{{ url_for('static', filename='admin_proofs/' + complaint.admin_proof) }}">
+                                Your browser does not support the video tag.
+                            </video>
                             {% else %}
-                                <span data-translate="none_provided">None provided</span>
+                            <a href="{{ url_for('static', filename='admin_proofs/' + complaint.admin_proof) }}"
+                                target="_blank" data-translate="acv_view_resolution_proof">View Resolution Proof
+                                File</a>
+                            {% endif %}
+                            {% else %}
+                            <span data-translate="none_provided">None provided</span>
                             {% endif %}
                         </div>
                     </div>
@@ -313,16 +406,21 @@
                         New status
                     </label>
                     <select name="status" id="status-select" class="form-control" required>
-                        <option value="Pending" {% if complaint.status=='Pending' %}selected{% endif %} data-translate="status_pending">Pending</option>
-                        <option value="In Progress" {% if complaint.status=='In Progress' %}selected{% endif %} data-translate="status_in_progress">In Progress</option>
-                        <option value="Resolved" {% if complaint.status=='Resolved' %}selected{% endif %} data-translate="status_resolved">Resolved</option>
-                        <option value="Rejected" {% if complaint.status=='Rejected' %}selected{% endif %} data-translate="status_rejected">Rejected</option>
+                        <option value="Pending" {% if complaint.status=='Pending' %}selected{% endif %}
+                            data-translate="status_pending">Pending</option>
+                        <option value="In Progress" {% if complaint.status=='In Progress' %}selected{% endif %}
+                            data-translate="status_in_progress">In Progress</option>
+                        <option value="Resolved" {% if complaint.status=='Resolved' %}selected{% endif %}
+                            data-translate="status_resolved">Resolved</option>
+                        <option value="Rejected" {% if complaint.status=='Rejected' %}selected{% endif %}
+                            data-translate="status_rejected">Rejected</option>
                     </select>
 
                     <label for="admin-proof-upload" class="file-label">
                         Attach proof (for "Resolved")
                     </label>
-                    <input type="file" name="admin_proof" id="admin-proof-upload" class="form-control" accept="image/*,video/*">
+                    <input type="file" name="admin_proof" id="admin-proof-upload" class="form-control"
+                        accept="image/*,video/*">
 
                     <div style="margin-top:1.5rem">
                         <button class="btn primary" type="submit" style="width: 100%;">
@@ -335,9 +433,44 @@
     </div>
 
     <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if Leaflet library is loaded first
+            if (typeof L === 'undefined') {
+                console.error("Leaflet library is not loaded. Map cannot be displayed.");
+                const mapElement = document.getElementById('complaintMap');
+                if (mapElement) {
+                    mapElement.innerHTML = '<p style="text-align: center; padding: 20px; color: #b71c1c;">Error: Could not load map library.</p>';
+                }
+                return; // Stop execution if Leaflet is missing
+            }
+
+            const mapElement = document.getElementById('complaintMap');
+            const lat = mapElement.dataset.latitude;
+            const lon = mapElement.dataset.longitude;
+
+            // Check for valid lat/lon AND the map element
+            if (lat && lon && mapElement) {
+                try { // Add a try-catch block for safety during map initialization
+                    const map = L.map('complaintMap').setView([lat, lon], 16);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(map);
+                    L.marker([lat, lon]).addTo(map)
+                        .bindPopup('The complaint is located here.')
+                        .openPopup();
+                } catch (e) {
+                    console.error("An error occurred while initializing the map:", e);
+                    mapElement.innerHTML = '<p style="text-align: center; padding: 20px; color: #b71c1c;">Error displaying map.</p>';
+                }
+            } else if (mapElement) {
+                mapElement.innerHTML = '<p style="text-align: center; padding: 20px; color: #858796;">No map data available for this complaint.</p>';
+            }
+        });
+    </script>
     <script src="{{ url_for('static', filename='js/translate.js') }}"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 
 </html>
-
