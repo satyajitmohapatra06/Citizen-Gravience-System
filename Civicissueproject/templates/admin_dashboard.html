@@ -6,13 +6,118 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-translate="ad_title">Admin Dashboard - CityZen</title>
 
+    <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_styles.css') }}">
 
+    <!-- Inline Styles -->
+    <style>
+        .chart-fallback {
+            width: 100%;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 14px;
+            border: 1px dashed #ccc;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .lightbox:target {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .lightbox .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .lightbox .close:hover {
+            color: #ff4444;
+        }
+
+        /* --- Styles for the language switcher --- */
+        .language-switcher-wrapper {
+            display: flex;
+            align-items: center;
+            background-color: #f0f2f5;
+            border-radius: 6px;
+            padding: 5px 10px;
+        }
+        .language-switcher-wrapper i {
+            margin-right: 8px;
+            color: #555;
+        }
+        .language-switcher-wrapper select {
+            background: transparent;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* --- Pagination Styles --- */
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination a, .pagination span {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 0 4px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #007bff;
+            transition: background-color .3s;
+        }
+        .pagination a:hover {
+            background-color: #f4f4f4;
+        }
+        .pagination .active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+        .pagination .disabled {
+            color: #ccc;
+            border-color: #ddd;
+        }
+        .pagination .ellipsis {
+            border: none;
+            padding: 8px 0;
+        }
+    </style>
 </head>
 
 <body>
 
+    <!-- Sidebar Navigation -->
     <nav class="admin-sidebar">
         <div class="sidebar-header">
             <h3 data-translate="ad_civic_admin"><i class="fas fa-shield-alt"></i> CityZen Admin</h3>
@@ -34,6 +139,7 @@
         </div>
     </nav>
 
+    <!-- Main Content Wrapper -->
     <div class="content-wrapper">
         <header class="admin-header">
             <div class="left">
@@ -52,6 +158,7 @@
         </header>
 
         <main class="admin-main">
+            <!-- Dashboard Section -->
             <div id="dashboard-content" class="content-section">
                 <section class="top-cards">
                     <div class="card metric">
@@ -157,12 +264,14 @@
                 </section>
             </div>
 
+            <!-- Complaints Section -->
             <div id="complaints-content" class="content-section" style="display: none;">
                 <section class="complaints-table">
                     <div class="table-header">
                         <h3 data-translate="ad_all_complaints"><i class="fas fa-list"></i> All Complaints</h3>
                         <form method="get" action="{{ url_for('admin_dashboard') }}" class="filter-form">
-                            <input type="text" name="q" placeholder="Search by phone / dept / pincode" data-translate-placeholder="ad_search_placeholder" />
+                            <input type="hidden" name="view" value="complaints">
+                            <input type="text" name="q" placeholder="Search by phone / dept / pincode" data-translate-placeholder="ad_search_placeholder" value="{{ q or '' }}" />
                             <button type="submit" class="btn secondary"><i class="fas fa-search"></i></button>
                             <a href="{{ url_for('admin_features.export_complaints_csv') }}" class="btn btn-success">
                                 <i class="fas fa-download"></i> <span data-translate="ad_export_csv">Export Complaints (CSV)</span>
@@ -183,7 +292,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for row in complaints %}
+                                {% for row in complaints_pagination.items %}
                                 <tr>
                                     <td>{{ row[0] }}</td>
                                     <td><a href="{{ url_for('admin_user_view', user_phone=row[1]) }}">{{ row[1] }}</a></td>
@@ -203,11 +312,45 @@
                             </tbody>
                         </table>
                     </div>
+                    
+                    <!-- Pagination Links -->
+                    {% if complaints_pagination and complaints_pagination.pages > 1 %}
+                    <div class="pagination">
+                        <!-- Previous Link -->
+                        {% if complaints_pagination.has_prev %}
+                            <a href="{{ url_for('admin_dashboard', page=complaints_pagination.prev_num, q=q or '', view='complaints') }}">&laquo; Prev</a>
+                        {% else %}
+                            <span class="disabled">&laquo; Prev</span>
+                        {% endif %}
+
+                        <!-- Page Links -->
+                        {% for page_num in complaints_pagination.iter_pages() %}
+                            {% if page_num %}
+                                {% if complaints_pagination.page == page_num %}
+                                    <a href="#" class="active">{{ page_num }}</a>
+                                {% else %}
+                                    <a href="{{ url_for('admin_dashboard', page=page_num, q=q or '', view='complaints') }}">{{ page_num }}</a>
+                                {% endif %}
+                            {% else %}
+                                <span class="ellipsis">…</span>
+                            {% endif %}
+                        {% endfor %}
+
+                        <!-- Next Link -->
+                        {% if complaints_pagination.has_next %}
+                            <a href="{{ url_for('admin_dashboard', page=complaints_pagination.next_num, q=q or '', view='complaints') }}">Next &raquo;</a>
+                        {% else %}
+                            <span class="disabled">Next &raquo;</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
                 </section>
             </div>
         </main>
     </div>
 
+    <!-- Lightbox Modals for Charts -->
     <div id="lightbox-status" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['status']) }}" alt="status chart full"></div>
     <div id="lightbox-department" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['department']) }}" alt="department chart full"></div>
     <div id="lightbox-pincode" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart full"></div>
@@ -215,6 +358,7 @@
     <div id="lightbox-district" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district full"></div>
     <div id="lightbox-deptstatus" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status full"></div>
 
+    <!-- Chatbot Widget -->
     <div class="chat-widget">
         <div class="chat-window" id="chat-window">
             <div class="chat-header">Saity</div>
@@ -233,8 +377,9 @@
         </button>
     </div>
 
+    <!-- Scripts -->
     <script>
-        // --- Navigation Script ---
+        // --- Navigation & State Management Script ---
         function showContent(sectionId, element) {
             document.querySelectorAll('.content-section').forEach(section => {
                 section.style.display = 'none';
@@ -242,20 +387,55 @@
             document.getElementById(sectionId).style.display = 'block';
 
             const headerTitle = document.getElementById('header-title');
-            if (sectionId === 'dashboard-content') {
-                headerTitle.innerHTML = '<i class="fas fa-tachometer-alt"></i> <span data-translate="ad_dashboard">Dashboard</span>';
-            } else {
-                headerTitle.innerHTML = '<i class="fas fa-list"></i> <span data-translate="ad_all_complaints">All Complaints</span>';
-            }
-
             document.querySelectorAll('.admin-sidebar a').forEach(link => {
                 link.classList.remove('active');
             });
             element.classList.add('active');
+
+            let newUrl;
+            let newTitle;
+
+            if (sectionId === 'dashboard-content') {
+                headerTitle.innerHTML = '<i class="fas fa-tachometer-alt"></i> <span data-translate="ad_dashboard">Dashboard</span>';
+                newUrl = "{{ url_for('admin_dashboard') }}";
+                newTitle = 'Admin Dashboard';
+            } else { // complaints-content
+                headerTitle.innerHTML = '<i class="fas fa-list"></i> <span data-translate="ad_all_complaints">All Complaints</span>';
+                newUrl = "{{ url_for('admin_dashboard', view='complaints') }}";
+                newTitle = 'Admin Complaints';
+            }
+
+            // Update URL only if it's different to avoid pushing duplicate history states
+            if (window.location.href !== new URL(newUrl, window.location.origin).href) {
+                history.pushState({path: newUrl}, newTitle, newUrl);
+            }
         }
 
-        // --- Chatbot Script ---
         document.addEventListener('DOMContentLoaded', () => {
+            // This function reads the URL and sets the correct tab on page load
+            function handleURLState() {
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('view') === 'complaints') {
+                    const complaintsLink = document.getElementById('nav-complaints');
+                    if (complaintsLink) {
+                        showContent('complaints-content', complaintsLink);
+                    }
+                } else {
+                     const dashboardLink = document.getElementById('nav-dashboard');
+                     if(dashboardLink) {
+                        showContent('dashboard-content', dashboardLink);
+                     }
+                }
+            }
+            
+            // Set initial view when page loads
+            handleURLState();
+
+            // Add event listener for browser's back and forward buttons
+            window.addEventListener('popstate', handleURLState);
+
+
+            // --- Existing Chatbot Script ---
             const chatButton = document.getElementById('chat-button');
             const chatWindow = document.getElementById('chat-window');
             const chatBody = document.getElementById('chat-body');
@@ -347,3 +527,4 @@
 </body>
 
 </html>
+
