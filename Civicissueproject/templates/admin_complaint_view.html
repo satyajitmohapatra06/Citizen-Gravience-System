@@ -47,24 +47,36 @@
             align-items: flex-start;
         }
 
-        .details-card, .action-card {
+        /* --- NEW: Grid container for detail boxes --- */
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        /* --- NEW: Style for individual detail boxes --- */
+        .detail-box {
             background: #fff;
-            padding: 2rem;
+            padding: 1.5rem 2rem;
             border-radius: 16px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             border: 1px solid #e3e6f0;
         }
         
-        .details-card h3, .details-card h4 {
+        .detail-box.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .detail-box h4 {
             color: #343a40;
             border-bottom: 1px solid #f1f3f5;
             padding-bottom: 0.75rem;
-            margin-top: 1.5rem;
+            margin-top: 0;
             margin-bottom: 1rem;
             font-weight: 600;
-        }
-        .details-card h3:first-child {
-            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
         
         .details-list {
@@ -86,6 +98,11 @@
         }
 
         .action-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e3e6f0;
             position: sticky;
             top: 2rem;
             border-top: 4px solid #4e73df;
@@ -162,7 +179,7 @@
         }
 
         @media (max-width: 992px) {
-            .content-layout {
+            .content-layout, .details-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -202,75 +219,87 @@
         <!-- Main Content Grid -->
         <main class="content-layout">
 
-            <!-- Left Column: Complaint Details -->
-            <section class="details-card">
-                <h3>Complaint Details</h3>
-                <div class="details-list">
-                    <div><strong>Status:</strong> <span class="pill {{ (complaint.status or 'Pending')|lower|replace(' ', '-') }}">{{ complaint.status or 'Pending' }}</span></div>
-                    <div><strong>Department:</strong> {{ complaint.department }}</div>
-                    <div><strong>Last Updated:</strong> {{ complaint.updated_at | datetimeformat if complaint.updated_at else 'N/A' }}</div>
-                    <div><strong>Complaint Text:</strong><br/> {{ complaint.complaint }}</div>
+            <!-- Left Column: Details Grid -->
+            <section class="details-grid">
+                <!-- Complaint Details Box -->
+                <div class="detail-box">
+                    <h4><i class="fas fa-info-circle"></i> Complaint Details</h4>
+                    <div class="details-list">
+                        <div><strong>Status:</strong> <span class="pill {{ (complaint.status or 'Pending')|lower|replace(' ', '-') }}">{{ complaint.status or 'Pending' }}</span></div>
+                        <div><strong>Department:</strong> {{ complaint.department }}</div>
+                        <div><strong>Last Updated:</strong> {{ complaint.updated_at | datetimeformat if complaint.updated_at else 'N/A' }}</div>
+                        <div><strong>Complaint Text:</strong><br/> {{ complaint.complaint }}</div>
+                    </div>
                 </div>
 
-                <h4>Reporter Information</h4>
-                <div class="details-list">
-                    <div><strong>User Account Phone:</strong> {{ complaint.user_phone }}</div>
-                    <div><strong>Reporter Name:</strong> {{ complaint.name }}</div>
-                    <div><strong>Contact Phone:</strong> {{ complaint.phone }}</div>
+                <!-- Reporter Info Box -->
+                <div class="detail-box">
+                    <h4><i class="fas fa-user-circle"></i> Reporter Information</h4>
+                    <div class="details-list">
+                        <div><strong>User Account Phone:</strong> {{ complaint.user_phone }}</div>
+                        <div><strong>Reporter Name:</strong> {{ complaint.name }}</div>
+                        <div><strong>Contact Phone:</strong> {{ complaint.phone }}</div>
+                    </div>
                 </div>
                 
-                <h4>Location Details</h4>
-                <div class="details-list">
-                    <div><strong>District:</strong> {{ complaint.district }}</div>
-                    <div><strong>Block:</strong> {{ complaint.block }}</div>
-                    <div><strong>Gram Panchayat (GP):</strong> {{ complaint.gp }}</div>
-                    <div><strong>Village:</strong> {{ complaint.village }}</div>
-                    <div><strong>Landmark:</strong> {{ complaint.landmark }}</div>
-                    <div><strong>Pincode:</strong> {{ complaint.pincode }}</div>
+                <!-- Location Details Box -->
+                <div class="detail-box full-width">
+                    <h4><i class="fas fa-map-marker-alt"></i> Location Details</h4>
+                    <div class="details-list" style="grid-template-columns: 1fr 1fr;">
+                        <div><strong>District:</strong> {{ complaint.district }}</div>
+                        <div><strong>Block:</strong> {{ complaint.block }}</div>
+                        <div><strong>Gram Panchayat (GP):</strong> {{ complaint.gp }}</div>
+                        <div><strong>Village:</strong> {{ complaint.village }}</div>
+                        <div><strong>Landmark:</strong> {{ complaint.landmark }}</div>
+                        <div><strong>Pincode:</strong> {{ complaint.pincode }}</div>
+                    </div>
                 </div>
 
-                <h4>Attached Evidence</h4>
-                <div class="details-list">
-                    <div>
-                        <strong>Proof (Image/Video):</strong>
-                        {% if complaint.proof %}
-                            {% set proof_lower = complaint.proof|lower %}
-                            {% if proof_lower.endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')) %}
-                                <a href="{{ url_for('static', filename='uploads/' + complaint.proof) }}" target="_blank">
-                                    <img src="{{ url_for('static', filename='uploads/' + complaint.proof) }}" alt="User Proof" class="proof-image">
-                                </a>
+                <!-- Evidence Box -->
+                <div class="detail-box full-width">
+                    <h4><i class="fas fa-paperclip"></i> Attached Evidence</h4>
+                    <div class="details-list">
+                        <div>
+                            <strong>Proof (Image/Video):</strong>
+                            {% if complaint.proof %}
+                                {% set proof_lower = complaint.proof|lower %}
+                                {% if proof_lower.endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')) %}
+                                    <a href="{{ url_for('static', filename='uploads/' + complaint.proof) }}" target="_blank">
+                                        <img src="{{ url_for('static', filename='uploads/' + complaint.proof) }}" alt="User Proof" class="proof-image">
+                                    </a>
+                                {% else %}
+                                     <a href="{{ url_for('static', filename='uploads/' + complaint.proof) }}" target="_blank" data-translate="acv_view_proof">View Proof File</a>
+                                {% endif %}
                             {% else %}
-                                 <a href="{{ url_for('static', filename='uploads/' + complaint.proof) }}" target="_blank" data-translate="acv_view_proof">View Proof File</a>
+                                <span data-translate="none_provided">None provided</span>
                             {% endif %}
-                        {% else %}
-                            <span data-translate="none_provided">None provided</span>
-                        {% endif %}
-                    </div>
-                    <div>
-                        <strong>Audio Description:</strong>
-                        {% if complaint.voice_proof %}
-                        <audio controls style="width: 100%; margin-top: 8px;">
-                            <source src="{{ url_for('static', filename='uploads/' + complaint.voice_proof) }}" type="audio/webm">
-                            <span data-translate="audio_not_supported">Your browser does not support the audio element.</span>
-                        </audio>
-                        {% else %}
-                            <span data-translate="none_provided">None provided</span>
-                        {% endif %}
-                    </div>
-                    <div>
-                        <strong>Admin Proof:</strong>
-                        {% if complaint.admin_proof %}
-                            {% set admin_proof_lower = complaint.admin_proof|lower %}
-                            {% if admin_proof_lower.endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')) %}
-                                 <a href="{{ url_for('static', filename='admin_proofs/' + complaint.admin_proof) }}" target="_blank">
-                                    <img src="{{ url_for('static', filename='admin_proofs/' + complaint.admin_proof) }}" alt="Admin Proof" class="proof-image">
-                                </a>
+                        </div>
+                        <div>
+                            <strong>Audio Description:</strong>
+                            {% if complaint.voice_proof %}
+                            <audio controls style="width: 100%; margin-top: 8px;">
+                                <source src="{{ url_for('static', filename='uploads/' + complaint.voice_proof) }}" type="audio/webm">
+                                <span data-translate="audio_not_supported">Your browser does not support the audio element.</span>
+                            </audio>
                             {% else %}
-                                <a href="{{ url_for('static', filename='admin_proofs/' + complaint.admin_proof) }}" target="_blank" data-translate="acv_view_resolution_proof">View Resolution Proof File</a>
+                                <span data-translate="none_provided">None provided</span>
                             {% endif %}
-                        {% else %}
-                            <span data-translate="none_provided">None provided</span>
-                        {% endif %}
+                        </div>
+                        <div>
+                            <strong>Admin Proof:</strong>
+                            {% if complaint.admin_proof %}
+                                {% set admin_proof_lower = complaint.admin_proof|lower %}
+                                {% if admin_proof_lower.endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')) %}
+                                     <a href="{{ url_for('static', filename='admin_proofs/' + complaint.admin_proof) }}" target="_blank">
+                                        <img src="{{ url_for('static', filename='admin_proofs/' + complaint.admin_proof) }}" alt="Admin Proof" class="proof-image">
+                                    </a>
+                                {% else %}
+                                    <a href="{{ url_for('static', filename='admin_proofs/' + complaint.admin_proof) }}" target="_blank" data-translate="acv_view_resolution_proof">View Resolution Proof File</a>
+                                {% endif %}
+                            {% else %}
+                                <span data-translate="none_provided">None provided</span>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </section>
