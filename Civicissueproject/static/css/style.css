@@ -1301,3 +1301,191 @@ copyright {
     color: var(--dark-text); /* Dark text for dropdown options */
     background-color: var(--white);
 }
+
+/* ==========================================================================
+   MOBILE RESPONSIVENESS (Add this block to the end of your CSS file)
+   ========================================================================== */
+
+/* Style for the new hamburger menu button */
+.menu-toggle {
+    display: none; /* Hidden by default on desktop */
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+    z-index: 1002;
+}
+
+/* --------------------
+   Tablets (<= 992px)
+   -------------------- */
+@media (max-width: 992px) {
+    .hero {
+        text-align: center;
+        padding-top: 100px;
+    }
+    .hero .container {
+        flex-direction: column;
+        justify-content: center;
+    }
+    .hero-content {
+        margin-bottom: 40px;
+    }
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    .hero-image {
+        position: static;
+        max-width: 400px;
+        animation: none;
+    }
+    .hero-image img {
+        width: 100%;
+        height: auto;
+    }
+    .steps {
+        flex-direction: column;
+        gap: 40px;
+        align-items: center;
+    }
+    .steps-connector {
+        display: none;
+    }
+}
+
+/* --------------------
+   Mobile (<= 768px)
+   -------------------- */
+@media (max-width: 768px) {
+    /* --- Navigation Menu --- */
+    .menu-toggle {
+        display: block; /* Show the hamburger button */
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Start off-screen */
+        width: 100%;
+        height: 100vh;
+        background-color: var(--primary-skyblue);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        transition: right 0.4s ease-in-out;
+        padding: 0;
+        z-index: 1001;
+    }
+    .nav-links.active {
+        right: 0; /* Slide into view */
+    }
+    
+    .nav-links li {
+        width: 100%;
+        text-align: center;
+    }
+    .nav-links a {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .dropdown-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .login-btn {
+        margin: 0;
+    }
+    .dropdown {
+        position: static;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        box-shadow: none;
+        background: transparent;
+        min-width: unset;
+        text-align: center;
+        margin-top: 10px;
+    }
+    .dropdown li a {
+        padding: 10px 0;
+        color: var(--white);
+        font-size: 1.2rem;
+    }
+    .dropdown li a:hover {
+        background: none;
+        color: var(--accent-orange);
+    }
+    .logo {
+        z-index: 1002; /* Keep logo above mobile menu */
+    }
+
+    /* --- Layouts & Typography --- */
+    section {
+        padding: 60px 0;
+    }
+
+    .section-title {
+        text-align: center;
+    }
+    .section-title h2 {
+        font-size: 2rem;
+    }
+    .section-title h2:after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .hero {
+        padding-top: 120px;
+        min-height: auto;
+    }
+    .hero h1 {
+        font-size: 2rem;
+    }
+    .hero p {
+        font-size: 1rem;
+    }
+    .hero-image {
+        max-width: 300px;
+    }
+    
+    .categories-grid,
+    .testimonials-grid,
+    .awareness-list {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* --- Chatbot --- */
+    .chat-widget {
+        width: 90vw;
+        max-height: 70vh;
+    }
+}
+
+/* --------------------
+   Small Mobiles (<= 480px)
+   -------------------- */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    .btn {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+    }
+    .hero-image {
+        max-width: 250px;
+    }
+}

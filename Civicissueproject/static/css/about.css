@@ -197,3 +197,45 @@ body {
   0% { opacity: 0; transform: translateY(40px); }
   100% { opacity: 1; transform: translateY(0); }
 }
+/* ============================
+   MOBILE RESPONSIVENESS
+   ============================ */
+
+@media (max-width: 768px) {
+    /* Adjust header padding and logo size for smaller screens */
+    .header {
+        padding: 60px 20px 30px;
+    }
+
+    .logo img {
+        width: 160px;
+    }
+
+    .logo h1 {
+        font-size: 24px;
+    }
+
+    /* Reduce main heading sizes */
+    .about h2, .team h2, .contact h2 {
+        font-size: 22px;
+    }
+    
+    /* Make team cards stack vertically and use more screen width */
+    .team-card {
+        width: 90%;
+        max-width: 320px;
+    }
+
+    /* Adjust padding on sections */
+    .about, .team, .contact {
+        padding: 40px 20px;
+    }
+
+    /* Adjust home button position and size on small screens */
+    .home-btn {
+        top: 10px;
+        left: 10px;
+        padding: 8px 14px;
+        font-size: 14px;
+    }
+}

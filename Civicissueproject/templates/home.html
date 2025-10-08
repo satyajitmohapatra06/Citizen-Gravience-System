@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-translate="home_title">CityZen - Government Civic Issue Reporting Platform</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
@@ -22,7 +24,11 @@
                 <span>CityZen</span>
             </div>
 
-            <ul class="nav-links">
+            <button class="menu-toggle" id="menu-toggle" aria-label="Open navigation menu">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-links" id="nav-links">
                 <li><a href="/"><span data-translate="nav_home">Home</span></a></li>
                 <li><a href="/report"><span data-translate="nav_report">Report</span></a></li>
                 <li><a href="/community"><span data-translate="nav_community">Community</span></a></li>
@@ -69,7 +75,8 @@
         <div class="container">
             <div class="hero-content">
                 <h1 data-translate="hero_title">Turning Complaints into Data, and Data into Solutions</h1>
-                <p data-translate="hero_subtitle">Quick reporting that takes only a few taps. Get instant updates and real change.</p>
+                <p data-translate="hero_subtitle">Quick reporting that takes only a few taps. Get instant updates and
+                    real change.</p>
                 <a href="/report" class="btn" data-translate="hero_report_btn">Report an Issue</a>
             </div>
         </div>
@@ -90,32 +97,38 @@
                 <div class="category-card">
                     <div class="category-icon"><i class="fas fa-road"></i></div>
                     <h3 data-translate="cat_roads_title">Roads & Infrastructure</h3>
-                    <p data-translate="cat_roads_desc">Report potholes, damaged roads, street light issues, and other infrastructure problems.</p>
+                    <p data-translate="cat_roads_desc">Report potholes, damaged roads, street light issues, and other
+                        infrastructure problems.</p>
                 </div>
                 <div class="category-card">
                     <div class="category-icon"><i class="fas fa-trash-alt"></i></div>
                     <h3 data-translate="cat_sanitation_title">Sanitation</h3>
-                    <p data-translate="cat_sanitation_desc">Report garbage collection issues, overflowing bins, and sanitation concerns in your area.</p>
+                    <p data-translate="cat_sanitation_desc">Report garbage collection issues, overflowing bins, and
+                        sanitation concerns in your area.</p>
                 </div>
                 <div class="category-card">
                     <div class="category-icon"><i class="fas fa-shield-alt"></i></div>
                     <h3 data-translate="cat_safety_title">Public Safety</h3>
-                    <p data-translate="cat_safety_desc">Report safety hazards, broken public equipment, and other security concerns.</p>
+                    <p data-translate="cat_safety_desc">Report safety hazards, broken public equipment, and other
+                        security concerns.</p>
                 </div>
                 <div class="category-card">
                     <div class="category-icon"><i class="fas fa-leaf"></i></div>
                     <h3 data-translate="cat_env_title">Environment</h3>
-                    <p data-translate="cat_env_desc">Report pollution, tree maintenance, water logging, and other environmental issues.</p>
+                    <p data-translate="cat_env_desc">Report pollution, tree maintenance, water logging, and other
+                        environmental issues.</p>
                 </div>
                 <div class="category-card">
                     <div class="category-icon"><i class="fas fa-hospital"></i></div>
                     <h3 data-translate="cat_health_title">Healthcare</h3>
-                    <p data-translate="cat_health_desc">Report public health concerns, clinic issues, and sanitation problems in healthcare facilities.</p>
+                    <p data-translate="cat_health_desc">Report public health concerns, clinic issues, and sanitation
+                        problems in healthcare facilities.</p>
                 </div>
                 <div class="category-card">
                     <div class="category-icon"><i class="fas fa-school"></i></div>
                     <h3 data-translate="cat_edu_title">Education</h3>
-                    <p data-translate="cat_edu_desc">Report issues with public schools, educational resources, and related infrastructure.</p>
+                    <p data-translate="cat_edu_desc">Report issues with public schools, educational resources, and
+                        related infrastructure.</p>
                 </div>
             </div>
         </div>
@@ -138,7 +151,8 @@
                 <div class="step">
                     <div class="step-number">2</div>
                     <h3 data-translate="step2_title">Report Online</h3>
-                    <p data-translate="step2_desc">Use our platform to submit a detailed report with photos and location.</p>
+                    <p data-translate="step2_desc">Use our platform to submit a detailed report with photos and
+                        location.</p>
                 </div>
                 <div class="step">
                     <div class="step-number">3</div>
@@ -165,13 +179,18 @@
                 <h2 data-translate="team_msg_title">🏙 Together for a Better City</h2>
             </div>
             <div class="message-box">
-                <p data-translate="team_msg_p1">Every day we see problems around us — overflowing garbage bins, potholes, broken streetlights, unsafe roads, water issues. Too often, we just shake our heads and move on, waiting for “someone” to fix them.</p>
-                <p data-translate="team_msg_p2"><strong>But here’s the truth:</strong> change begins with us. The government cannot solve problems it doesn’t know about. By reporting civic issues, you give authorities the power to act faster and more effectively.</p>
+                <p data-translate="team_msg_p1">Every day we see problems around us — overflowing garbage bins,
+                    potholes, broken streetlights, unsafe roads, water issues. Too often, we just shake our heads and
+                    move on, waiting for “someone” to fix them.</p>
+                <p data-translate="team_msg_p2"><strong>But here’s the truth:</strong> change begins with us. The
+                    government cannot solve problems it doesn’t know about. By reporting civic issues, you give
+                    authorities the power to act faster and more effectively.</p>
                 <h3 data-translate="why_report_title">📢 Why Report?</h3>
                 <ul>
                     <li data-translate="why_report_li1">✔ Ensure your complaint reaches the right department.</li>
                     <li data-translate="why_report_li2">✔ Speed up problem-solving in your neighborhood.</li>
-                    <li data-translate="why_report_li3">✔ Build a stronger connection between citizens and government.</li>
+                    <li data-translate="why_report_li3">✔ Build a stronger connection between citizens and government.
+                    </li>
                 </ul>
                 <h3 data-translate="responsibility_title">🌱 Our Shared Responsibility</h3>
                 <ul>
@@ -180,7 +199,8 @@
                     <li data-translate="resp_li3">✔ Take part in community efforts</li>
                     <li data-translate="resp_li4">✔ Inspire others to take responsibility</li>
                 </ul>
-                <p class="highlight" data-translate="team_msg_highlight">✨ This platform is your voice. Use it. Report issues. Take action. Together, we create the city we dream of.</p>
+                <p class="highlight" data-translate="team_msg_highlight">✨ This platform is your voice. Use it. Report
+                    issues. Take action. Together, we create the city we dream of.</p>
                 <div class="hashtags">#ReportToRepair #MyCityMyDuty #BeTheChange</div>
             </div>
         </div>
@@ -193,48 +213,58 @@
         <div class="container">
             <div class="section-title">
                 <h2 data-translate="awareness_title">Civic Awareness</h2>
-                <p data-translate="awareness_subtitle">Awareness builds responsibility. Let’s work together to create cleaner, safer, and stronger communities.</p>
+                <p data-translate="awareness_subtitle">Awareness builds responsibility. Let’s work together to create
+                    cleaner, safer, and stronger communities.</p>
             </div>
             <div class="awareness-list">
                 <div class="awareness-item">
                     <div class="icon">🗑</div>
                     <h3 data-translate="aware_clean_title">Cleanliness is Everyone’s Duty</h3>
-                    <p data-translate="aware_clean_desc">A clean city starts with clean habits. Dispose of waste responsibly. Do not litter. Your small act keeps your community healthy.</p>
+                    <p data-translate="aware_clean_desc">A clean city starts with clean habits. Dispose of waste
+                        responsibly. Do not litter. Your small act keeps your community healthy.</p>
                 </div>
                 <div class="awareness-item">
                     <div class="icon">🚦</div>
                     <h3 data-translate="aware_traffic_title">Road & Traffic Discipline</h3>
-                    <p data-translate="aware_traffic_desc">Obey traffic rules. Don’t block roads. Report broken signals or dangerous spots. Safe roads save lives.</p>
+                    <p data-translate="aware_traffic_desc">Obey traffic rules. Don’t block roads. Report broken signals
+                        or dangerous spots. Safe roads save lives.</p>
                 </div>
                 <div class="awareness-item">
                     <div class="icon">💧</div>
                     <h3 data-translate="aware_water_title">Water Conservation</h3>
-                    <p data-translate="aware_water_desc">Every drop counts. Fix leaks, avoid wastage, and report water supply issues. Conserving today secures tomorrow.</p>
+                    <p data-translate="aware_water_desc">Every drop counts. Fix leaks, avoid wastage, and report water
+                        supply issues. Conserving today secures tomorrow.</p>
                 </div>
                 <div class="awareness-item">
                     <div class="icon">🌳</div>
                     <h3 data-translate="aware_public_title">Protecting Public Spaces</h3>
-                    <p data-translate="aware_public_desc">Parks, footpaths, and public facilities belong to everyone. Respect and protect them—it’s your right and your responsibility.</p>
+                    <p data-translate="aware_public_desc">Parks, footpaths, and public facilities belong to everyone.
+                        Respect and protect them—it’s your right and your responsibility.</p>
                 </div>
                 <div class="awareness-item">
                     <div class="icon">♻</div>
                     <h3 data-translate="aware_recycle_title">Reduce, Reuse, Recycle</h3>
-                    <p data-translate="aware_recycle_desc">Waste less, recycle more. The less we throw, the more we save—for our environment and our future.</p>
+                    <p data-translate="aware_recycle_desc">Waste less, recycle more. The less we throw, the more we
+                        save—for our environment and our future.</p>
                 </div>
                 <div class="awareness-item">
                     <div class="icon">💡</div>
                     <h3 data-translate="aware_citizenship_title">Active Citizenship</h3>
-                    <p data-translate="aware_citizenship_desc">Don’t just wait for change—be part of it. Report civic issues, join local initiatives, and inspire others to act.</p>
+                    <p data-translate="aware_citizenship_desc">Don’t just wait for change—be part of it. Report civic
+                        issues, join local initiatives, and inspire others to act.</p>
                 </div>
                 <div class="awareness-item">
                     <div class="icon">🔒</div>
                     <h3 data-translate="aware_safety_title">Safety & Security</h3>
-                    <p data-translate="aware_safety_desc">If you see something unsafe—whether it’s a broken streetlight, open manhole, or suspicious activity—report it immediately. A safe city is a shared responsibility.</p>
+                    <p data-translate="aware_safety_desc">If you see something unsafe—whether it’s a broken streetlight,
+                        open manhole, or suspicious activity—report it immediately. A safe city is a shared
+                        responsibility.</p>
                 </div>
                 <div class="awareness-item">
                     <div class="icon">🏘</div>
                     <h3 data-translate="aware_community_title">Community First</h3>
-                    <p data-translate="aware_community_desc">Strong communities are built when citizens care for each other. Encourage neighbors to participate in solving local issues.</p>
+                    <p data-translate="aware_community_desc">Strong communities are built when citizens care for each
+                        other. Encourage neighbors to participate in solving local issues.</p>
                 </div>
             </div>
         </div>
@@ -251,7 +281,8 @@
             <div class="testimonials-grid">
                 <div class="testimonial-card">
                     <div class="testimonial-content">
-                        <p data-translate="testimonial1_text">"I reported a large pothole on my street and it was fixed within 3 days! This platform really works."</p>
+                        <p data-translate="testimonial1_text">"I reported a large pothole on my street and it was fixed
+                            within 3 days! This platform really works."</p>
                     </div>
                     <div class="testimonial-author">
                         <div class="author-image"><i class="fas fa-user"></i></div>
@@ -263,7 +294,8 @@
                 </div>
                 <div class="testimonial-card">
                     <div class="testimonial-content">
-                        <p data-translate="testimonial2_text">"The sanitation issue in our area was resolved quickly after I reported it. Great service for citizens!"</p>
+                        <p data-translate="testimonial2_text">"The sanitation issue in our area was resolved quickly
+                            after I reported it. Great service for citizens!"</p>
                     </div>
                     <div class="testimonial-author">
                         <div class="author-image"><i class="fas fa-user"></i></div>
@@ -275,7 +307,8 @@
                 </div>
                 <div class="testimonial-card">
                     <div class="testimonial-content">
-                        <p data-translate="testimonial3_text">"I love how I can track the progress of my reports. It makes me feel involved in the process."</p>
+                        <p data-translate="testimonial3_text">"I love how I can track the progress of my reports. It
+                            makes me feel involved in the process."</p>
                     </div>
                     <div class="testimonial-author">
                         <div class="author-image"><i class="fas fa-user"></i></div>
@@ -304,7 +337,8 @@
                 </div>
             </div>
             <div class="copyright">
-                <p data-translate="footer_copyright_home">&copy; 2023 CityZen - Government Civic Issue Reporting Platform. All rights reserved.</p>
+                <p data-translate="footer_copyright_home">&copy; 2023 CityZen - Government Civic Issue Reporting
+                    Platform. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -320,8 +354,9 @@
             </div>
             <div class="chat-messages" id="chat-messages"></div>
             <div class="chat-input-area">
-                <input type="text" id="chat-input" placeholder="Type your message..." data-translate-placeholder="chat_placeholder">
-                <button id="chat-send-btn"><i class="fas fa-paper-plane"></i></button> 
+                <input type="text" id="chat-input" placeholder="Type your message..."
+                    data-translate-placeholder="chat_placeholder">
+                <button id="chat-send-btn"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
         <button class="chat-fab" id="chat-fab">
@@ -333,6 +368,29 @@
          SCRIPTS
     =============================== -->
     <script>
+        // --- SCRIPT FOR MOBILE MENU ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const navLinks = document.getElementById('nav-links');
+
+            if (menuToggle) {
+                menuToggle.addEventListener('click', () => {
+                    navLinks.classList.toggle('active');
+                    // Optional: Change icon from burger to 'X' for better UX
+                    const icon = menuToggle.querySelector('i');
+                    if (navLinks.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                        menuToggle.setAttribute('aria-label', 'Close navigation menu');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                        menuToggle.setAttribute('aria-label', 'Open navigation menu');
+                    }
+                });
+            }
+        });
+        //script for chatbot 
         document.addEventListener('DOMContentLoaded', () => {
             const chatFab = document.getElementById('chat-fab');
             const chatWidget = document.getElementById('chat-widget');
@@ -448,4 +506,3 @@
 </body>
 
 </html>
-
