@@ -1,382 +1,363 @@
-/* ========= RESET ========= */
+/*
+  ==================================
+  Modern Login Page CSS for CityZen
+  ==================================
+  - Author: Gemini
+  - Date: October 8, 2025
+  - Description: A clean, responsive, and animated login form style.
+*/
+
+/* ========= GLOBAL RESET & FONT ========= */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Inter", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", "Inter", Arial, sans-serif;
 }
 
-/* ========= BODY ========= */
+/* ========= BODY & LAYOUT ========= */
 body {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #e0f3ff, #f8fbff);
-  overflow: hidden;
-  position: relative;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f0f7ff, #e6f2ff);
+    overflow: hidden; /* Prevents scrollbars from background shapes */
+    position: relative;
+    padding: 20px;
 }
 
-/* ========= BACKGROUND BLOBS ========= */
+/* ========= DECORATIVE BACKGROUND SHAPES ========= */
 .bg-shape {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.3;
-  filter: blur(70px);
-  animation: float 8s ease-in-out infinite alternate;
-  z-index: 0;
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.4;
+    filter: blur(80px); /* Creates the soft, diffused look */
+    z-index: 0;
+    animation: float 10s ease-in-out infinite alternate;
 }
 
 .shape1 {
-  width: 350px;
-  height: 350px;
-  background: #170b85;
-  top: -100px;
-  left: -100px;
+    width: 380px;
+    height: 380px;
+    background: #170b85;
+    top: -120px;
+    left: -150px;
 }
+
 .shape2 {
-  width: 280px;
-  height: 280px;
-  background: #d4082a;
-  bottom: -120px;
-  right: -80px;
-  animation-delay: 2s;
+    width: 300px;
+    height: 300px;
+    background: #00aaff;
+    bottom: -100px;
+    right: -120px;
+    animation-delay: 2s; /* Stagger the animation */
 }
 
 /* ========= HOME BUTTON ========= */
 .home-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  background: linear-gradient(135deg, #170b85, #00d4ff);
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 30px;
-  font-weight: 600;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 15px;
-  box-shadow: 0 4px 14px rgba(0, 123, 255, 0.3);
-  transition: all 0.3s ease;
-  z-index: 1000;
-  animation: fadeDown 1s ease forwards;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: linear-gradient(135deg, #170b85, #007bff);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    animation: fadeInDown 0.8s ease forwards;
 }
+
 .home-btn:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.5);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4);
 }
+
 .home-icon {
-  font-size: 18px;
+    font-size: 1.2rem;
 }
 
-/* ========= LOGIN CONTAINER ========= */
+/* ========= MAIN LOGIN CONTAINER ========= */
 .container {
-  display: flex;
-  width: 850px;
-  max-width: 95%;
-  height: 540px;
-  background: #fff;
-  border-radius: 22px;
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
-  position: relative;
-  z-index: 1;
-  animation: scaleUp 0.9s ease forwards;
+    display: flex;
+    width: 900px;
+    max-width: 100%;
+    min-height: 550px; /* EDIT: Use min-height to allow container to grow */
+    height: auto;       /* EDIT: Allow height to fit content */
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    animation: scaleIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-/* ========= LEFT FORM ========= */
+/* ========= LEFT SIDE (FORM) ========= */
 .left {
-  width: 45%;
-  padding: 40px 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: linear-gradient(135deg, #f9fbff, #f0f7ff);
-  animation: fadeInLeft 1.2s ease forwards;
+    width: 48%;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.5);
+    animation: slideInLeft 1s ease forwards;
 }
 
 .left h2 {
-  font-size: 28px;
-  color: #170b85;
-  margin-bottom: 25px;
-}
-.left h2 span {
-  color: #444;
-  font-size: 18px;
-  font-weight: 500;
+    font-size: 2rem;
+    color: #170b85;
+    margin-bottom: 25px;
+    font-weight: 700;
+    min-height: 60px; /* Ensures space for wrapping text on smaller screens */
+    word-break: break-word; /* ADDED: Prevents long words from breaking layout */
 }
 
-/* INPUT GROUP */
+/* This is the fix for the "(User)" span */
+.left h2 span {
+    color: #555;
+    font-size: 1.2rem;
+    font-weight: 500;
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+/* FORM INPUTS */
 .input-group {
-  margin-bottom: 18px;
+    margin-bottom: 20px;
+    position: relative;
+    min-height: 95px; /* MODIFIED: Stabilizes form layout for long labels */
 }
+
 .input-group label {
-  display: block;
-  font-size: 14px;
-  color: #333;
-  margin-bottom: 6px;
+    display: block;
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 8px;
+    font-weight: 500;
+    word-break: break-word; /* ADDED: Allows long labels to wrap correctly */
 }
+
 .input-group input {
-  width: 100%;
-  padding: 12px;
-  border: 1.5px solid #ccc;
-  border-radius: 10px;
-  font-size: 14px;
-  transition: all 0.3s ease;
+    width: 100%;
+    padding: 14px;
+    border: 1.5px solid #dcdcdc;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #f9f9f9;
 }
+
 .input-group input:focus {
-  border-color: #170b85;
-  box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
-  outline: none;
+    border-color: #170b85;
+    box-shadow: 0 0 10px rgba(23, 11, 133, 0.15);
+    outline: none;
+    background: #fff;
 }
 
 /* CHECKBOX */
 .checkbox {
-  display: flex;
-  align-items: center;
-  margin: 12px 0 20px;
-  font-size: 14px;
+    display: flex;
+    align-items: center;
+    margin: 15px 0 25px;
+    font-size: 0.9rem;
+    color: #444;
 }
+
+.checkbox label {
+    word-break: break-word; /* ADDED: Ensures "Remember me" text wraps */
+}
+
 .checkbox input {
-  margin-right: 8px;
-  accent-color: #170b85;
-  transform: scale(1.2);
+    margin-right: 10px;
+    accent-color: #170b85;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0; /* Prevents checkbox from shrinking */
 }
 
 /* BUTTONS */
-.btn
- {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-bottom: 15px;
-  transition: all 0.3s ease;
-}
-
 .btn {
-  background: linear-gradient(135deg, #170b85, #00d4ff);
-  color: #fff;
-  border: none;
-  position: relative;
-  overflow: hidden;
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    border: none;
+    background: linear-gradient(135deg, #170b85, #007bff);
+    color: #fff;
 }
+
 .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(0, 123, 255, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 123, 255, 0.25);
 }
 
-/* .btn-outline {
-  background: transparent;
-  border: 2px solid #007bff;
-  color: #007bff;
-}
-.btn-outline:hover {
-  background: #007bff;
-  color: #fff;
-} */
-
-/* SIGNUP */
+/* SIGNUP LINK */
 .signup {
-  text-align: center;
-  font-size: 14px;
-  margin-top: 12px;
-}
-.signup a {
-  color: #007bff;
-  font-weight: 600;
-  text-decoration: none;
-  position: relative;
-}
-.signup a::after {
-  content: "";
-  width: 0%;
-  height: 2px;
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  background: #170b85;
-  transition: width 0.3s ease;
-}
-.signup a:hover::after {
-  width: 100%;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #555;
+    min-height: 3em; 
+    display: block; /* MODIFIED: Changed from flex to block for natural text wrapping */
+    word-break: break-word; /* ADDED: Ensures this text block wraps properly */
 }
 
-/* ========= RIGHT IMAGE ========= */
-.right {
-  flex: 1;
-  background: #f0f8ff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: fadeInRight 1.2s ease forwards;
+.signup a {
+    color: #007bff;
+    font-weight: 600;
+    text-decoration: none;
+    position: relative;
+    margin-left: 5px; /* Adds a little space before the link */
 }
+
+.signup a::after {
+    content: "";
+    width: 0%;
+    height: 2px;
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    background: #170b85;
+    transition: width 0.3s ease;
+}
+
+.signup a:hover::after {
+    width: 100%;
+}
+
+/* ========= RIGHT SIDE (IMAGE) ========= */
+.right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: slideInRight 1s ease forwards;
+}
+
 .right img {
-  max-width: 85%;
-  animation: float 6s ease-in-out infinite;
+    max-width: 80%;
+    height: auto;
+    animation: float 8s ease-in-out infinite;
 }
 
 /* ========= ANIMATIONS ========= */
 @keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
-  100% { transform: translateY(0); }
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
 }
-@keyframes fadeDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-@keyframes scaleUp {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+
+@keyframes scaleIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
-@keyframes fadeInLeft {
-  from { opacity: 0; transform: translateX(-40px); }
-  to { opacity: 1; transform: translateX(0); }
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-50px); }
+    to { opacity: 1; transform: translateX(0); }
 }
-@keyframes fadeInRight {
-  from { opacity: 0; transform: translateX(40px); }
-  to { opacity: 1; transform: translateX(0); }
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
 }
+
 /* ========= RESPONSIVENESS ========= */
 
-/* Tablets (≤1024px) */
-@media (max-width: 1024px) {
-  .container {
-    width: 95%;
-    height: auto;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 0;
-  }
+/* Tablets (<= 992px) */
+@media (max-width: 992px) {
+    .container {
+        flex-direction: column;
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+    }
 
-  .left, .right {
-    width: 100%;
-    height: auto;
-    padding: 30px 20px;
-  }
+    .left, .right {
+        width: 100%;
+    }
 
-  .left h2 {
-    text-align: center;
-  }
+    .right {
+        order: -1; /* Image appears first on smaller screens */
+        padding: 20px 0;
+        min-height: 250px;
+    }
+    
+    .right img {
+        max-width: 50%;
+    }
 
-  .right {
-    order: -1; /* image comes first */
-  }
-
-  .right img {
-    max-width: 65%;
-    margin: 0 auto 20px;
-  }
+    .left {
+        padding: 30px;
+    }
 }
 
-/* Mobile (≤768px) */
-@media (max-width: 768px) {
-  body {
-    padding: 20px;
-    align-items: flex-start;
-  }
+/* Mobile (<= 576px) */
+@media (max-width: 576px) {
+    body {
+        padding: 15px;
+        align-items: flex-start;
+        padding-top: 80px;
+    }
 
-  .container {
-    flex-direction: column;
-    width: 100%;
-    height: auto;
-    padding: 15px;
-  }
+    .container {
+        padding: 0;
+    }
 
-  .left {
-    width: 100%;
-    padding: 20px 15px;
-  }
+    .home-btn {
+        top: 15px;
+        left: 15px;
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
 
-  .left h2 {
-    font-size: 22px;
-    margin-bottom: 18px;
-  }
+    .left {
+        padding: 25px;
+    }
+    
+    .left h2 {
+        font-size: 1.6rem;
+        text-align: center;
+    }
 
-  .input-group input {
-    padding: 10px;
-    font-size: 13px;
-  }
+    .left h2 span {
+        font-size: 1rem;
+        display: block; /* Stack span below h2 on mobile */
+        margin-left: 0;
+        margin-top: 5px;
+    }
 
-  .btn {
-    font-size: 14px;
-    padding: 10px;
-  }
+    .right {
+        min-height: 200px;
+    }
 
-  .right img {
-    max-width: 70%;
-    margin: 0 auto 15px;
-  }
+    .right img {
+        max-width: 55%;
+    }
+
+    .btn, .input-group input {
+        padding: 12px;
+        font-size: 0.95rem;
+    }
 }
 
-/* Small Mobile (≤480px) */
-@media (max-width: 480px) {
-  .container {
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  }
-
-  .home-btn {
-    top: 10px;
-    left: 10px;
-    padding: 8px 14px;
-    font-size: 13px;
-  }
-
-  .left h2 {
-    font-size: 20px;
-  }
-
-  .input-group label {
-    font-size: 13px;
-  }
-
-  .checkbox {
-    font-size: 12px;
-  }
-
-  .btn {
-    font-size: 13px;
-    padding: 9px;
-  }
-
-  .right img {
-    max-width: 80%;
-  }
-}
-
-/* Large screens (≥1440px) */
-@media (min-width: 1440px) {
-  .container {
-    width: 70%;
-    height: 600px;
-  }
-
-  .left {
-    padding: 60px 50px;
-  }
-
-  .left h2 {
-    font-size: 32px;
-  }
-
-  .input-group input {
-    font-size: 16px;
-    padding: 14px;
-  }
-
-  .btn {
-    font-size: 16px;
-    padding: 14px;
-  }
-
-  .right img {
-    max-width: 90%;
-  }
-}

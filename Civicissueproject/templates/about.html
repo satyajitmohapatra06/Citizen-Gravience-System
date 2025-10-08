@@ -1,88 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Us - CityZen</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="about_title">About Us - CityZen</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
 </head>
+
 <body>
-  <!-- Animated background blobs -->
-  <div class="bg-shape shape1"></div>
-  <div class="bg-shape shape2"></div>
-  <!-- HOME BUTTON -->
-  <a href="/" class="home-btn">
-  <span class="home-icon">🏠</span> Home
-  </a>
+    <!-- Decorative background shapes -->
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
 
+    <!-- Home Button -->
+    <a href="/" class="home-btn">
+        <span class="home-icon">🏠</span> <span data-translate="home_button">Home</span>
+    </a>
 
+    <!-- Page Header -->
+    <header class="header">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/teamlogo.png') }}" alt="UpWorld Devs Team Logo">
+            <h1>UpWorld Devs</h1>
+        </div>
+    </header>
 
-  <!-- HEADER -->
-  <header class="header">
-    <div class="logo">
-      <img src="{{ url_for('static', filename='images/teamlogo.png') }}" alt="Team Logo">
-      <h1>UpWorld Devs</h1>
-    </div>
-  </header>
+    <main>
+        <!-- About Section -->
+        <section class="about">
+            <h2 data-translate="about_us_heading">About Us</h2>
+            <p data-translate="about_us_p">
+                We are a passionate team working on CityZen — a platform dedicated to empowering citizens
+                to report issues, track resolutions, and contribute towards better public services.
+            </p>
+        </section>
 
-  <!-- ABOUT SECTION -->
-  <section class="about">
-    <h2>About Us</h2>
-    <p>
-      We are a passionate team working on CityZen — a platform dedicated to empowering citizens 
-      to report issues, track resolutions, and contribute towards better public services.
-    </p>
-  </section>
+        <!-- Team Section -->
+        <section class="team">
+            <h2 data-translate="meet_team_heading">Meet Our Team</h2>
+            <div class="team-container">
+                <div class="team-card">
+                    <img src="{{ url_for('static', filename='images/1.png') }}" alt="Team Member T.Omkar">
+                    <h3>T.Omkar</h3>
+                    <p data-translate="role_frontend">Frontend Developer</p>
+                </div>
+                <div class="team-card">
+                    <img src="{{ url_for('static', filename='images/2.png') }}" alt="Team Member Satyajit Mohapatra">
+                    <h3>Satyajit Mohapatra</h3>
+                    <p data-translate="role_frontend">Frontend Developer</p>
+                </div>
+                <div class="team-card">
+                    <img src="{{ url_for('static', filename='images/3.png') }}" alt="Team Member Rudra Prasad Rout">
+                    <h3>Rudra Prasad Rout</h3>
+                    <p data-translate="role_team_lead">Team Leader</p>
+                    <p data-translate="role_backend">Backend Developer</p>
+                </div>
+                <div class="team-card">
+                    <img src="{{ url_for('static', filename='images/4.jpg') }}" alt="Team Member Abhisekh Das">
+                    <h3>Abhisekh Das</h3>
+                    <p data-translate="role_backend">Backend Developer</p>
+                </div>
+                <div class="team-card">
+                    <img src="https://randomuser.me/api/portraits/men/12.jpg" alt="Team Member Durga Prasad Dutta">
+                    <h3>Durga Prasad Dutta</h3>
+                    <p data-translate="role_ui_ux">UI/UX Designer</p>
+                </div>
+                <div class="team-card">
+                    <img src="{{ url_for('static', filename='images/6.png') }}" alt="Team Member Kasis Singh">
+                    <h3>Kasis Singh</h3>
+                    <p data-translate="role_ui_ux">UI/UX Designer</p>
+                </div>
+            </div>
+        </section>
 
-  <!-- TEAM MEMBERS -->
-  <section class="team">
-    <h2>Meet Our Team</h2>
-    <div class="team-container">
-      <div class="team-card">
-        <img src="static/images/1.png"  alt="Member">
-        <h3>T.Omkar</h3>
-        <p>Frontend Developer</p>
-      </div>
-      <div class="team-card">
-        <img src="static/images/2.png"  alt="Member">
-        <h3>Satyajit Mohapatra</h3>
-        <p>Frontend Developer</p>
-      </div>
-      <div class="team-card">
-        <img src="static/images/3.png"  alt="Member">
-        <h3>Rudra Prasad Rout</h3>
-        <p>Team Leader</p>
-        <p>Backend Developer</p>
-      </div>
-      <div class="team-card">
-        <img src="static/images/4.jpg" alt="Member">
-        <h3>Abhisekh Das</h3>
-        <p>Backend Developer</p>
-      </div>
-      <div class="team-card">
-        <img src="https://randomuser.me/api/portraits/men/12.jpg" alt="Member">
-        <h3>Durga Prasad Dutta</h3>
-        <p>UI/UX Designer</p>
-      </div>
-      <div class="team-card">
-        <img src="static/images/6.png"  alt="Member">
-        <h3>Kasis Singh</h3>
-        <p>UI/UX Designer</p>
-      </div>
-    </div>
-  </section>
+        <!-- Contact Section -->
+        <section class="contact">
+            <h2 data-translate="contact_us_heading">Contact Us</h2>
+            <p><span data-translate="contact_email">Email:</span> <a href="mailto:info@cityzen.com">info@cityzen.com</a></p>
+            <p><span data-translate="contact_phone">Phone:</span> +91 98765 43210</p>
+            <p><span data-translate="contact_location">Location:</span> Odisha, India</p>
+        </section>
+    </main>
 
-  <!-- CONTACT -->
-  <section class="contact">
-    <h2>Contact Us</h2>
-    <p>Email: <a href="mailto:info@cityzen.com">info@cityzen.com</a></p>
-    <p>Phone: +91 98765 43210</p>
-    <p>Location: Odisha, India</p>
-  </section>
+    <!-- Page Footer -->
+    <footer class="footer">
+        <p data-translate="footer_copyright">&copy; 2025 UpWorld Devs Team. All rights reserved.</p>
+    </footer>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <p>&copy; 2025 UpWorld Devs Team. All rights reserved.</p>
-  </footer>
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/translate.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
+
 </html>
+

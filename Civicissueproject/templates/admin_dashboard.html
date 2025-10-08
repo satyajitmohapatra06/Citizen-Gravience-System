@@ -2,12 +2,16 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <title>Admin Dashboard - Civic</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_styles.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="ad_title">Admin Dashboard - CityZen</title>
+
+    <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_styles.css') }}">
+
+    <!-- Inline Styles for Lightbox -->
     <style>
-        /* Fallback and lightbox styles from original file - no changes needed here */
         .chart-fallback {
             width: 100%;
             height: 300px;
@@ -59,60 +63,66 @@
 </head>
 
 <body>
+
+    <!-- Sidebar Navigation -->
     <nav class="admin-sidebar">
         <div class="sidebar-header">
-            <h3><i class="fas fa-shield-alt"></i> Civic Admin</h3>
+            <h3 data-translate="ad_civic_admin"><i class="fas fa-shield-alt"></i> CityZen Admin</h3>
         </div>
         <ul>
             <li>
                 <a href="#" id="nav-dashboard" class="active" onclick="showContent('dashboard-content', this)">
-                    <i class="fas fa-tachometer-alt fa-fw"></i> Dashboard
+                    <i class="fas fa-tachometer-alt fa-fw"></i> <span data-translate="ad_dashboard">Dashboard</span>
                 </a>
             </li>
             <li>
                 <a href="#" id="nav-complaints" onclick="showContent('complaints-content', this)">
-                    <i class="fas fa-list fa-fw"></i> Complaints
+                    <i class="fas fa-list fa-fw"></i> <span data-translate="ad_complaints">Complaints</span>
                 </a>
             </li>
         </ul>
         <div class="sidebar-footer">
-            <a class="btn" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a class="btn" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> <span data-translate="logout_button">Logout</span></a>
         </div>
     </nav>
+
+    <!-- Main Content Wrapper -->
     <div class="content-wrapper">
         <header class="admin-header">
             <div class="left">
-                <h1 id="header-title"><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
+                <h1 id="header-title"><i class="fas fa-tachometer-alt"></i> <span data-translate="ad_dashboard">Dashboard</span></h1>
             </div>
             <div class="right">
+                <!-- Language switcher can be placed here if needed -->
             </div>
         </header>
 
         <main class="admin-main">
+            <!-- Dashboard Section -->
             <div id="dashboard-content" class="content-section">
                 <section class="top-cards">
                     <div class="card metric">
-                        <div class="title">Total Complaints</div>
+                        <div class="title" data-translate="ad_total_complaints">Total Complaints</div>
                         <div class="value">{{ total }}</div>
                     </div>
                     <div class="card metric">
-                        <div class="title">Pending</div>
+                        <div class="title" data-translate="status_pending">Pending</div>
                         <div class="value">{{ by_status.get('Pending', 0) }}</div>
                     </div>
                     <div class="card metric">
-                        <div class="title">Resolved</div>
+                        <div class="title" data-translate="status_resolved">Resolved</div>
                         <div class="value">{{ by_status.get('Resolved', 0) }}</div>
                     </div>
                     <div class="card metric">
-                        <div class="title">Departments</div>
+                        <div class="title" data-translate="ad_departments">Departments</div>
                         <div class="value">{{ by_dept|length }}</div>
                     </div>
                 </section>
 
                 {% if alerts and alerts|length > 0 %}
                 <div id="pending-alert" class="admin-alert">
-                    <strong><i class="fas fa-exclamation-triangle"></i> Alert:</strong>
-                    There are <b>{{ alerts|length }}</b> complaints pending for more than 5 days.
+                    <strong><i class="fas fa-exclamation-triangle"></i> <span data-translate="ad_alert">Alert:</span></strong>
+                    There are <b>{{ alerts|length }}</b> <span data-translate="ad_alert_text">complaints pending for more than 5 days.</span>
                     <ul style="margin-top:8px;">
                         {% for a in alerts %}
                         <li>Complaint #{{ a[0] }} ({{ a[1] }} / {{ a[2] }}) - "{{ a[3][:50] }}..."</li>
@@ -124,97 +134,86 @@
 
                 <section class="charts">
                     <div class="chart-card">
-                        <h3><i class="fas fa-chart-bar"></i> By Status</h3>
+                        <h3 data-translate="ad_by_status"><i class="fas fa-chart-bar"></i> By Status</h3>
                         {% if charts['status'] %}
                         <a href="#lightbox-status">
-                            <img src="{{ url_for('static', filename=charts['status']) }}" alt="status chart"
-                                loading="lazy">
+                            <img src="{{ url_for('static', filename=charts['status']) }}" alt="status chart" loading="lazy">
                         </a>
                         {% else %}
-                        <div class="chart-fallback">No Status Chart Available</div>
+                        <div class="chart-fallback" data-translate="ad_no_status_chart">No Status Chart Available</div>
                         {% endif %}
                     </div>
-
                     <div class="chart-card">
-                        <h3><i class="fas fa-chart-pie"></i> By Department</h3>
+                        <h3 data-translate="ad_by_department"><i class="fas fa-chart-pie"></i> By Department</h3>
                         {% if charts['department'] %}
                         <a href="#lightbox-department">
-                            <img src="{{ url_for('static', filename=charts['department']) }}" alt="department chart"
-                                loading="lazy">
+                            <img src="{{ url_for('static', filename=charts['department']) }}" alt="department chart" loading="lazy">
                         </a>
                         {% else %}
-                        <div class="chart-fallback">No Department Chart Available</div>
+                        <div class="chart-fallback" data-translate="ad_no_dept_chart">No Department Chart Available</div>
                         {% endif %}
                     </div>
-
                     <div class="chart-card">
-                        <h3><i class="fas fa-map"></i> Top Pincodes</h3>
+                        <h3 data-translate="ad_top_pincodes"><i class="fas fa-map"></i> Top Pincodes</h3>
                         {% if charts['pincode'] %}
                         <a href="#lightbox-pincode">
-                            <img src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart"
-                                loading="lazy">
+                            <img src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart" loading="lazy">
                         </a>
                         {% else %}
-                        <div class="chart-fallback">No Pincode Chart Available</div>
+                        <div class="chart-fallback" data-translate="ad_no_pincode_chart">No Pincode Chart Available</div>
                         {% endif %}
                     </div>
-
                     <div class="chart-card">
-                        <h3><i class="fas fa-calendar-alt"></i> Complaints Over Time</h3>
+                        <h3 data-translate="ad_complaints_over_time"><i class="fas fa-calendar-alt"></i> Complaints Over Time</h3>
                         {% if charts['time'] %}
                         <a href="#lightbox-time">
-                            <img src="{{ url_for('static', filename=charts['time']) }}" alt="Complaints over time"
-                                loading="lazy">
+                            <img src="{{ url_for('static', filename=charts['time']) }}" alt="Complaints over time" loading="lazy">
                         </a>
                         {% else %}
-                        <div class="chart-fallback">No Time Chart Available</div>
+                        <div class="chart-fallback" data-translate="ad_no_time_chart">No Time Chart Available</div>
                         {% endif %}
                     </div>
-
                     <div class="chart-card">
-                        <h3><i class="fas fa-city"></i> Complaints by District</h3>
+                        <h3 data-translate="ad_by_district"><i class="fas fa-city"></i> Complaints by District</h3>
                         {% if charts['district'] %}
                         <a href="#lightbox-district">
-                            <img src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district"
-                                loading="lazy">
+                            <img src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district" loading="lazy">
                         </a>
                         {% else %}
-                        <div class="chart-fallback">No District Chart Available</div>
+                        <div class="chart-fallback" data-translate="ad_no_district_chart">No District Chart Available</div>
                         {% endif %}
                     </div>
-
                     <div class="chart-card">
-                        <h3><i class="fas fa-layer-group"></i> Dept vs Status</h3>
+                        <h3 data-translate="ad_dept_vs_status"><i class="fas fa-layer-group"></i> Dept vs Status</h3>
                         {% if charts['dept_status'] %}
                         <a href="#lightbox-deptstatus">
-                            <img src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status"
-                                loading="lazy">
+                            <img src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status" loading="lazy">
                         </a>
                         {% else %}
-                        <div class="chart-fallback">No Dept vs Status Chart Available</div>
+                        <div class="chart-fallback" data-translate="ad_no_dept_status_chart">No Dept vs Status Chart Available</div>
                         {% endif %}
                     </div>
-
-                    <div class="chart-card" style="width:100%;">
-                        <h3><i class="fas fa-map-marked-alt"></i> Odisha Pending Complaints Heatmap</h3>
+                    <div class="chart-card" style="grid-column: 1 / -1;">
+                        <h3 data-translate="ad_heatmap"><i class="fas fa-map-marked-alt"></i> Odisha Pending Complaints Heatmap</h3>
                         {% if charts['odisha_map'] %}
-                        <iframe src="{{ url_for('static', filename=charts['odisha_map']) }}" width="100%" height="400px"
-                            style="border:none;" loading="lazy"></iframe>
+                        <iframe src="{{ url_for('static', filename=charts['odisha_map']) }}" width="100%" height="400px" style="border:none;" loading="lazy"></iframe>
                         {% else %}
-                        <div class="chart-fallback">No Heatmap Available</div>
+                        <div class="chart-fallback" data-translate="ad_no_heatmap">No Heatmap Available</div>
                         {% endif %}
                     </div>
                 </section>
             </div>
+
+            <!-- Complaints Section -->
             <div id="complaints-content" class="content-section" style="display: none;">
                 <section class="complaints-table">
                     <div class="table-header">
-                        <h3><i class="fas fa-list"></i> All Complaints</h3>
+                        <h3 data-translate="ad_all_complaints"><i class="fas fa-list"></i> All Complaints</h3>
                         <form method="get" action="{{ url_for('admin_dashboard') }}" class="filter-form">
-                            <input type="text" name="q" placeholder="Search by phone / dept / pincode" />
-                            <button class="btn secondary"><i class="fas fa-search"></i></button>
+                            <input type="text" name="q" placeholder="Search by phone / dept / pincode" data-translate-placeholder="ad_search_placeholder" />
+                            <button type="submit" class="btn secondary"><i class="fas fa-search"></i></button>
                             <a href="{{ url_for('admin_features.export_complaints_csv') }}" class="btn btn-success">
-                                <i class="fas fa-download"></i> Export Complaints (CSV)
+                                <i class="fas fa-download"></i> <span data-translate="ad_export_csv">Export Complaints (CSV)</span>
                             </a>
                         </form>
                     </div>
@@ -222,33 +221,30 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>User</th>
-                                    <th>Dept</th>
-                                    <th>Village</th>
-                                    <th>Complaint</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <th data-translate="table_id">ID</th>
+                                    <th data-translate="table_user">User</th>
+                                    <th data-translate="table_dept">Dept</th>
+                                    <th data-translate="table_village">Village</th>
+                                    <th data-translate="table_complaint">Complaint</th>
+                                    <th data-translate="table_status">Status</th>
+                                    <th data-translate="table_action">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for row in complaints %}
                                 <tr>
                                     <td>{{ row[0] }}</td>
-                                    <td><a href="{{ url_for('admin_user_view', user_phone=row[1]) }}">{{ row[1] }}</a>
-                                    </td>
+                                    <td><a href="{{ url_for('admin_user_view', user_phone=row[1]) }}">{{ row[1] }}</a></td>
                                     <td>{{ row[10] }}</td>
                                     <td>{{ row[7] }}</td>
                                     <td class="truncate">
                                         {{ (row[11] or '')[:60] ~ ('...' if row[11] and row[11]|length > 60 else '') }}
                                     </td>
-                                    <td><span class="pill {{ (row[13] or 'Pending')|lower|replace(' ', '-') }}">{{
-                                            row[13]
-                                            or
-                                            'Pending' }}</span></td>
                                     <td>
-                                        <a class="btn small" href="{{ url_for('admin_complaint_view', cid=row[0]) }}"><i
-                                                class="fas fa-eye"></i> View</a>
+                                        <span class="pill {{ (row[13] or 'Pending')|lower|replace(' ', '-') }}">{{ row[13] or 'Pending' }}</span>
+                                    </td>
+                                    <td>
+                                        <a class="btn small" href="{{ url_for('admin_complaint_view', cid=row[0]) }}"><i class="fas fa-eye"></i> <span data-translate="view_button">View</span></a>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -259,168 +255,147 @@
             </div>
         </main>
     </div>
-    <div id="lightbox-status" class="lightbox"><a href="#" class="close">&times;</a><img
-            src="{{ url_for('static', filename=charts['status']) }}" alt="status chart full"></div>
-    <div id="lightbox-department" class="lightbox"><a href="#" class="close">&times;</a><img
-            src="{{ url_for('static', filename=charts['department']) }}" alt="department chart full"></div>
-    <div id="lightbox-pincode" class="lightbox"><a href="#" class="close">&times;</a><img
-            src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart full"></div>
-    <div id="lightbox-time" class="lightbox"><a href="#" class="close">&times;</a><img
-            src="{{ url_for('static', filename=charts['time']) }}" alt="Complaints over time full"></div>
-    <div id="lightbox-district" class="lightbox"><a href="#" class="close">&times;</a><img
-            src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district full"></div>
-    <div id="lightbox-deptstatus" class="lightbox"><a href="#" class="close">&times;</a><img
-            src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status full"></div>
 
-    <script>
-        function showContent(sectionId, element) {
-            // Hide all content sections
-            document.querySelectorAll('.content-section').forEach(function (section) {
-                section.style.display = 'none';
-            });
+    <!-- Lightbox Modals for Charts -->
+    <div id="lightbox-status" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['status']) }}" alt="status chart full"></div>
+    <div id="lightbox-department" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['department']) }}" alt="department chart full"></div>
+    <div id="lightbox-pincode" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart full"></div>
+    <div id="lightbox-time" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['time']) }}" alt="Complaints over time full"></div>
+    <div id="lightbox-district" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district full"></div>
+    <div id="lightbox-deptstatus" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status full"></div>
 
-            // Show the selected content section
-            document.getElementById(sectionId).style.display = 'block';
-
-            // Update the main header title
-            const headerTitle = document.getElementById('header-title');
-            if (sectionId === 'dashboard-content') {
-                headerTitle.innerHTML = '<i class="fas fa-tachometer-alt"></i> Dashboard';
-            } else {
-                headerTitle.innerHTML = '<i class="fas fa-list"></i> All Complaints';
-            }
-
-            // Handle active class for the menu link
-            document.querySelectorAll('.admin-sidebar a').forEach(function (link) {
-                link.classList.remove('active');
-            });
-            element.classList.add('active');
-        }
-    </script>
+    <!-- Chatbot Widget -->
     <div class="chat-widget">
         <div class="chat-window" id="chat-window">
             <div class="chat-header">Saity</div>
             <div class="chat-body" id="chat-body">
-                <div class="chat-message bot">Hello! Ask me about the dashboard data. Try "total complaints" or "how
-                    many are pending?".</div>
+                <div class="chat-message bot" data-translate="ad_chatbot_greeting">Hello! Ask me about the dashboard data. Try "total complaints" or "how many are pending?".</div>
             </div>
             <div class="chat-footer">
-                <input type="text" id="chat-input" placeholder="Type a message...">
-                <button id="chat-send">Send</button>
+                <input type="text" id="chat-input" placeholder="Type a message..." data-translate-placeholder="chat_placeholder">
+                <button id="chat-send" aria-label="Send Message">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
             </div>
         </div>
         <button class="chat-button" id="chat-button">
             <i class="fas fa-comment-dots"></i>
         </button>
     </div>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    // --- Get all the necessary HTML elements ---
-    const chatButton = document.getElementById('chat-button');
-    const chatWindow = document.getElementById('chat-window');
-    const chatBody = document.getElementById('chat-body');
-    const chatInput = document.getElementById('chat-input');
-    const chatSend = document.getElementById('chat-send');
 
-    // --- NEW: Define suggested questions ---
-    const suggestedQuestions = [
-        "Total complaints?",
-        "How many are pending?",
-        "Top department?",
-        "Complaints today?",
-        "List recent complaints"
-        
-    ];
+    <!-- Scripts -->
+    <script>
+        // --- Navigation Script ---
+        function showContent(sectionId, element) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
 
-    // --- Event Listeners ---
-    chatButton.addEventListener('click', () => {
-        chatWindow.classList.toggle('open');
-        // Show suggestions when opening the chat, if none exist
-        if (chatWindow.classList.contains('open') && !chatBody.querySelector('.chat-suggestions')) {
-            showSuggestions();
+            const headerTitle = document.getElementById('header-title');
+            if (sectionId === 'dashboard-content') {
+                headerTitle.innerHTML = '<i class="fas fa-tachometer-alt"></i> <span data-translate="ad_dashboard">Dashboard</span>';
+            } else {
+                headerTitle.innerHTML = '<i class="fas fa-list"></i> <span data-translate="ad_all_complaints">All Complaints</span>';
+            }
+
+            document.querySelectorAll('.admin-sidebar a').forEach(link => {
+                link.classList.remove('active');
+            });
+            element.classList.add('active');
         }
-    });
 
-    chatSend.addEventListener('click', handleUserInput);
-    chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            handleUserInput();
-        }
-    });
+        // --- Chatbot Script ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatButton = document.getElementById('chat-button');
+            const chatWindow = document.getElementById('chat-window');
+            const chatBody = document.getElementById('chat-body');
+            const chatInput = document.getElementById('chat-input');
+            const chatSend = document.getElementById('chat-send');
 
-    // --- Main function to handle user input ---
-    async function handleUserInput(questionText = null) {
-        const userInput = questionText || chatInput.value.trim();
-        if (!userInput) return;
+            const suggestedQuestions = [
+                "Total complaints?",
+                "How many are pending?",
+                "Top department?",
+                "Complaints today?",
+                "List recent complaints"
+            ];
 
-        addMessage(userInput, 'user');
-        chatInput.value = '';
-        clearSuggestions();
-
-        try {
-            const response = await fetch('/api/ask', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ question: userInput }),
+            chatButton.addEventListener('click', () => {
+                chatWindow.classList.toggle('open');
+                if (chatWindow.classList.contains('open') && !chatBody.querySelector('.chat-suggestions')) {
+                    showSuggestions();
+                }
             });
 
-            if (!response.ok) throw new Error('Network response was not ok.');
+            chatSend.addEventListener('click', handleUserInput);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleUserInput();
+            });
 
-            const data = await response.json();
-            const botResponse = data.answer || "I received an empty response.";
+            async function handleUserInput(questionText = null) {
+                const userInput = questionText || chatInput.value.trim();
+                if (!userInput) return;
+
+                addMessage(userInput, 'user');
+                chatInput.value = '';
+                clearSuggestions();
+
+                try {
+                    const response = await fetch('/api/ask', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ question: userInput }),
+                    });
+
+                    if (!response.ok) throw new Error('Network response was not ok.');
+                    const data = await response.json();
+                    const botResponse = data.answer || "I received an empty response.";
+
+                    setTimeout(() => {
+                        addMessage(botResponse, 'bot');
+                        showSuggestions();
+                    }, 500);
+
+                } catch (error) {
+                    console.error('Chatbot fetch error:', error);
+                    addMessage("I'm having trouble connecting. Please try again later.", 'bot');
+                }
+            }
+
+            function showSuggestions() {
+                clearSuggestions();
+                const suggestionsContainer = document.createElement('div');
+                suggestionsContainer.className = 'chat-suggestions';
+                suggestedQuestions.forEach(q => {
+                    const button = document.createElement('button');
+                    button.textContent = q;
+                    button.addEventListener('click', () => handleUserInput(q));
+                    suggestionsContainer.appendChild(button);
+                });
+                chatBody.appendChild(suggestionsContainer);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
+
+            function clearSuggestions() {
+                const existingSuggestions = chatBody.querySelector('.chat-suggestions');
+                if (existingSuggestions) existingSuggestions.remove();
+            }
+
+            function addMessage(text, type) {
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('chat-message', type);
+                messageElement.innerHTML = text;
+                chatBody.appendChild(messageElement);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }
             
-            // Show bot response after a short delay
-            setTimeout(() => {
-                addMessage(botResponse, 'bot');
-                // Show new suggestions after the bot responds
-                showSuggestions();
-            }, 500);
-
-        } catch (error) {
-            console.error('Chatbot fetch error:', error);
-            addMessage("I'm having trouble connecting. Please try again later.", 'bot');
-        }
-    }
-
-    // --- NEW: Function to show suggestion buttons ---
-    function showSuggestions() {
-        clearSuggestions(); // Clear any old ones first
-        const suggestionsContainer = document.createElement('div');
-        suggestionsContainer.className = 'chat-suggestions';
-
-        suggestedQuestions.forEach(q => {
-            const button = document.createElement('button');
-            button.textContent = q;
-            button.addEventListener('click', () => {
-                handleUserInput(q); // Use the button text as input
-            });
-            suggestionsContainer.appendChild(button);
+            showSuggestions(); // Show initial suggestions
         });
-        chatBody.appendChild(suggestionsContainer);
-        chatBody.scrollTop = chatBody.scrollHeight;
-    }
-    
-    // --- NEW: Function to clear suggestion buttons ---
-    function clearSuggestions() {
-        const existingSuggestions = chatBody.querySelector('.chat-suggestions');
-        if (existingSuggestions) {
-            existingSuggestions.remove();
-        }
-    }
-
-    // --- Function to add a message to the chat window ---
-    function addMessage(text, type) {
-        const messageElement = document.createElement('div');
-        messageElement.classList.add('chat-message', type);
-        messageElement.innerHTML = text;
-        chatBody.appendChild(messageElement);
-        chatBody.scrollTop = chatBody.scrollHeight;
-    }
-    
-    // Show initial suggestions
-    showSuggestions();
-});
-</script>
+    </script>
+    <script src="{{ url_for('static', filename='js/translate.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 
 </html>
+

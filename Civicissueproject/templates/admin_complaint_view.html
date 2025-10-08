@@ -1,101 +1,125 @@
-<!-- templates/admin_complaint_view.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <title>Complaint #{{ complaint.id }} - Admin</title>
-    <!-- UPDATED: Link to the new stylesheet -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/admincomplaintview.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="acv_title">Complaint #{{ complaint.id }} - Admin</title>
+
+    <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admincomplaintview.css') }}">
 </head>
+
 <body>
+
+    <!-- Page Header -->
     <header class="admin-header">
-        <h1><i class="fas fa-file-alt"></i> Complaint #{{ complaint.id }}</h1>
-        <div><a class="btn" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-arrow-left"></i> Back</a></div>
+        <h1>
+            <i class="fas fa-file-alt"></i>
+            <span data-translate="acv_complaint_id">Complaint</span> #{{ complaint.id }}
+        </h1>
+        <div>
+            <a class="btn" href="{{ url_for('admin_dashboard') }}">
+                <i class="fas fa-arrow-left"></i> <span data-translate="back_button">Back</span>
+            </a>
+        </div>
     </header>
 
+    <!-- Main Content Grid -->
     <main class="admin-main single-complaint">
+
+        <!-- Left Column: Complaint Details -->
         <section class="details-card">
-            <h3>Complaint Details</h3>
-            <p><strong>Status:</strong> 
+            <h3 data-translate="acv_details_heading">Complaint Details</h3>
+            <p>
+                <strong data-translate="acv_status">Status:</strong>
                 <span class="pill {{ (complaint.status or 'Pending')|lower|replace(' ', '-') }}">
                     {{ complaint.status or 'Pending' }}
                 </span>
             </p>
-            <p><strong>Department:</strong> {{ complaint.department }}</p>
-            <p><strong>Complaint Text:</strong><br/> {{ complaint.complaint }}</p>
-            <p><strong>Last Updated:</strong> {{ complaint.updated_at | datetimeformat if complaint.updated_at else 'N/A' }}</p>
-            
-            <hr>
-            <h4>Reporter Information</h4>
-            <p><strong>User Account Phone:</strong> {{ complaint.user_phone }}</p>
-            <p><strong>Reporter Name:</strong> {{ complaint.name }}</p>
-            <p><strong>Contact Phone:</strong> {{ complaint.phone }}</p>
+            <p><strong data-translate="acv_department">Department:</strong> {{ complaint.department }}</p>
+            <p><strong data-translate="acv_complaint_text">Complaint Text:</strong><br/> {{ complaint.complaint }}</p>
+            <p><strong data-translate="acv_last_updated">Last Updated:</strong> {{ complaint.updated_at | datetimeformat if complaint.updated_at else 'N/A' }}</p>
 
             <hr>
-            <h4>Location Details</h4>
-            <p><strong>District:</strong> {{ complaint.district }}</p>
-            <p><strong>Block:</strong> {{ complaint.block }}</p>
-            <p><strong>Gram Panchayat (GP):</strong> {{ complaint.gp }}</p>
-            <p><strong>Village:</strong> {{ complaint.village }}</p>
-            <p><strong>Landmark:</strong> {{ complaint.landmark }}</p>
-            <p><strong>Pincode:</strong> {{ complaint.pincode }}</p>
+            <h4 data-translate="acv_reporter_info">Reporter Information</h4>
+            <p><strong data-translate="acv_user_phone">User Account Phone:</strong> {{ complaint.user_phone }}</p>
+            <p><strong data-translate="acv_reporter_name">Reporter Name:</strong> {{ complaint.name }}</p>
+            <p><strong data-translate="acv_contact_phone">Contact Phone:</strong> {{ complaint.phone }}</p>
 
             <hr>
-            <h4>Attached Evidence</h4>
-            <p><strong>Proof (Image/Video):</strong>
+            <h4 data-translate="acv_location_details">Location Details</h4>
+            <p><strong data-translate="acv_district">District:</strong> {{ complaint.district }}</p>
+            <p><strong data-translate="acv_block">Block:</strong> {{ complaint.block }}</p>
+            <p><strong data-translate="acv_gp">Gram Panchayat (GP):</strong> {{ complaint.gp }}</p>
+            <p><strong data-translate="acv_village">Village:</strong> {{ complaint.village }}</p>
+            <p><strong data-translate="acv_landmark">Landmark:</strong> {{ complaint.landmark }}</p>
+            <p><strong data-translate="acv_pincode">Pincode:</strong> {{ complaint.pincode }}</p>
+
+            <hr>
+            <h4 data-translate="acv_evidence">Attached Evidence</h4>
+            <p>
+                <strong data-translate="acv_proof">Proof (Image/Video):</strong>
                 {% if complaint.proof %}
-                    <a href="{{ url_for('static', filename='uploads/' + complaint.proof) }}" target="_blank">View Proof</a>
+                <a href="{{ url_for('static', filename='uploads/' + complaint.proof) }}" target="_blank" data-translate="acv_view_proof">View Proof</a>
                 {% else %}
-                    None provided
+                <span data-translate="none_provided">None provided</span>
                 {% endif %}
             </p>
-            
-            <p><strong>Audio Description:</strong>
+            <p>
+                <strong data-translate="acv_audio_desc">Audio Description:</strong>
                 {% if complaint.voice_proof %}
-                    <audio controls style="width: 100%; margin-top: 8px;">
-                        <source src="{{ url_for('static', filename='uploads/' + complaint.voice_proof) }}" type="audio/webm">
-                        Your browser does not support the audio element.
-                    </audio>
+                <audio controls style="width: 100%; margin-top: 8px;">
+                    <source src="{{ url_for('static', filename='uploads/' + complaint.voice_proof) }}" type="audio/webm">
+                    <span data-translate="audio_not_supported">Your browser does not support the audio element.</span>
+                </audio>
                 {% else %}
-                    None provided
+                <span data-translate="none_provided">None provided</span>
                 {% endif %}
             </p>
-
-            <p><strong>Admin Proof:</strong>
+            <p>
+                <strong data-translate="acv_admin_proof">Admin Proof:</strong>
                 {% if complaint.admin_proof %}
-                    <a href="{{ url_for('admin_proofs', filename=complaint.admin_proof) }}" target="_blank">View Resolution Proof</a>
+                <a href="{{ url_for('admin_proofs', filename=complaint.admin_proof) }}" target="_blank" data-translate="acv_view_resolution_proof">View Resolution Proof</a>
                 {% else %}
-                    None provided
+                <span data-translate="none_provided">None provided</span>
                 {% endif %}
             </p>
         </section>
 
+        <!-- Right Column: Action Form -->
         <section class="action-card">
-            <h3>Update Status</h3>
+            <h3 data-translate="acv_update_status">Update Status</h3>
             <form method="post" action="{{ url_for('admin_update_status_route') }}" enctype="multipart/form-data">
                 <input type="hidden" name="cid" value="{{ complaint.id }}">
                 <label>
-                    New status
+                    <span data-translate="acv_new_status">New status</span>
                     <select name="status" required>
-                        <option value="Pending" {% if complaint.status=='Pending' %}selected{% endif %}>Pending</option>
-                        <option value="In Progress" {% if complaint.status=='In Progress' %}selected{% endif %}>In Progress</option>
-                        <option value="Resolved" {% if complaint.status=='Resolved' %}selected{% endif %}>Resolved</option>
-                        <option value="Rejected" {% if complaint.status=='Rejected' %}selected{% endif %}>Rejected</option>
+                        <option value="Pending" {% if complaint.status=='Pending' %}selected{% endif %} data-translate="status_pending">Pending</option>
+                        <option value="In Progress" {% if complaint.status=='In Progress' %}selected{% endif %} data-translate="status_in_progress">In Progress</option>
+                        <option value="Resolved" {% if complaint.status=='Resolved' %}selected{% endif %} data-translate="status_resolved">Resolved</option>
+                        <option value="Rejected" {% if complaint.status=='Rejected' %}selected{% endif %} data-translate="status_rejected">Rejected</option>
                     </select>
                 </label>
 
                 <label class="file-label">
-                    Attach proof (required for "Resolved")
+                    <span data-translate="acv_attach_proof_resolved">Attach proof (required for "Resolved")</span>
                     <input type="file" name="admin_proof" accept="image/*,video/*">
                 </label>
 
                 <div style="margin-top:12px">
-                    <button class="btn primary" type="submit"><i class="fas fa-save"></i> Update</button>
+                    <button class="btn primary" type="submit">
+                        <i class="fas fa-save"></i> <span data-translate="update_button">Update</span>
+                    </button>
                 </div>
             </form>
         </section>
     </main>
-</body>
-</html>
 
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/translate.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+
+</html>

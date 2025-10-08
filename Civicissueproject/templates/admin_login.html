@@ -2,55 +2,64 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CityZen - Admin Login</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="al_title">CityZen - Admin Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
 
 <body>
-  <!-- Animated background blobs -->
-  <div class="bg-shape shape1"></div>
-  <div class="bg-shape shape2"></div>
-  <!-- HOME BUTTON -->
-  <a href="/" class="home-btn">
-    <span class="home-icon">🏠</span> Home
-  </a>
+    <!-- Decorative background shapes -->
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
 
-  <div class="container">
-    <div class="left">
-      <h2>CityZen<span>(Admin)</span></h2>
+    <!-- Home Button -->
+    <a href="/" class="home-btn">
+        <span class="home-icon">🏠</span>
+        <span data-translate="home_button">Home</span>
+    </a>
 
-      <!-- Updated form -->
-      <form method="POST" action="/admin_login">
-        <div class="input-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="Enter your Email" required>
+    <!-- Main Login Container -->
+    <div class="container">
+
+        <!-- Left Side: Form -->
+        <div class="left">
+            <h2>CityZen<span data-translate="admin_tag">(Admin)</span></h2>
+
+            <form method="POST" action="/admin_login">
+                <div class="input-group">
+                    <label for="email" data-translate="label_email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your Email" data-translate-placeholder="placeholder_email" required aria-required="true">
+                </div>
+
+                <div class="input-group">
+                    <label for="password" data-translate="label_password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" data-translate-placeholder="placeholder_password" required aria-required="true">
+                </div>
+
+                <div class="checkbox">
+                    <input type="checkbox" id="remember">
+                    <label for="remember" data-translate="label_remember">Remember me</label>
+                </div>
+
+                <button type="submit" class="btn" data-translate="login_button">Log in</button>
+
+                <div class="information" data-translate="al_info">
+                    🎯 All the ADMIN credentials are already provided to the government officials.
+                </div>
+            </form>
         </div>
 
-        <div class="input-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <!-- Right Side: Illustration -->
+        <div class="right">
+            <img src="{{ url_for('static', filename='images/adminlogin.png') }}" alt="Illustration of a secure admin dashboard">
         </div>
 
-        <div class="checkbox">
-          <input type="checkbox" id="remember">
-          <label for="remember">Remember me</label>
-        </div>
-
-        <button type="submit" class="btn">Log in</button>
-        <!-- <button type="button" class="btn-outline">Continue with Email</button> -->
-
-        <div class="information">
-          🎯 All the ADMIN credintials are already provided to the government officials  <!-- Admin signup not needed -->
-        </div>
-      </form>
     </div>
 
-    <div class="right">
-      <img src="static/images/adminlogin.png" alt="Admin login illustration">
-    </div>
-  </div>
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/translate.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 
 </html>

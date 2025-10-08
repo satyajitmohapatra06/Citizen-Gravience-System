@@ -1,53 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CityZen - Sign Up</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate="signup_title">CityZen - Sign Up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
 </head>
+
 <body>
-  <!-- Animated background blobs -->
-  <div class="bg-shape shape1"></div>
-  <div class="bg-shape shape2"></div>
-  <!-- HOME BUTTON -->
-  <a href="/" class="home-btn">
-    <span class="home-icon">🏠</span> Home
-  </a>
+    <!-- Decorative background shapes -->
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
 
-  <div class="container">
-    <div class="left">
-      <h2>Create an account</h2>
+    <!-- Home Button -->
+    <a href="/" class="home-btn">
+        <span class="home-icon">🏠</span>
+        <span data-translate="home_button">Home</span>
+    </a>
 
-      <!-- Updated form -->
-      <form method="POST" action="/signup">
-        <div class="input-group">
-          <label for="phone">Phone Number:</label>
-          <input type="tel" id="phone" name="phone" placeholder="Enter your Phone Number" required>
+    <!-- Main Signup Container -->
+    <div class="container">
+
+        <!-- Left Side: Form -->
+        <div class="left">
+            <h2 data-translate="signup_heading">Create an account</h2>
+
+            <form method="POST" action="/signup">
+                <div class="input-group">
+                    <label for="phone" data-translate="label_phone_number">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Enter your Phone Number" data-translate-placeholder="placeholder_phone" required aria-required="true">
+                </div>
+
+                <div class="input-group">
+                    <label for="password" data-translate="label_password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" data-translate-placeholder="placeholder_password" required aria-required="true">
+                </div>
+
+                <div class="checkbox">
+                    <input type="checkbox" id="remember">
+                    <label for="remember" data-translate="label_remember">Remember me</label>
+                </div>
+
+                <button type="submit" class="btn" data-translate="signup_button">Sign up</button>
+
+                <div class="signup">
+                    <span data-translate="signup_already_account">Already have an account?</span>
+                    <a href="/user_login" data-translate="login_link">Log in</a>
+                </div>
+            </form>
         </div>
 
-        <div class="input-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="Enter your password" required>
+        <!-- Right Side: Illustration -->
+        <div class="right">
+            <img src="https://cdn-icons-png.flaticon.com/512/4042/4042171.png" alt="Illustration for the user sign up page">
         </div>
-
-        <div class="checkbox">
-          <input type="checkbox" id="remember">
-          <label for="remember">Remember me</label>
-        </div>
-
-        <button type="submit" class="btn">Sign up</button>
-        <!-- <button type="button" class="btn-outline">Continue with Email</button> -->
-
-        <div class="signup">
-          Already have an account? <a href="/user_login">Log in</a>
-        </div>
-      </form>
     </div>
 
-    <div class="right">
-      <img src="https://cdn-icons-png.flaticon.com/512/4042/4042171.png" alt="Signup illustration">
-    </div>
-  </div>
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/translate.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
+
 </html>
