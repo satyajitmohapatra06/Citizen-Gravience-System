@@ -112,6 +112,12 @@
             border: none;
             padding: 8px 0;
         }
+        
+        /* --- Style for Escalated Pill --- */
+        .pill.escalated {
+            background-color: #c9302c; /* A strong red */
+            color: white;
+        }
     </style>
 </head>
 
@@ -161,21 +167,21 @@
             <!-- Dashboard Section -->
             <div id="dashboard-content" class="content-section">
                 <section class="top-cards">
-                    <div class="card metric">
+                    <div class="card metric" style="border-top: 4px solid #0a66ff;">
                         <div class="title" data-translate="ad_total_complaints">Total Complaints</div>
                         <div class="value">{{ total }}</div>
                     </div>
-                    <div class="card metric">
+                    <div class="card metric" style="border-top: 4px solid #ffc107;">
                         <div class="title" data-translate="status_pending">Pending</div>
                         <div class="value">{{ by_status.get('Pending', 0) }}</div>
                     </div>
-                    <div class="card metric">
+                    <div class="card metric" style="border-top: 4px solid #28a745;">
                         <div class="title" data-translate="status_resolved">Resolved</div>
                         <div class="value">{{ by_status.get('Resolved', 0) }}</div>
                     </div>
-                    <div class="card metric">
-                        <div class="title" data-translate="ad_departments">Departments</div>
-                        <div class="value">{{ by_dept|length }}</div>
+                    <div class="card metric" style="border-top: 4px solid #c9302c;">
+                        <div class="title" data-translate="status_escalated">Escalated</div>
+                        <div class="value">{{ by_status.get('Escalated', 0) }}</div>
                     </div>
                 </section>
 
@@ -186,6 +192,24 @@
                     <ul style="margin-top:8px;">
                         {% for a in alerts %}
                         <li>Complaint #{{ a[0] }} ({{ a[1] }} / {{ a[2] }}) - "{{ a[3][:50] }}..."</li>
+                        {% endfor %}
+                    </ul>
+                    <a href="#" class="close">&times;</a>
+                </div>
+                {% endif %}
+
+                <!-- NEW: Escalation Alert Box -->
+                {% if escalated_complaints and escalated_complaints|length > 0 %}
+                <div id="escalation-alert" class="admin-alert" style="background-color: #f2dede; border-color: #ebccd1; color: #a94442;">
+                    <strong><i class="fas fa-arrow-up"></i> <span data-translate="ad_escalation_alert">Escalation Alert:</span></strong>
+                    There are <b>{{ escalated_complaints|length }}</b> <span data-translate="ad_escalation_alert_text">escalated complaints requiring immediate attention.</span>
+                    <ul style="margin-top:8px;">
+                        {% for esc in escalated_complaints %}
+                        <li>
+                            <a href="{{ url_for('admin_complaint_view', cid=esc[0]) }}" style="color: #a94442; text-decoration: underline;">
+                                Complaint #{{ esc[0] }} ({{ esc[1] }} / {{ esc[2] }}) - "{{ esc[3][:50] }}..."
+                            </a>
+                        </li>
                         {% endfor %}
                     </ul>
                     <a href="#" class="close">&times;</a>

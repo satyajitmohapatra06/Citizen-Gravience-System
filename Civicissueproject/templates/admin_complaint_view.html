@@ -9,113 +9,301 @@
     <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admincomplaintview.css') }}">
+    
+    <!-- Inline styles for layout and status pills -->
+    <style>
+        body {
+            background-color: #f7f8fc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: #5a5c69;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .pill {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .pill.pending { background-color: #fff3cd; color: #856404; }
+        .pill.in-progress { background-color: #d1ecf1; color: #0c5460; }
+        .pill.resolved { background-color: #d4edda; color: #155724; }
+        .pill.rejected { background-color: #e9ecef; color: #343a40; }
+        .pill.escalated { background-color: #f8d7da; color: #721c24; }
+
+        .view-wrapper {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .content-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .details-card, .action-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #e3e6f0;
+        }
+        
+        .details-card h3, .details-card h4 {
+            color: #343a40;
+            border-bottom: 1px solid #f1f3f5;
+            padding-bottom: 0.75rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .details-card h3:first-child {
+            margin-top: 0;
+        }
+        
+        .details-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+        }
+        .details-list div {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .details-list strong {
+            color: #858796;
+            display: block;
+            font-size: 0.8rem;
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .action-card {
+            position: sticky;
+            top: 2rem;
+            border-top: 4px solid #4e73df;
+        }
+        .action-card h3 {
+            text-align: center;
+            margin-top: 0;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 1.25rem;
+        }
+        .action-card label {
+            font-weight: 600;
+            color: #5a5c69;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .action-card select, .action-card input[type="file"] {
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+        .action-card .btn.primary {
+            background-color: #4e73df;
+            border-color: #4e73df;
+            transition: background-color 0.2s, transform 0.2s;
+            font-weight: 600;
+        }
+        .action-card .btn.primary:hover {
+            background-color: #2e59d9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(78, 115, 223, 0.25);
+        }
+        
+        .proof-image {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid #e3e6f0;
+            padding: 4px;
+        }
+
+        /* --- Flash Message Styles --- */
+        .alert {
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            font-size: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        .alert-success {
+            color: #0f5132;
+            background-color: #d1e7dd;
+            border-color: #badbcc;
+        }
+        .alert .close {
+            text-decoration: none;
+            color: inherit;
+            font-size: 1.5rem;
+            font-weight: bold;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .alert .close:hover {
+            opacity: 1;
+        }
+
+        @media (max-width: 992px) {
+            .content-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- Page Header -->
-    <header class="admin-header">
-        <h1>
-            <i class="fas fa-file-alt"></i>
-            <span data-translate="acv_complaint_id">Complaint</span> #{{ complaint.id }}
-        </h1>
-        <div>
-            <a class="btn" href="{{ url_for('admin_dashboard') }}">
-                <i class="fas fa-arrow-left"></i> <span data-translate="back_button">Back</span>
-            </a>
-        </div>
-    </header>
+    <div class="view-wrapper">
+        <!-- Page Header -->
+        <header class="admin-header" style="background: none; padding: 0; margin-bottom: 2rem; border-bottom: 1px solid #e3e6f0; padding-bottom: 1rem;">
+            <h1>
+                <i class="fas fa-file-invoice"></i>
+                <span data-translate="acv_complaint_id">Complaint</span> #{{ complaint.id }}
+            </h1>
+            <div>
+                <a class="btn" href="{{ url_for('admin_dashboard', view='complaints') }}">
+                    <i class="fas fa-arrow-left"></i> <span data-translate="back_button">Back to Complaints</span>
+                </a>
+            </div>
+        </header>
 
-    <!-- Main Content Grid -->
-    <main class="admin-main single-complaint">
+        <!-- Flash Message Display Area -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if 'proof' in message|lower or 'updated' in message|lower %}
+                    <div class="alert alert-{{ category }}">
+                        <span>{{ message }}</span>
+                        <a href="#" class="close" onclick="this.parentElement.style.display='none';">&times;</a>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
-        <!-- Left Column: Complaint Details -->
-        <section class="details-card">
-            <h3 data-translate="acv_details_heading">Complaint Details</h3>
-            <p>
-                <strong data-translate="acv_status">Status:</strong>
-                <span class="pill {{ (complaint.status or 'Pending')|lower|replace(' ', '-') }}">
-                    {{ complaint.status or 'Pending' }}
-                </span>
-            </p>
-            <p><strong data-translate="acv_department">Department:</strong> {{ complaint.department }}</p>
-            <p><strong data-translate="acv_complaint_text">Complaint Text:</strong><br/> {{ complaint.complaint }}</p>
-            <p><strong data-translate="acv_last_updated">Last Updated:</strong> {{ complaint.updated_at | datetimeformat if complaint.updated_at else 'N/A' }}</p>
+        <!-- Main Content Grid -->
+        <main class="content-layout">
 
-            <hr>
-            <h4 data-translate="acv_reporter_info">Reporter Information</h4>
-            <p><strong data-translate="acv_user_phone">User Account Phone:</strong> {{ complaint.user_phone }}</p>
-            <p><strong data-translate="acv_reporter_name">Reporter Name:</strong> {{ complaint.name }}</p>
-            <p><strong data-translate="acv_contact_phone">Contact Phone:</strong> {{ complaint.phone }}</p>
+            <!-- Left Column: Complaint Details -->
+            <section class="details-card">
+                <h3>Complaint Details</h3>
+                <div class="details-list">
+                    <div><strong>Status:</strong> <span class="pill {{ (complaint.status or 'Pending')|lower|replace(' ', '-') }}">{{ complaint.status or 'Pending' }}</span></div>
+                    <div><strong>Department:</strong> {{ complaint.department }}</div>
+                    <div><strong>Last Updated:</strong> {{ complaint.updated_at | datetimeformat if complaint.updated_at else 'N/A' }}</div>
+                    <div><strong>Complaint Text:</strong><br/> {{ complaint.complaint }}</div>
+                </div>
 
-            <hr>
-            <h4 data-translate="acv_location_details">Location Details</h4>
-            <p><strong data-translate="acv_district">District:</strong> {{ complaint.district }}</p>
-            <p><strong data-translate="acv_block">Block:</strong> {{ complaint.block }}</p>
-            <p><strong data-translate="acv_gp">Gram Panchayat (GP):</strong> {{ complaint.gp }}</p>
-            <p><strong data-translate="acv_village">Village:</strong> {{ complaint.village }}</p>
-            <p><strong data-translate="acv_landmark">Landmark:</strong> {{ complaint.landmark }}</p>
-            <p><strong data-translate="acv_pincode">Pincode:</strong> {{ complaint.pincode }}</p>
+                <h4>Reporter Information</h4>
+                <div class="details-list">
+                    <div><strong>User Account Phone:</strong> {{ complaint.user_phone }}</div>
+                    <div><strong>Reporter Name:</strong> {{ complaint.name }}</div>
+                    <div><strong>Contact Phone:</strong> {{ complaint.phone }}</div>
+                </div>
+                
+                <h4>Location Details</h4>
+                <div class="details-list">
+                    <div><strong>District:</strong> {{ complaint.district }}</div>
+                    <div><strong>Block:</strong> {{ complaint.block }}</div>
+                    <div><strong>Gram Panchayat (GP):</strong> {{ complaint.gp }}</div>
+                    <div><strong>Village:</strong> {{ complaint.village }}</div>
+                    <div><strong>Landmark:</strong> {{ complaint.landmark }}</div>
+                    <div><strong>Pincode:</strong> {{ complaint.pincode }}</div>
+                </div>
 
-            <hr>
-            <h4 data-translate="acv_evidence">Attached Evidence</h4>
-            <p>
-                <strong data-translate="acv_proof">Proof (Image/Video):</strong>
-                {% if complaint.proof %}
-                <a href="{{ url_for('static', filename='uploads/' + complaint.proof) }}" target="_blank" data-translate="acv_view_proof">View Proof</a>
-                {% else %}
-                <span data-translate="none_provided">None provided</span>
-                {% endif %}
-            </p>
-            <p>
-                <strong data-translate="acv_audio_desc">Audio Description:</strong>
-                {% if complaint.voice_proof %}
-                <audio controls style="width: 100%; margin-top: 8px;">
-                    <source src="{{ url_for('static', filename='uploads/' + complaint.voice_proof) }}" type="audio/webm">
-                    <span data-translate="audio_not_supported">Your browser does not support the audio element.</span>
-                </audio>
-                {% else %}
-                <span data-translate="none_provided">None provided</span>
-                {% endif %}
-            </p>
-            <p>
-                <strong data-translate="acv_admin_proof">Admin Proof:</strong>
-                {% if complaint.admin_proof %}
-                <a href="{{ url_for('admin_proofs', filename=complaint.admin_proof) }}" target="_blank" data-translate="acv_view_resolution_proof">View Resolution Proof</a>
-                {% else %}
-                <span data-translate="none_provided">None provided</span>
-                {% endif %}
-            </p>
-        </section>
+                <h4>Attached Evidence</h4>
+                <div class="details-list">
+                    <div>
+                        <strong>Proof (Image/Video):</strong>
+                        {% if complaint.proof %}
+                            {% set proof_lower = complaint.proof|lower %}
+                            {% if proof_lower.endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')) %}
+                                <a href="{{ url_for('static', filename='uploads/' + complaint.proof) }}" target="_blank">
+                                    <img src="{{ url_for('static', filename='uploads/' + complaint.proof) }}" alt="User Proof" class="proof-image">
+                                </a>
+                            {% else %}
+                                 <a href="{{ url_for('static', filename='uploads/' + complaint.proof) }}" target="_blank" data-translate="acv_view_proof">View Proof File</a>
+                            {% endif %}
+                        {% else %}
+                            <span data-translate="none_provided">None provided</span>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <strong>Audio Description:</strong>
+                        {% if complaint.voice_proof %}
+                        <audio controls style="width: 100%; margin-top: 8px;">
+                            <source src="{{ url_for('static', filename='uploads/' + complaint.voice_proof) }}" type="audio/webm">
+                            <span data-translate="audio_not_supported">Your browser does not support the audio element.</span>
+                        </audio>
+                        {% else %}
+                            <span data-translate="none_provided">None provided</span>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <strong>Admin Proof:</strong>
+                        {% if complaint.admin_proof %}
+                            {% set admin_proof_lower = complaint.admin_proof|lower %}
+                            {% if admin_proof_lower.endswith(('.png', '.jpg', '.jpeg', '.gif', '.webp')) %}
+                                 <a href="{{ url_for('static', filename='admin_proofs/' + complaint.admin_proof) }}" target="_blank">
+                                    <img src="{{ url_for('static', filename='admin_proofs/' + complaint.admin_proof) }}" alt="Admin Proof" class="proof-image">
+                                </a>
+                            {% else %}
+                                <a href="{{ url_for('static', filename='admin_proofs/' + complaint.admin_proof) }}" target="_blank" data-translate="acv_view_resolution_proof">View Resolution Proof File</a>
+                            {% endif %}
+                        {% else %}
+                            <span data-translate="none_provided">None provided</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
 
-        <!-- Right Column: Action Form -->
-        <section class="action-card">
-            <h3 data-translate="acv_update_status">Update Status</h3>
-            <form method="post" action="{{ url_for('admin_update_status_route') }}" enctype="multipart/form-data">
-                <input type="hidden" name="cid" value="{{ complaint.id }}">
-                <label>
-                    <span data-translate="acv_new_status">New status</span>
-                    <select name="status" required>
+            <!-- Right Column: Action Form -->
+            <section class="action-card">
+                <h3>Update Status</h3>
+                <form method="post" action="{{ url_for('admin_update_status_route') }}" enctype="multipart/form-data">
+                    <input type="hidden" name="cid" value="{{ complaint.id }}">
+                    <label for="status-select">
+                        New status
+                    </label>
+                    <select name="status" id="status-select" class="form-control" required>
                         <option value="Pending" {% if complaint.status=='Pending' %}selected{% endif %} data-translate="status_pending">Pending</option>
                         <option value="In Progress" {% if complaint.status=='In Progress' %}selected{% endif %} data-translate="status_in_progress">In Progress</option>
                         <option value="Resolved" {% if complaint.status=='Resolved' %}selected{% endif %} data-translate="status_resolved">Resolved</option>
                         <option value="Rejected" {% if complaint.status=='Rejected' %}selected{% endif %} data-translate="status_rejected">Rejected</option>
                     </select>
-                </label>
 
-                <label class="file-label">
-                    <span data-translate="acv_attach_proof_resolved">Attach proof (required for "Resolved")</span>
-                    <input type="file" name="admin_proof" accept="image/*,video/*">
-                </label>
+                    <label for="admin-proof-upload" class="file-label">
+                        Attach proof (for "Resolved")
+                    </label>
+                    <input type="file" name="admin_proof" id="admin-proof-upload" class="form-control" accept="image/*,video/*">
 
-                <div style="margin-top:12px">
-                    <button class="btn primary" type="submit">
-                        <i class="fas fa-save"></i> <span data-translate="update_button">Update</span>
-                    </button>
-                </div>
-            </form>
-        </section>
-    </main>
+                    <div style="margin-top:1.5rem">
+                        <button class="btn primary" type="submit" style="width: 100%;">
+                            <i class="fas fa-save"></i> <span>Update</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
 
     <!-- Scripts -->
     <script src="{{ url_for('static', filename='js/translate.js') }}"></script>
@@ -123,3 +311,4 @@
 </body>
 
 </html>
+
