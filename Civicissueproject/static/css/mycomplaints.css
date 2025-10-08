@@ -11,7 +11,8 @@
     --shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     --border-color: #e9eef5;
     --accent-gold: #ffc107;
-    --danger-red: #dc3545; /* Added a red variable */
+    --danger-red: #dc3545;
+    --transition: all 0.3s ease; /* Added for consistency */
 }
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
 body { background: var(--bg-color); color: var(--text-dark); }
@@ -248,6 +249,7 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
 .status-pill.resolved { background: #28a745; }
 .status-pill.rejected { background: var(--danger-red); }
 .status-pill.in-progress { background: #17a2b8; }
+.status-pill.escalated { background: #fd7e14; color: white; }
 
 
 /* Feedback Form Styles */
@@ -315,23 +317,23 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
     }
     .modal-content { padding: 20px; }
 }
-/* ============================
-    CHATBOT STYLES
-=============================== */
+
+/* ======================================= */
+/* ====== CHATBOT STYLES (CORRECTED) ====== */
+/* ======================================= */
 .chatbot-container {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-   z-index: 1001;
-    /* --- Add these three lines --- */
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 1001;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
 }
 
 .chat-fab {
-    background-color: var(--primary-skyblue);
-    color: var(--white);
+    background-color: var(--primary-blue);
+    color: var(--card-bg);
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -346,14 +348,14 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
 }
 
 .chat-fab:hover {
-    background-color: var(--accent-orange);
+    background-color: var(--light-blue);
     transform: scale(1.1);
 }
 
 .chat-widget {
     width: 350px;
     max-height: 500px;
-    background: var(--white);
+    background: var(--card-bg);
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     display: flex;
@@ -369,8 +371,8 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
 }
 
 .chat-header {
-    background: var(--primary-skyblue);
-    color: var(--white);
+    background: var(--primary-blue);
+    color: var(--card-bg);
     padding: 15px;
     display: flex;
     justify-content: space-between;
@@ -385,7 +387,7 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
 .chat-header .close-btn {
     background: none;
     border: none;
-    color: var(--white);
+    color: var(--card-bg);
     font-size: 24px;
     cursor: pointer;
 }
@@ -408,14 +410,14 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
 
 .message.bot {
     background-color: #f1f0f0;
-    color: var(--dark-text);
+    color: var(--text-dark);
     align-self: flex-start;
     border-bottom-left-radius: 5px;
 }
 
 .message.user {
-    background-color: var(--dark-skyblue);
-    color: var(--white);
+    background-color: var(--light-blue);
+    color: var(--card-bg);
     align-self: flex-end;
     border-bottom-right-radius: 5px;
 }
@@ -436,8 +438,8 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
 }
 
 #chat-send-btn {
-    background: var(--primary-skyblue);
-    color: var(--white);
+    background: var(--primary-blue);
+    color: var(--card-bg);
     border: none;
     border-radius: 50%;
     width: 40px;
@@ -449,12 +451,9 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
 }
 
 #chat-send-btn:hover {
-    background-color: var(--accent-orange);
+    background-color: var(--light-blue);
 }
 
-/* ============================
-    CHATBOT OPTIONS (BUTTONS)
-=============================== */
 .chat-options {
     display: flex;
     flex-wrap: wrap;
@@ -464,9 +463,9 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
 }
 
 .option-btn {
-    background-color: var(--white);
-    color: var(--primary-skyblue);
-    border: 2px solid var(--primary-skyblue);
+    background-color: var(--card-bg);
+    color: var(--primary-blue);
+    border: 2px solid var(--primary-blue);
     border-radius: 20px;
     padding: 8px 15px;
     font-size: 0.9rem;
@@ -476,7 +475,8 @@ header h2 { font-size: 24px; display: inline-flex; align-items: center; gap: 8px
 }
 
 .option-btn:hover {
-    background-color: var(--primary-skyblue);
-    color: var(--white);
+    background-color: var(--primary-blue);
+    color: var(--card-bg);
     transform: translateY(-2px);
 }
+
