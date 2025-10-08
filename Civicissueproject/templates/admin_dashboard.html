@@ -6,65 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-translate="ad_title">Admin Dashboard - CityZen</title>
 
-    <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_styles.css') }}">
 
-    <!-- Inline Styles for Lightbox -->
-    <style>
-        .chart-fallback {
-            width: 100%;
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #888;
-            font-size: 14px;
-            border: 1px dashed #ccc;
-            border-radius: 8px;
-            background: #f9f9f9;
-        }
-
-        .lightbox {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .lightbox:target {
-            display: flex;
-        }
-
-        .lightbox img {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-        }
-
-        .lightbox .close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 40px;
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .lightbox .close:hover {
-            color: #ff4444;
-        }
-    </style>
 </head>
 
 <body>
 
-    <!-- Sidebar Navigation -->
     <nav class="admin-sidebar">
         <div class="sidebar-header">
             <h3 data-translate="ad_civic_admin"><i class="fas fa-shield-alt"></i> CityZen Admin</h3>
@@ -86,19 +34,24 @@
         </div>
     </nav>
 
-    <!-- Main Content Wrapper -->
     <div class="content-wrapper">
         <header class="admin-header">
             <div class="left">
                 <h1 id="header-title"><i class="fas fa-tachometer-alt"></i> <span data-translate="ad_dashboard">Dashboard</span></h1>
             </div>
             <div class="right">
-                <!-- Language switcher can be placed here if needed -->
+                <div class="language-switcher-wrapper">
+                    <i class="fas fa-globe"></i>
+                    <select id="language-switcher">
+                        <option value="en">English</option>
+                        <option value="hi">हिन्दी</option>
+                        <option value="or">ଓଡ଼ିଆ</option>
+                    </select>
+                </div>
             </div>
         </header>
 
         <main class="admin-main">
-            <!-- Dashboard Section -->
             <div id="dashboard-content" class="content-section">
                 <section class="top-cards">
                     <div class="card metric">
@@ -204,7 +157,6 @@
                 </section>
             </div>
 
-            <!-- Complaints Section -->
             <div id="complaints-content" class="content-section" style="display: none;">
                 <section class="complaints-table">
                     <div class="table-header">
@@ -256,7 +208,6 @@
         </main>
     </div>
 
-    <!-- Lightbox Modals for Charts -->
     <div id="lightbox-status" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['status']) }}" alt="status chart full"></div>
     <div id="lightbox-department" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['department']) }}" alt="department chart full"></div>
     <div id="lightbox-pincode" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart full"></div>
@@ -264,7 +215,6 @@
     <div id="lightbox-district" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district full"></div>
     <div id="lightbox-deptstatus" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status full"></div>
 
-    <!-- Chatbot Widget -->
     <div class="chat-widget">
         <div class="chat-window" id="chat-window">
             <div class="chat-header">Saity</div>
@@ -283,7 +233,6 @@
         </button>
     </div>
 
-    <!-- Scripts -->
     <script>
         // --- Navigation Script ---
         function showContent(sectionId, element) {
@@ -398,4 +347,3 @@
 </body>
 
 </html>
-
