@@ -1,123 +1,126 @@
 :root {
-  --primary-skyblue: #170b85;
-  --secondary-skyblue: #87ceeb;
-  --dark-skyblue: #1073b4;
-  --accent-orange: #ff7f50;
-  --accent-green: #2e8b57;
-  --white: #ffffff;
-  --light-bg: #f8f9fa;
-  --dark-text: #333333;
-  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  --transition: all 0.3s ease;
+    --primary-skyblue: #170b85;
+    --secondary-skyblue: #87ceeb;
+    --dark-skyblue: #1073b4;
+    --accent-orange: #ff7f50;
+    --accent-green: #2e8b57;
+    --white: #ffffff;
+    --light-bg: #f8f9fa;
+    --dark-text: #333333;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: "Poppins", sans-serif;
-  color: var(--dark-text);
-  line-height: 1.6;
-  background-color: var(--light-bg);
-  overflow-x: hidden;
+    font-family: "Poppins", sans-serif;
+    color: var(--dark-text);
+    line-height: 1.6;
+    background-color: var(--light-bg);
+    overflow-x: hidden;
 }
 
 h1,
 h2,
 h3,
 h4 {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 700;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
 }
 
 .container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 /* ============================
-    NAVIGATION
+    NAVIGATION
 =============================== */
 nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: var(--primary-skyblue);
-  box-shadow: var(--shadow);
-  z-index: 1000;
-  padding: 15px 0;
-  transition: var(--transition);
-  animation: slideDown 0.7s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: var(--primary-skyblue);
+    box-shadow: var(--shadow);
+    z-index: 1000;
+    padding: 15px 0;
+    transition: var(--transition);
+    animation: slideDown 0.7s ease;
 }
 
 @keyframes slideDown {
-  from {
-    transform: translateY(-100%);
-  }
+    from {
+        transform: translateY(-100%);
+    }
 
-  to {
-    transform: translateY(0);
-  }
+    to {
+        transform: translateY(0);
+    }
 }
 
 .nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .logo {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--white);
-  display: flex;
-  align-items: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--white);
+    display: flex;
+    align-items: center;
 }
 
-.logo i {
-  margin-right: 10px;
-  color: var(--accent-orange);
+/* MODIFIED: New style for the logo image */
+.logo-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
 }
+
 
 .nav-links {
-  display: flex;
-  list-style: none;
-  align-items: center;
-  position: relative;
+    display: flex;
+    list-style: none;
+    align-items: center;
+    position: relative;
 }
 
 .nav-links a {
-  margin-left: 25px;
-  text-decoration: none;
-  color: var(--white);
-  font-weight: 600;
-  transition: var(--transition);
-  position: relative;
+    margin-left: 25px;
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 600;
+    transition: var(--transition);
+    position: relative;
 }
 
 .nav-links a::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: -5px;
-  left: 0;
-  background-color: var(--accent-orange);
-  transition: var(--transition);
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: var(--accent-orange);
+    transition: var(--transition);
 }
 
 .nav-links a:hover {
-  color: var(--accent-orange);
+    color: var(--accent-orange);
 }
 
 .nav-links a:hover::after {
-  width: 100%;
+    width: 100%;
 }
 
 /* ============================

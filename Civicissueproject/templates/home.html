@@ -20,7 +20,7 @@
     <nav>
         <div class="container nav-container">
             <div class="logo">
-                <i class="fas fa-landmark"></i>
+                <img src="{{ url_for('static', filename='images/app-icon.png') }}" alt="CityZen Icon" class="logo-icon">
                 <span>CityZen</span>
             </div>
 
@@ -328,22 +328,19 @@
             FOOTER
     =============================== -->
     <footer class="enhanced-footer">
-        <div class="container footer-grid">
+    <div class="container footer-grid">
 
-            <!-- Column 1: Logo & Description -->
-            <div class="footer-col footer-about">
-                <h2 class="footer-logo"><i class="fas fa-landmark"></i> CityZen</h2>
-                <p>Your civic companion for reporting issues and building better communities together. Empowering
-                    citizens to make cities cleaner, safer, and smarter.</p>
-                <div class="social-icons">
+        <!-- Column 1: Logo & Description -->
+        <div class="footer-col footer-about">
+            <h2 class="footer-logo"><img src="{{ url_for('static', filename='images/app-icon.png') }}" alt="CityZen Icon" class="logo-icon"> CityZen</h2>
+            <p>Your civic companion for reporting issues and building better communities together. Empowering citizens to make cities cleaner, safer, and smarter.</p>
+            <div class="social-icons">
                     <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
                     <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                     <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
-
-            <!-- Column 2: Emergency Contacts -->
             <div class="footer-col">
                 <h3>🚨 Emergency Contacts</h3>
                 <ul class="footer-links">
@@ -353,8 +350,6 @@
                     <li><i class="fas fa-phone-alt"></i> Women Helpline: <a href="tel:1091">1091</a></li>
                 </ul>
             </div>
-
-            <!-- Column 3: Quick Links -->
             <div class="footer-col">
                 <h3>🔗 Quick Links</h3>
                 <ul class="footer-links">
@@ -365,8 +360,6 @@
                     <li><a href="/contact">📩 Contact Us</a></li>
                 </ul>
             </div>
-
-            <!-- Column 4: Contact Info -->
             <div class="footer-col">
                 <h3>📞 Contact & Support</h3>
                 <ul class="footer-links">
@@ -381,13 +374,11 @@
                 </form>
             </div>
         </div>
-
         <div class="footer-bottom">
             <p>&copy; 2025 CityZen - Government Civic Issue Reporting Platform. All rights reserved.</p>
             <p>Made with ❤️ for citizens.</p>
         </div>
     </footer>
-
 
     <!-- ============================
             CHATBOT
@@ -422,7 +413,6 @@
             if (menuToggle) {
                 menuToggle.addEventListener('click', () => {
                     navLinks.classList.toggle('active');
-                    // Optional: Change icon from burger to 'X' for better UX
                     const icon = menuToggle.querySelector('i');
                     if (navLinks.classList.contains('active')) {
                         icon.classList.remove('fa-bars');
@@ -445,7 +435,6 @@
             const chatSendBtn = document.getElementById('chat-send-btn');
             const chatMessages = document.getElementById('chat-messages');
 
-            // Toggle chat widget visibility
             chatFab.addEventListener('click', () => {
                 chatWidget.classList.toggle('active');
             });
@@ -463,10 +452,7 @@
             };
 
             const addOptions = (options) => {
-                const existingOptions = document.querySelector('.chat-options');
-                if (existingOptions) {
-                    existingOptions.remove();
-                }
+                document.querySelector('.chat-options')?.remove();
                 const optionsContainer = document.createElement('div');
                 optionsContainer.classList.add('chat-options');
                 options.forEach(optionText => {
@@ -486,11 +472,7 @@
             const sendMessage = async () => {
                 const messageText = chatInput.value.trim();
                 if (!messageText) return;
-
-                const existingOptions = document.querySelector('.chat-options');
-                if (existingOptions) {
-                    existingOptions.remove();
-                }
+                document.querySelector('.chat-options')?.remove();
                 addMessage('user', messageText);
                 chatInput.value = '';
 
@@ -522,7 +504,6 @@
                 }
             });
 
-            // Fetch initial greeting from bot when page loads
             const initialGreeting = async () => {
                 try {
                     const response = await fetch('/chat', {
@@ -552,3 +533,4 @@
 </body>
 
 </html>
+
