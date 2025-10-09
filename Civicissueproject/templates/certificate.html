@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate of Appreciation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap');
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #eef2f5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .certificate-container {
+            width: 840px;
+            height: 594px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            text-align: center;
+        }
+
+        .certificate-border {
+            position: absolute;
+            top: 15px; left: 15px; right: 15px; bottom: 15px;
+            border: 2px solid #d97706; /* Gold color */
+            padding: 10px;
+            border-style: double;
+            border-width: 5px;
+        }
+        
+        .logo { 
+            font-size: 1.5rem; 
+            font-weight: bold; 
+            color: #d97706; 
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin: 15px 0 5px;
+            color: #1e293b;
+        }
+        
+        .subtitle { 
+            font-size: 1.1rem; 
+            color: #64748b; 
+        }
+        
+        .username {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: #4f46e5;
+            margin: 30px 0;
+            display: inline-block;
+            padding-bottom: 5px;
+            font-weight: 700;
+        }
+        
+        .reason { 
+            font-size: 1rem; 
+            line-height: 1.6; 
+            max-width: 650px; 
+            margin: 0 auto; 
+            color: #334155;
+        }
+        
+        .footer {
+            position: absolute;
+            bottom: 45px;
+            left: 45px;
+            right: 45px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-size: 0.9rem;
+        }
+        
+        .signature-line {
+            border-top: 1px solid #334155;
+            padding: 8px 40px 0;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .signature-img {
+            height: 45px;
+            margin-bottom: -10px;
+        }
+
+        .seal {
+            position: absolute;
+            bottom: 30px;
+            right: 170px;
+            width: 100px;
+            height: 100px;
+        }
+        
+        .download-buttons { margin-top: 2rem; display: flex; gap: 1rem; }
+        .btn-download, .btn-profile {
+            padding: 10px 20px; border: none; border-radius: 8px; font-size: 1rem;
+            font-weight: 600; cursor: pointer; background: linear-gradient(45deg, #f59e0b, #d97706);
+            color: white; transition: all 0.2s ease; text-decoration: none;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+        }
+        .btn-download:hover, .btn-profile:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(245, 158, 11, 0.4); }
+
+        .prompt-container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="main-content">
+        <div id="certificate" class="certificate-container">
+            <div class="certificate-border"></div>
+
+            <div class="logo">CityZen Champion</div>
+            <h1 class="title">Certificate of Appreciation</h1>
+            <p class="subtitle">This certificate is proudly presented to</p>
+            <div class="username"><span id="cert-username"></span></div>
+            <p class="reason">
+                For your outstanding dedication and invaluable contributions towards building a better, safer, and more responsive community through the CityZen platform. Your efforts have made a significant impact.
+            </p>
+
+            <div class="seal">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="48" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+                    <path d="M50 25 l10 20 l25 5 l-20 20 l5 25 l-20 -10 l-20 10 l5 -25 l-20 -20 l25 -5 Z" fill="#f59e0b"/>
+                    <circle cx="50" cy="50" r="18" fill="white" stroke="#d97706" stroke-width="1"/>
+                    <text x="50" y="55" font-family="Montserrat, sans-serif" font-size="10" fill="#d97706" text-anchor="middle" font-weight="bold">2025</text>
+                </svg>
+            </div>
+
+            <div class="footer">
+                <div class="date">
+                    <span class="signature-line"><span id="cert-date"></span></span><br>Date Issued
+                </div>
+                <div class="signature">
+                    <img src="https://i.imgur.com/gK2F6p9.png" alt="Signature" class="signature-img">
+                    <div class="signature-line">Municipal Commissioner</div>
+                    Official Recognition
+                </div>
+            </div>
+        </div>
+
+        <div class="download-buttons">
+            <button id="downloadPng" class="btn-download"><i class="fas fa-image"></i> Download as PNG</button>
+            <button id="downloadPdf" class="btn-download"><i class="fas fa-file-pdf"></i> Download as PDF</button>
+        </div>
+    </div>
+    
+    <div id="prompt-container" style="display: none;">
+        <h1>Set Your Name First</h1>
+        <p>Please go back to your profile and save your name to generate your certificate.</p>
+        <a href="/profile" class="btn-profile">Go to Profile</a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const usernameSpan = document.getElementById('cert-username');
+            const dateSpan = document.getElementById('cert-date');
+            const mainContent = document.getElementById('main-content');
+            const promptContainer = document.getElementById('prompt-container');
+
+            const serverUsername = "{{ username }}";
+            const serverDate = "{{ date }}";
+
+            if (/^\d{10}$/.test(serverUsername)) {
+                mainContent.style.display = 'none';
+                promptContainer.style.display = 'block';
+                return;
+            }
+
+            usernameSpan.textContent = serverUsername;
+            dateSpan.textContent = serverDate;
+
+            document.getElementById('downloadPng').addEventListener('click', function() {
+                html2canvas(document.getElementById('certificate')).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = 'CityZen_Champion_Certificate.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                });
+            });
+            document.getElementById('downloadPdf').addEventListener('click', function() {
+                const { jsPDF } = window.jspdf;
+                const certificate = document.getElementById('certificate');
+                html2canvas(certificate, { scale: 2 }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const pdf = new jsPDF({
+                        orientation: 'landscape',
+                        unit: 'px',
+                        format: [certificate.offsetWidth, certificate.offsetHeight]
+                    });
+                    pdf.addImage(imgData, 'PNG', 0, 0, certificate.offsetWidth, certificate.offsetHeight);
+                    pdf.save('CityZen_Champion_Certificate.pdf');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

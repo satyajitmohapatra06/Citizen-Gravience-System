@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - CityZen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+</head>
+<body>
+
+    <header class="profile-header">
+        <a href="{{ url_for('home') }}" class="home-btn"><i class="fas fa-arrow-left"></i> Home</a>
+        <h1>My Profile</h1>
+        <div class="user-info-header">
+            <span class="user-name">{{ user_name }}</span>
+            <span class="user-phone">{{ user_phone }}</span>
+        </div>
+    </header>
+
+    <main class="profile-layout">
+        <!-- Left Column: User Details & Rank -->
+        <aside class="left-column">
+            <div class="profile-card">
+                <div class="profile-image">
+                    {% if profile_photo %}
+                        <img src="{{ url_for('static', filename='profile_photos/' + profile_photo) }}" alt="Profile Photo" class="avatar">
+                    {% else %}
+                        <i class="fas fa-user-circle"></i>
+                    {% endif %}
+                </div>
+                <form action="{{ url_for('update_profile') }}" method="POST">
+                    <div class="input-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" value="{{ user_name }}">
+                    </div>
+                    <div class="input-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" id="phone" value="{{ user_phone }}" disabled>
+                    </div>
+                    <button type="submit" class="btn-save-profile"><i class="fas fa-save"></i> Save Profile</button>
+                </form>
+                 <hr>
+                <form action="{{ url_for('update_profile_photo') }}" method="POST" enctype="multipart/form-data" class="photo-upload-form">
+                    <label for="profile_photo">Update Profile Photo</label>
+                    <input type="file" name="profile_photo" id="profile_photo" accept="image/*">
+                    <button type="submit" class="btn-save-profile"><i class="fas fa-camera"></i> Update Photo</button>
+                </form>
+            </div>
+            <div class="rank-card">
+                <div class="rank-icon"><i class="fas fa-trophy"></i></div>
+                <h3>Your Civic Rank</h3>
+                <div class="rank-details">
+                    <div class="rank-position">
+                        <span class="value">#{{ rank }}</span>
+                        <span class="label">Current Rank</span>
+                    </div>
+                    <div class="rank-score">
+                        <span class="value">{{ "%.2f"|format(civic_score) }}</span>
+                        <span class="label">Civic Score</span>
+                    </div>
+                </div>
+                <a href="{{ url_for('leaderboard') }}" class="btn-leaderboard">View Leaderboard</a>
+            </div>
+        </aside>
+
+        <!-- Right Column: Stats & Achievements -->
+        <div class="right-column">
+            <!-- Stats Section -->
+            <section class="stats-grid">
+                <div class="stat-card total">
+                    <div class="icon"><i class="fas fa-bullhorn"></i></div>
+                    <div class="info">
+                        <span class="value">{{ stats.total }}</span>
+                        <span class="label">Total Complaints</span>
+                    </div>
+                </div>
+                <div class="stat-card pending">
+                    <div class="icon"><i class="fas fa-hourglass-half"></i></div>
+                    <div class="info">
+                        <span class="value">{{ stats.pending }}</span>
+                        <span class="label">Pending</span>
+                    </div>
+                </div>
+                <div class="stat-card resolved">
+                    <div class="icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="info">
+                        <span class="value">{{ stats.resolved }}</span>
+                        <span class="label">Resolved</span>
+                    </div>
+                </div>
+                <div class="stat-card in-progress">
+                    <div class="icon"><i class="fas fa-sync-alt"></i></div>
+                    <div class="info">
+                        <span class="value">{{ stats.in_progress }}</span>
+                        <span class="label">In Progress</span>
+                    </div>
+                </div>
+                <div class="stat-card rejected">
+                    <div class="icon"><i class="fas fa-times-circle"></i></div>
+                    <div class="info">
+                        <span class="value">{{ stats.rejected }}</span>
+                        <span class="label">Rejected</span>
+                    </div>
+                </div>
+                <div class="stat-card escalated">
+                    <div class="icon"><i class="fas fa-arrow-up"></i></div>
+                    <div class="info">
+                        <span class="value">{{ stats.escalated }}</span>
+                        <span class="label">Escalated</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Badges Section -->
+            <section class="achievements-section">
+                <h2>Your Civic Journey</h2>
+                <div class="badges-container">
+                    <div class="badge-item {% if stats.total >= 1 %}unlocked{% else %}locked{% endif %}">
+                        <div class="badge-icon"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="currentColor"/><path d="M50 25 l20 40 H30 Z" fill="#fff"/></svg></div>
+                        <span class="badge-title">Civic Starter</span><span class="badge-req">1+ Complaint</span>
+                    </div>
+                    <div class="badge-item {% if stats.total >= 5 %}unlocked{% else %}locked{% endif %}">
+                        <div class="badge-icon"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="currentColor"/><path d="M30 35 l40 0 l-20 30 Z" fill="#fff"/><path d="M30 55 l40 0 l-20 30 Z" fill="#fff" transform="translate(0, -20)"/></svg></div>
+                        <span class="badge-title">Community Voice</span><span class="badge-req">5+ Complaints</span>
+                    </div>
+                    <div class="badge-item {% if stats.total >= 10 %}unlocked{% else %}locked{% endif %}">
+                        <div class="badge-icon"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="currentColor"/><path d="M50 20 l15 15 l-15 15 l-15 -15 Z M20 50 l15 15 l-15 15 l-15 -15 Z M80 50 l-15 15 l15 15 l15 -15 Z" fill="#fff" transform="translate(-15, -15)"/></svg></div>
+                        <span class="badge-title">Neighborhood Hero</span><span class="badge-req">10+ Complaints</span>
+                    </div>
+                    <div class="badge-item {% if stats.total >= 20 %}unlocked{% else %}locked{% endif %}">
+                        <div class="badge-icon"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="currentColor"/><path d="M50,20 L80,50 L50,80 L20,50 Z" fill="#fff"/></svg></div>
+                        <span class="badge-title">City Guardian</span><span class="badge-req">20+ Complaints</span>
+                    </div>
+                    <div class="badge-item {% if stats.total >= 30 %}unlocked{% else %}locked{% endif %}">
+                        <div class="badge-icon"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="currentColor"/><path d="M50 15 l10 20 l25 5 l-20 20 l5 25 l-20 -10 l-20 10 l5 -25 l-20 -20 l25 -5 Z" fill="#fff"/></svg></div>
+                        <span class="badge-title">Zen Master</span><span class="badge-req">30+ Complaints</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Certificates Section -->
+            <section class="achievements-section">
+                <h2>My Certificates</h2>
+                <div class="certificates-container">
+                    {% if stats.total >= 1 %}
+                    <div class="certificate-item">
+                        <div class="icon"><i class="fas fa-handshake"></i></div>
+                        <div class="info">
+                            <h3>Welcome Certificate</h3>
+                            <p>For taking your first step in active citizenship.</p>
+                        </div>
+                        <a href="{{ url_for('generate_welcome_certificate', username=user_name) }}" class="btn-view" target="_blank">View</a>
+                    </div>
+                    {% endif %}
+                    {% if stats.total >= 30 %}
+                    <div class="certificate-item champion">
+                        <div class="icon"><i class="fas fa-trophy"></i></div>
+                        <div class="info">
+                            <h3>CityZen Champion</h3>
+                            <p>For your outstanding contribution to our community.</p>
+                        </div>
+                        <a href="{{ url_for('generate_certificate', username=user_name) }}" class="btn-view" target="_blank">View</a>
+                    </div>
+                    {% endif %}
+                    {% if stats.total == 0 %}
+                    <p>You haven't earned any certificates yet. Report an issue to get started!</p>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+    </main>
+
+</body>
+</html>
+

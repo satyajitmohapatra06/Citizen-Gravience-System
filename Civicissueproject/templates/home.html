@@ -15,7 +15,7 @@
 <body>
 
     <!-- ============================
-         NAVIGATION BAR
+             NAVIGATION BAR
     =============================== -->
     <nav>
         <div class="container nav-container">
@@ -31,7 +31,8 @@
             <ul class="nav-links" id="nav-links">
                 <li><a href="/"><span data-translate="nav_home">Home</span></a></li>
                 <li><a href="/report"><span data-translate="nav_report">Report</span></a></li>
-                <li><a href="/community"><span data-translate="nav_community">Community</span></a></li>
+                <li><a href="/community_complaints"><span data-translate="nav_community">Community</span></a></li>
+                <li><a href="/leaderboard"><span data-translate="nav_leaderboard">Leaderboard</span></a></li>
                 <li><a href="/about"><span data-translate="nav_about">About</span></a></li>
                 <li>
                     <div class="language-switcher-wrapper">
@@ -45,8 +46,9 @@
                 </li>
                 <li class="dropdown-container">
                     {% if session.get('role') == 'user' %}
-                    <button class="login-btn" data-translate="nav_user_btn">User ▾</button>
+                    <button class="login-btn">{{ user_name or 'User' }} ▾</button>
                     <ul class="dropdown">
+                        <li><a href="/profile" data-translate="nav_my_profile">My Profile</a></li>
                         <li><a href="/mycomplaints" data-translate="nav_my_complaints">My Complaints</a></li>
                         <li><a href="/logout" data-translate="nav_logout">Logout</a></li>
                     </ul>
@@ -69,7 +71,7 @@
     </nav>
 
     <!-- ============================
-         HERO SECTION
+            HERO SECTION
     =============================== -->
     <section class="hero">
         <div class="container">
@@ -86,7 +88,7 @@
     </section>
 
     <!-- ============================
-         CATEGORIES SECTION
+            CATEGORIES SECTION
     =============================== -->
     <section class="categories">
         <div class="container">
@@ -135,7 +137,7 @@
     </section>
 
     <!-- ============================
-         HOW IT WORKS SECTION
+            HOW IT WORKS SECTION
     =============================== -->
     <section class="how-it-works">
         <div class="container">
@@ -171,7 +173,7 @@
     </section>
 
     <!-- ============================
-         TEAM MESSAGE SECTION
+            TEAM MESSAGE SECTION
     =============================== -->
     <section class="team-message">
         <div class="container">
@@ -207,7 +209,7 @@
     </section>
 
     <!-- ============================
-         AWARENESS SECTION
+            AWARENESS SECTION
     =============================== -->
     <section class="awareness">
         <div class="container">
@@ -271,7 +273,7 @@
     </section>
 
     <!-- ============================
-         TESTIMONIALS SECTION
+            TESTIMONIALS SECTION
     =============================== -->
     <section class="testimonials">
         <div class="container">
@@ -322,72 +324,73 @@
         </div>
     </section>
 
-   <!-- ============================
-         ENHANCED FOOTER SECTION
-=============================== -->
-<footer class="enhanced-footer">
-    <div class="container footer-grid">
+    <!-- ============================
+            FOOTER
+    =============================== -->
+    <footer class="enhanced-footer">
+        <div class="container footer-grid">
 
-        <!-- Column 1: Logo & Description -->
-        <div class="footer-col footer-about">
-            <h2 class="footer-logo"><i class="fas fa-landmark"></i> CityZen</h2>
-            <p>Your civic companion for reporting issues and building better communities together. Empowering citizens to make cities cleaner, safer, and smarter.</p>
-            <div class="social-icons">
-                <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <!-- Column 1: Logo & Description -->
+            <div class="footer-col footer-about">
+                <h2 class="footer-logo"><i class="fas fa-landmark"></i> CityZen</h2>
+                <p>Your civic companion for reporting issues and building better communities together. Empowering
+                    citizens to make cities cleaner, safer, and smarter.</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+
+            <!-- Column 2: Emergency Contacts -->
+            <div class="footer-col">
+                <h3>🚨 Emergency Contacts</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-ambulance"></i> Ambulance: <a href="tel:108">108</a></li>
+                    <li><i class="fas fa-fire-extinguisher"></i> Fire Brigade: <a href="tel:101">101</a></li>
+                    <li><i class="fas fa-shield-alt"></i> Police: <a href="tel:100">100</a></li>
+                    <li><i class="fas fa-phone-alt"></i> Women Helpline: <a href="tel:1091">1091</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 3: Quick Links -->
+            <div class="footer-col">
+                <h3>🔗 Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="/">🏠 Home</a></li>
+                    <li><a href="/report">📝 Report an Issue</a></li>
+                    <li><a href="/community">👥 Community</a></li>
+                    <li><a href="/about">ℹ About</a></li>
+                    <li><a href="/contact">📩 Contact Us</a></li>
+                </ul>
+            </div>
+
+            <!-- Column 4: Contact Info -->
+            <div class="footer-col">
+                <h3>📞 Contact & Support</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-map-marker-alt"></i> Bhubaneswar, Odisha</li>
+                    <li><i class="fas fa-envelope"></i> <a
+                            href="mailto:support@cityzen.gov.in">support@cityzen.gov.in</a></li>
+                    <li><i class="fas fa-phone"></i> <a href="tel:+911234567890">+91 12345 67890</a></li>
+                </ul>
+                <form class="footer-form">
+                    <input type="email" placeholder="Enter your email" required>
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
             </div>
         </div>
 
-        <!-- Column 2: Emergency Contacts -->
-        <div class="footer-col">
-            <h3>🚨 Emergency Contacts</h3>
-            <ul class="footer-links">
-                <li><i class="fas fa-ambulance"></i> Ambulance: <a href="tel:108">108</a></li>
-                <li><i class="fas fa-fire-extinguisher"></i> Fire Brigade: <a href="tel:101">101</a></li>
-                <li><i class="fas fa-shield-alt"></i> Police: <a href="tel:100">100</a></li>
-                <li><i class="fas fa-phone-alt"></i> Women Helpline: <a href="tel:1091">1091</a></li>
-            </ul>
+        <div class="footer-bottom">
+            <p>&copy; 2025 CityZen - Government Civic Issue Reporting Platform. All rights reserved.</p>
+            <p>Made with ❤️ for citizens.</p>
         </div>
-
-        <!-- Column 3: Quick Links -->
-        <div class="footer-col">
-            <h3>🔗 Quick Links</h3>
-            <ul class="footer-links">
-                <li><a href="/">🏠 Home</a></li>
-                <li><a href="/report">📝 Report an Issue</a></li>
-                <li><a href="/community">👥 Community</a></li>
-                <li><a href="/about">ℹ About</a></li>
-                <li><a href="/contact">📩 Contact Us</a></li>
-            </ul>
-        </div>
-
-        <!-- Column 4: Contact Info -->
-        <div class="footer-col">
-            <h3>📞 Contact & Support</h3>
-            <ul class="footer-links">
-                <li><i class="fas fa-map-marker-alt"></i> Bhubaneswar, Odisha</li>
-                <li><i class="fas fa-envelope"></i> <a href="mailto:support@cityzen.gov.in">support@cityzen.gov.in</a></li>
-                <li><i class="fas fa-phone"></i> <a href="tel:+911234567890">+91 12345 67890</a></li>
-            </ul>
-            <form class="footer-form">
-                <input type="email" placeholder="Enter your email" required>
-                <button type="submit"><i class="fas fa-paper-plane"></i></button>
-            </form>
-        </div>
-    </div>
-
-    <div class="footer-bottom">
-        <p>&copy; 2025 CityZen - Government Civic Issue Reporting Platform. All rights reserved.</p>
-        <p>Made with ❤️ for citizens.</p>
-    </div>
-</footer>
-
+    </footer>
 
 
     <!-- ============================
-         CHATBOT
+            CHATBOT
     =============================== -->
     <div class="chatbot-container">
         <div class="chat-widget" id="chat-widget">
@@ -408,7 +411,7 @@
     </div>
 
     <!-- ============================
-         SCRIPTS
+            SCRIPTS
     =============================== -->
     <script>
         // --- SCRIPT FOR MOBILE MENU ---

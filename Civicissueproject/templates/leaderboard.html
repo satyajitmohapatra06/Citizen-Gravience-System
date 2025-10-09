@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civic Leaderboard - CityZen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/leaderboard.css') }}">
+</head>
+<body>
+
+    <header class="leaderboard-header">
+        <a href="{{ url_for('home') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Home</a>
+        <h1><i class="fas fa-trophy"></i> Civic Leaderboard</h1>
+        <div class="header-placeholder"></div>
+    </header>
+
+    <main class="leaderboard-container">
+        {% if leaderboard %}
+        <!-- Top 3 Podium -->
+        <section class="podium">
+            <!-- Rank 2: Silver -->
+            {% if leaderboard|length > 1 %}
+            <div class="podium-item rank-2">
+                <div class="podium-rank">
+                    <i class="fas fa-medal"></i>
+                    <span>2</span>
+                </div>
+                <div class="user-avatar">
+                    {% if leaderboard[1].profile_photo %}
+                        <img src="{{ url_for('static', filename='profile_photos/' + leaderboard[1].profile_photo) }}" alt="{{ leaderboard[1].name }}">
+                    {% else %}
+                        <i class="fas fa-user-circle"></i>
+                    {% endif %}
+                </div>
+                <div class="user-name">{{ leaderboard[1].name }}</div>
+                <div class="user-score">{{ "%.2f"|format(leaderboard[1].score) }} Pts</div>
+            </div>
+            {% endif %}
+
+            <!-- Rank 1: Gold -->
+            <div class="podium-item rank-1">
+                <div class="podium-rank">
+                    <i class="fas fa-trophy"></i>
+                    <span>1</span>
+                </div>
+                <div class="user-avatar">
+                     {% if leaderboard[0].profile_photo %}
+                        <img src="{{ url_for('static', filename='profile_photos/' + leaderboard[0].profile_photo) }}" alt="{{ leaderboard[0].name }}">
+                    {% else %}
+                        <i class="fas fa-user-circle"></i>
+                    {% endif %}
+                </div>
+                <div class="user-name">{{ leaderboard[0].name }}</div>
+                <div class="user-score">{{ "%.2f"|format(leaderboard[0].score) }} Pts</div>
+            </div>
+
+            <!-- Rank 3: Bronze -->
+            {% if leaderboard|length > 2 %}
+            <div class="podium-item rank-3">
+                <div class="podium-rank">
+                    <i class="fas fa-medal"></i>
+                    <span>3</span>
+                </div>
+                <div class="user-avatar">
+                    {% if leaderboard[2].profile_photo %}
+                        <img src="{{ url_for('static', filename='profile_photos/' + leaderboard[2].profile_photo) }}" alt="{{ leaderboard[2].name }}">
+                    {% else %}
+                        <i class="fas fa-user-circle"></i>
+                    {% endif %}
+                </div>
+                <div class="user-name">{{ leaderboard[2].name }}</div>
+                <div class="user-score">{{ "%.2f"|format(leaderboard[2].score) }} Pts</div>
+            </div>
+            {% endif %}
+        </section>
+
+        <!-- Leaderboard for Ranks 4-10 -->
+        {% if leaderboard|length > 3 %}
+        <section class="rankings-list">
+            <table>
+                <tbody>
+                    {% for user in leaderboard[3:] %}
+                    <tr>
+                        <td class="rank-cell">#{{ loop.index + 3 }}</td>
+                        <td class="name-cell">
+                            <div class="user-avatar-small">
+                                {% if user.profile_photo %}
+                                    <img src="{{ url_for('static', filename='profile_photos/' + user.profile_photo) }}" alt="{{ user.name }}">
+                                {% else %}
+                                    <i class="fas fa-user-circle"></i>
+                                {% endif %}
+                            </div>
+                            <span>{{ user.name }}</span>
+                        </td>
+                        <td class="score-cell">{{ "%.2f"|format(user.score) }} Pts</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        {% endif %}
+
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-users-slash"></i>
+            <p>The leaderboard is currently empty. Be the first to make an impact!</p>
+        </div>
+        {% endif %}
+    </main>
+
+</body>
+</html>
+
