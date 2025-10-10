@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificate of Appreciation</title>
+    <title>Grand Champion Certificate - CityZen</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Cinzel:wght@400;700;900&family=Montserrat:wght@400;500;600&family=Dancing+Script:wght@700&display=swap');
         
         body {
             font-family: 'Montserrat', sans-serif;
@@ -18,204 +19,291 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
         .certificate-container {
             width: 840px;
             height: 594px;
-            background: white;
-            border: 1px solid #e0e0e0;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: #fdfbf5;
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             position: relative;
             text-align: center;
-        }
-
-        .certificate-border {
-            position: absolute;
-            top: 15px; left: 15px; right: 15px; bottom: 15px;
-            border: 2px solid #d97706; /* Gold color */
-            padding: 10px;
-            border-style: double;
-            border-width: 5px;
-        }
-        
-        .logo { 
-            font-size: 1.5rem; 
-            font-weight: bold; 
-            color: #d97706; 
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            margin: 15px 0 5px;
-            color: #1e293b;
-        }
-        
-        .subtitle { 
-            font-size: 1.1rem; 
-            color: #64748b; 
-        }
-        
-        .username {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            color: #4f46e5;
-            margin: 30px 0;
-            display: inline-block;
-            padding-bottom: 5px;
-            font-weight: 700;
-        }
-        
-        .reason { 
-            font-size: 1rem; 
-            line-height: 1.6; 
-            max-width: 650px; 
-            margin: 0 auto; 
-            color: #334155;
-        }
-        
-        .footer {
-            position: absolute;
-            bottom: 45px;
-            left: 45px;
-            right: 45px;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            font-size: 0.9rem;
-        }
-        
-        .signature-line {
-            border-top: 1px solid #334155;
-            padding: 8px 40px 0;
-            font-family: 'Playfair Display', serif;
-        }
-        
-        .signature-img {
-            height: 45px;
-            margin-bottom: -10px;
+            flex-direction: column;
+            border: 5px solid #b48c34;
+            box-sizing: border-box;
         }
 
-        .seal {
+        .inner-border {
+            border: 2px solid #002d62;
+            padding: 25px 45px; 
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            box-sizing: border-box;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><pattern id="diagonal-stripe" patternUnits="userSpaceOnUse" width="10" height="10"><path d="M-1,1 l2,-2 M0,10 l10,-10 M9,11 l2,-2" stroke="%23f2e6c2" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23diagonal-stripe)" opacity="0.1"/></svg>');
+        }
+        
+        .royal-corner {
             position: absolute;
-            bottom: 30px;
-            right: 170px;
             width: 100px;
             height: 100px;
+            z-index: 5;
+        }
+        .royal-corner.top-left { top: -2px; left: -2px; }
+        .royal-corner.top-right { top: -2px; right: -2px; transform: scaleX(-1); }
+        .royal-corner.bottom-left { bottom: -2px; left: -2px; transform: scaleY(-1); }
+        .royal-corner.bottom-right { bottom: -2px; right: -2px; transform: scale(-1, -1); }
+        
+        .royal-corner svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .header-section {
+            padding-top: 15px;
+        }
+        .main-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.4rem;
+            color: #b48c34;
+            margin: 0;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .award-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.0rem;
+            color: #002d62;
+            margin-top: 3px;
+            font-weight: 700;
+        }
+
+        .divider {
+            width: 70%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #b48c34, transparent);
+            /* ✅ CHANGE: Reduced bottom margin to bring sections closer */
+            margin: 12px auto 5px; 
+        }
+
+        .recipient-section {
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            /* ✅ CHANGE: Added top padding for fine-tuned spacing control */
+            padding-top: 10px;
+        }
+        .honorific {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            color: #5b5b5b;
+            margin-bottom: 2px;
+        }
+        .username {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #002d62;
+            font-weight: 900;
+            margin: 0;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        .reason {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            max-width: 580px; 
+            margin: 12px auto 0;
+            color: #334155;
+            font-weight: 500;
         }
         
-        .download-buttons { margin-top: 2rem; display: flex; gap: 1rem; }
-        .btn-download, .btn-profile {
-            padding: 10px 20px; border: none; border-radius: 8px; font-size: 1rem;
-            font-weight: 600; cursor: pointer; background: linear-gradient(45deg, #f59e0b, #d97706);
-            color: white; transition: all 0.2s ease; text-decoration: none;
-            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+        .signature-section {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            width: 100%;
+            padding-bottom: 15px;
         }
-        .btn-download:hover, .btn-profile:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(245, 158, 11, 0.4); }
-
-        .prompt-container {
+        .signature-block {
             text-align: center;
-            background: white;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            flex-basis: 50%;
         }
+        .signature-line {
+            border-bottom: 1px dashed #5b5b5b;
+            width: 70%;
+            margin: 0 auto 5px;
+        }
+        .signatory-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #002d62;
+            margin-top: 5px;
+        }
+        .signatory-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .footer-logo-and-date {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            margin-top: 10px;
+            border-top: 1px solid #e2e8f0;
+        }
+        .cityzen-logo-text { 
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600; 
+            color: #64748b; 
+            font-size: 0.85rem; 
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .date-issued {
+            background-color: #002d62;
+            color: white;
+            padding: 7px 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            clip-path: polygon(0 0, 100% 0, 90% 50%, 100% 100%, 0 100%);
+        }
+
+        .download-buttons { margin-top: 2rem; display: flex; gap: 1rem; }
+        .btn-download {
+            padding: 10px 20px; border: none; border-radius: 8px; font-size: 1rem;
+            font-weight: 600; cursor: pointer; background: #002d62;
+            color: white; transition: all 0.2s ease;
+        }
+        .btn-download:hover { background-color: #3b82f6; transform: translateY(-2px); }
     </style>
 </head>
 <body>
-    <div id="main-content">
-        <div id="certificate" class="certificate-container">
-            <div class="certificate-border"></div>
-
-            <div class="logo">CityZen Champion</div>
-            <h1 class="title">Certificate of Appreciation</h1>
-            <p class="subtitle">This certificate is proudly presented to</p>
-            <div class="username"><span id="cert-username"></span></div>
-            <p class="reason">
-                For your outstanding dedication and invaluable contributions towards building a better, safer, and more responsive community through the CityZen platform. Your efforts have made a significant impact.
-            </p>
-
-            <div class="seal">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="50" cy="50" r="48" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
-                    <path d="M50 25 l10 20 l25 5 l-20 20 l5 25 l-20 -10 l-20 10 l5 -25 l-20 -20 l25 -5 Z" fill="#f59e0b"/>
-                    <circle cx="50" cy="50" r="18" fill="white" stroke="#d97706" stroke-width="1"/>
-                    <text x="50" y="55" font-family="Montserrat, sans-serif" font-size="10" fill="#d97706" text-anchor="middle" font-weight="bold">2025</text>
+    <div id="certificate" class="certificate-container">
+        <div class="inner-border">
+            <div class="royal-corner top-left">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#b48c34" stroke-width="2">
+                    <path d="M0 0 L100 0 L100 10 L10 10 L10 100 L0 100 Z" fill="#fdfbf5" />
+                    <path d="M100 0 V10 L10 10 V100 M0 0 H10 L10 100" />
+                    <path d="M20 20 Q50 5 80 20 M20 20 Q5 50 20 80" stroke-dasharray="4 2"/>
+                </svg>
+            </div>
+            <div class="royal-corner top-right">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#b48c34" stroke-width="2">
+                    <path d="M0 0 L100 0 L100 10 L10 10 L10 100 L0 100 Z" fill="#fdfbf5" />
+                    <path d="M100 0 V10 L10 10 V100 M0 0 H10 L10 100" />
+                    <path d="M20 20 Q50 5 80 20 M20 20 Q5 50 20 80" stroke-dasharray="4 2"/>
+                </svg>
+            </div>
+            <div class="royal-corner bottom-left">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#b48c34" stroke-width="2">
+                    <path d="M0 0 L100 0 L100 10 L10 10 L10 100 L0 100 Z" fill="#fdfbf5" />
+                    <path d="M100 0 V10 L10 10 V100 M0 0 H10 L10 100" />
+                    <path d="M20 20 Q50 5 80 20 M20 20 Q5 50 20 80" stroke-dasharray="4 2"/>
+                </svg>
+            </div>
+            <div class="royal-corner bottom-right">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#b48c34" stroke-width="2">
+                    <path d="M0 0 L100 0 L100 10 L10 10 L10 100 L0 100 Z" fill="#fdfbf5" />
+                    <path d="M100 0 V10 L10 10 V100 M0 0 H10 L10 100" />
+                    <path d="M20 20 Q50 5 80 20 M20 20 Q5 50 20 80" stroke-dasharray="4 2"/>
                 </svg>
             </div>
 
-            <div class="footer">
-                <div class="date">
-                    <span class="signature-line"><span id="cert-date"></span></span><br>Date Issued
+            <div class="header-section">
+                <h1 class="main-title">GRAND CHAMPION</h1>
+                <p class="award-subtitle">CERTIFICATE OF RECOGNITION</p>
+                <div class="divider"></div>
+            </div>
+
+            <div class="recipient-section">
+                <p class="honorific">Presented to</p>
+                <p class="username">{{ username }}</p>
+                <p class="reason">For exceptional leadership and unwavering commitment to the CityZen community. Your exemplary service and profound impact have earned you the highest honor as a Grand City Champion, inspiring all with your dedication to civic improvement.</p>
+            </div>
+
+            <div class="signature-section">
+                <div class="signature-block">
+                    <div class="signature-line"></div>
+                    <p class="signatory-name">His Royal Highness</p>
+                    <p class="signatory-title">Founder & Patron of CityZen</p>
                 </div>
-                <div class="signature">
-                    <img src="https://i.imgur.com/gK2F6p9.png" alt="Signature" class="signature-img">
-                    <div class="signature-line">Municipal Commissioner</div>
-                    Official Recognition
+                <div class="signature-block">
+                    <div class="signature-line"></div>
+                    <p class="signatory-name">The Grand Council</p>
+                    <p class="signatory-title">CityZen Governing Body</p>
                 </div>
             </div>
-        </div>
 
-        <div class="download-buttons">
-            <button id="downloadPng" class="btn-download"><i class="fas fa-image"></i> Download as PNG</button>
-            <button id="downloadPdf" class="btn-download"><i class="fas fa-file-pdf"></i> Download as PDF</button>
+            <div class="footer-logo-and-date">
+                <div class="cityzen-logo-text"><i class="fas fa-crown" style="color:#b48c34;"></i> CityZen: Architects of Change</div>
+                <div id="date-issued-element" class="date-issued">Date Issued: </div>
+            </div>
         </div>
     </div>
-    
-    <div id="prompt-container" style="display: none;">
-        <h1>Set Your Name First</h1>
-        <p>Please go back to your profile and save your name to generate your certificate.</p>
-        <a href="/profile" class="btn-profile">Go to Profile</a>
+
+    <div class="download-buttons">
+        <button id="downloadPng" class="btn-download">Download as PNG</button>
+        <button id="downloadPdf" class="btn-download">Download as PDF</button>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const usernameSpan = document.getElementById('cert-username');
-            const dateSpan = document.getElementById('cert-date');
-            const mainContent = document.getElementById('main-content');
-            const promptContainer = document.getElementById('prompt-container');
+            const dateElement = document.getElementById('date-issued-element');
+            const today = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = today.toLocaleDateString('en-US', options);
+            dateElement.textContent = `Date Issued: ${formattedDate}`;
+        });
 
-            const serverUsername = "{{ username }}";
-            const serverDate = "{{ date }}";
-
-            if (/^\d{10}$/.test(serverUsername)) {
-                mainContent.style.display = 'none';
-                promptContainer.style.display = 'block';
-                return;
-            }
-
-            usernameSpan.textContent = serverUsername;
-            dateSpan.textContent = serverDate;
-
-            document.getElementById('downloadPng').addEventListener('click', function() {
-                html2canvas(document.getElementById('certificate')).then(canvas => {
-                    const link = document.createElement('a');
-                    link.download = 'CityZen_Champion_Certificate.png';
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
-                });
+        document.getElementById('downloadPng').addEventListener('click', function() {
+            const certificate = document.getElementById('certificate');
+            html2canvas(certificate, { 
+                useCORS: true, 
+                backgroundColor: '#fdfbf5',
+                scale: 2 
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'CityZen_Grand_Champion_Certificate.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
             });
-            document.getElementById('downloadPdf').addEventListener('click', function() {
+        });
+
+        document.getElementById('downloadPdf').addEventListener('click', function() {
+            const certificate = document.getElementById('certificate');
+            html2canvas(certificate, { 
+                useCORS: true, 
+                backgroundColor: '#fdfbf5',
+                scale: 3
+            }).then(canvas => {
                 const { jsPDF } = window.jspdf;
-                const certificate = document.getElementById('certificate');
-                html2canvas(certificate, { scale: 2 }).then(canvas => {
-                    const imgData = canvas.toDataURL('image/png');
-                    const pdf = new jsPDF({
-                        orientation: 'landscape',
-                        unit: 'px',
-                        format: [certificate.offsetWidth, certificate.offsetHeight]
-                    });
-                    pdf.addImage(imgData, 'PNG', 0, 0, certificate.offsetWidth, certificate.offsetHeight);
-                    pdf.save('CityZen_Champion_Certificate.pdf');
+                const imgData = canvas.toDataURL('image/png');
+                const certificateWidth = certificate.offsetWidth;
+                const certificateHeight = certificate.offsetHeight;
+                
+                const pdf = new jsPDF({
+                    orientation: 'landscape',
+                    unit: 'px',
+                    format: [certificateWidth, certificateHeight] 
                 });
+                
+                pdf.addImage(imgData, 'PNG', 0, 0, certificateWidth, certificateHeight);
+                pdf.save('CityZen_Grand_Champion_Certificate.pdf');
             });
         });
     </script>
 </body>
 </html>
-
