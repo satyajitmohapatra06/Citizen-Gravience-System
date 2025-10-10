@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-translate="ad_title">Admin Dashboard - CityZen</title>
 
-    <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_styles.css') }}">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-    <!-- Inline Styles -->
     <style>
         .chart-fallback {
             width: 100%;
@@ -123,7 +124,6 @@
 
 <body>
 
-    <!-- Sidebar Navigation -->
     <nav class="admin-sidebar">
         <div class="sidebar-header">
             <h3 data-translate="ad_civic_admin"><i class="fas fa-shield-alt"></i> CityZen Admin</h3>
@@ -145,7 +145,6 @@
         </div>
     </nav>
 
-    <!-- Main Content Wrapper -->
     <div class="content-wrapper">
         <header class="admin-header">
             <div class="left">
@@ -164,7 +163,6 @@
         </header>
 
         <main class="admin-main">
-            <!-- Dashboard Section -->
             <div id="dashboard-content" class="content-section">
                 <section class="top-cards">
                     <div class="card metric" style="border-top: 4px solid #0a66ff;">
@@ -198,7 +196,6 @@
                 </div>
                 {% endif %}
 
-                <!-- NEW: Escalation Alert Box -->
                 {% if escalated_complaints and escalated_complaints|length > 0 %}
                 <div id="escalation-alert" class="admin-alert" style="background-color: #f2dede; border-color: #ebccd1; color: #a94442;">
                     <strong><i class="fas fa-arrow-up"></i> <span data-translate="ad_escalation_alert">Escalation Alert:</span></strong>
@@ -277,6 +274,14 @@
                         <div class="chart-fallback" data-translate="ad_no_dept_status_chart">No Dept vs Status Chart Available</div>
                         {% endif %}
                     </div>
+
+                    <div class="chart-card" style="grid-column: 1 / -1;">
+                        <h3><i class="fas fa-map-location-dot"></i> Live Complaint Map</h3>
+                        <div id="complaint-map" style="height: 450px; width: 100%; border-radius: 8px; background: #f0f0f0;">
+                            <p style="text-align: center; padding-top: 20%;">Loading map...</p>
+                        </div>
+                    </div>
+
                     <div class="chart-card" style="grid-column: 1 / -1;">
                         <h3 data-translate="ad_heatmap"><i class="fas fa-map-marked-alt"></i> Odisha Pending Complaints Heatmap</h3>
                         {% if charts['odisha_map'] %}
@@ -288,7 +293,6 @@
                 </section>
             </div>
 
-            <!-- Complaints Section -->
             <div id="complaints-content" class="content-section" style="display: none;">
                 <section class="complaints-table">
                     <div class="table-header">
@@ -337,17 +341,14 @@
                         </table>
                     </div>
                     
-                    <!-- Pagination Links -->
                     {% if complaints_pagination and complaints_pagination.pages > 1 %}
                     <div class="pagination">
-                        <!-- Previous Link -->
                         {% if complaints_pagination.has_prev %}
                             <a href="{{ url_for('admin_dashboard', page=complaints_pagination.prev_num, q=q or '', view='complaints') }}">&laquo; Prev</a>
                         {% else %}
                             <span class="disabled">&laquo; Prev</span>
                         {% endif %}
 
-                        <!-- Page Links -->
                         {% for page_num in complaints_pagination.iter_pages() %}
                             {% if page_num %}
                                 {% if complaints_pagination.page == page_num %}
@@ -360,7 +361,6 @@
                             {% endif %}
                         {% endfor %}
 
-                        <!-- Next Link -->
                         {% if complaints_pagination.has_next %}
                             <a href="{{ url_for('admin_dashboard', page=complaints_pagination.next_num, q=q or '', view='complaints') }}">Next &raquo;</a>
                         {% else %}
@@ -374,7 +374,6 @@
         </main>
     </div>
 
-    <!-- Lightbox Modals for Charts -->
     <div id="lightbox-status" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['status']) }}" alt="status chart full"></div>
     <div id="lightbox-department" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['department']) }}" alt="department chart full"></div>
     <div id="lightbox-pincode" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart full"></div>
@@ -382,7 +381,6 @@
     <div id="lightbox-district" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district full"></div>
     <div id="lightbox-deptstatus" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status full"></div>
 
-    <!-- Chatbot Widget -->
     <div class="chat-widget">
         <div class="chat-window" id="chat-window">
             <div class="chat-header">Saity</div>
@@ -401,7 +399,6 @@
         </button>
     </div>
 
-    <!-- Scripts -->
     <script>
         // --- Navigation & State Management Script ---
         function showContent(sectionId, element) {
@@ -447,13 +444,53 @@
                 } else {
                      const dashboardLink = document.getElementById('nav-dashboard');
                      if(dashboardLink) {
-                        showContent('dashboard-content', dashboardLink);
+                         showContent('dashboard-content', dashboardLink);
                      }
                 }
             }
             
             // Set initial view when page loads
             handleURLState();
+
+            // --- Leaflet Map Initialization Script ---
+            function initializeComplaintMap() {
+                // 1. Initialize the map and set its view to a central point in Odisha
+                const map = L.map('complaint-map').setView([20.9517, 85.0985], 8); // Centered on Odisha
+
+                // 2. Add a tile layer (the map background) from OpenStreetMap
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                // 3. Fetch complaint data from your API
+                fetch("{{ url_for('get_complaints_for_map') }}")
+                    .then(response => response.json())
+                    .then(complaints => {
+                        if (complaints.length === 0) {
+                            document.getElementById('complaint-map').innerHTML = '<p style="text-align: center; padding-top: 20%;">No complaints with location data found.</p>';
+                            return;
+                        }
+                        
+                        // 4. Loop through each complaint and add a marker to the map
+                        complaints.forEach(c => {
+                            if (c.latitude && c.longitude) {
+                                const marker = L.marker([c.latitude, c.longitude]).addTo(map);
+                                
+                                // 5. Add a popup with details to each marker
+                                marker.bindPopup(
+                                    `<b>Department:</b> ${c.department || 'N/A'}<br>` +
+                                    `<b>Status:</b> ${c.status || 'Pending'}`
+                                );
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching complaint data for map:', error);
+                        document.getElementById('complaint-map').innerHTML = '<p style="text-align: center; padding-top: 20%; color: red;">Could not load map data.</p>';
+                    });
+            }
+
+            initializeComplaintMap();
 
             // Add event listener for browser's back and forward buttons
             window.addEventListener('popstate', handleURLState);
@@ -551,4 +588,3 @@
 </body>
 
 </html>
-
