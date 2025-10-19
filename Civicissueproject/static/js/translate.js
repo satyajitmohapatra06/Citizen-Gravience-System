@@ -139,8 +139,10 @@ const translations = {
     nav_home: "Home",
     nav_report: "Report",
     nav_community: "Community",
+    nav_leaderboard: "Leaderboard", // <-- Added
     nav_about: "About",
     nav_user_btn: "User ▾",
+    nav_my_profile: "My Profile", // <-- Added
     nav_my_complaints: "My Complaints",
     nav_logout: "Logout",
     nav_admin_btn: "Admin ▾",
@@ -280,6 +282,51 @@ const translations = {
     user_tag: "(User)",
     ul_no_account: "Don't have an account?",
     signup_link: "Sign up",
+
+    // *** ADDED KEYS START HERE ***
+    // Missing from report.html
+    placeholder_landmark_auto: "Click button above to auto-fill",
+
+    // Missing from profile.html
+    profile_title: "My Profile - CityZen",
+    profile_heading: "My Profile",
+    update_photo_button: "Update Photo",
+    label_your_name: "Your Name",
+    save_profile_button: "Save Profile",
+    rank_heading: "Your Civic Rank",
+    rank_label_current: "Current Rank",
+    rank_label_score: "Civic Score",
+    view_leaderboard_button: "View Leaderboard",
+    stats_total: "Total Complaints",
+    stats_pending: "Pending",
+    stats_resolved: "Resolved",
+    stats_in_progress: "In Progress",
+    stats_rejected: "Rejected",
+    stats_escalated: "Escalated",
+    journey_heading: "Your Civic Journey",
+    badge_newbie: "Newbie Navigator",
+    badge_newbie_req: "1+ Complaint",
+    badge_contributor: "Community Contributor",
+    badge_contributor_req: "5+ Complaints",
+    badge_guardian: "Neighborhood Guardian",
+    badge_guardian_req: "10+ Complaints",
+    badge_champion: "City Champion",
+    badge_champion_req: "25+ Complaints",
+    badge_leader: "Legacy Leader",
+    badge_leader_req: "50+ Complaints",
+    certificates_heading: "My Certificates",
+    cert_welcome_title: "Welcome Certificate",
+    cert_welcome_desc: "For taking your first step in active citizenship.",
+    cert_champion_title: "CityZen Champion",
+    cert_champion_desc: "For your outstanding contribution to our community.",
+    cert_none: "You haven't earned any certificates yet. Report an issue to get started!",
+
+    // Missing from leaderboard.html
+    leaderboard_title: "Civic Leaderboard - CityZen",
+    leaderboard_heading: "Civic Leaderboard",
+    points_suffix: "Pts",
+    leaderboard_empty_message: "The leaderboard is currently empty. Be the first to make an impact!"
+    // *** ADDED KEYS END HERE ***
   },
   hi: {
     // General
@@ -419,8 +466,10 @@ const translations = {
     nav_home: "होम",
     nav_report: "रिपोर्ट करें",
     nav_community: "समुदाय",
+    nav_leaderboard: "लीडरबोर्ड", // <-- Added
     nav_about: "हमारे बारे में",
     nav_user_btn: "उपयोगकर्ता ▾",
+    nav_my_profile: "मेरी प्रोफ़ाइल", // <-- Added
     nav_my_complaints: "मेरी शिकायतें",
     nav_logout: "लॉग आउट",
     nav_admin_btn: "एडमिन ▾",
@@ -560,6 +609,51 @@ const translations = {
     user_tag: "(उपयोगकर्ता)",
     ul_no_account: "क्या आपका कोई खाता नहीं है?",
     signup_link: "साइन अप करें",
+
+    // *** ADDED KEYS START HERE ***
+    // Missing from report.html
+    placeholder_landmark_auto: "स्वतः भरने के लिए ऊपर दिए गए बटन पर क्लिक करें",
+
+    // Missing from profile.html
+    profile_title: "मेरी प्रोफ़ाइल - सिटीज़न",
+    profile_heading: "मेरी प्रोफ़ाइल",
+    update_photo_button: "फ़ोटो अपडेट करें",
+    label_your_name: "आपका नाम",
+    save_profile_button: "प्रोफ़ाइल सहेजें",
+    rank_heading: "आपकी सिविक रैंक",
+    rank_label_current: "वर्तमान रैंक",
+    rank_label_score: "सिविक स्कोर",
+    view_leaderboard_button: "लीडरबोर्ड देखें",
+    stats_total: "कुल शिकायतें",
+    stats_pending: "लंबित",
+    stats_resolved: "समाधान",
+    stats_in_progress: "प्रगति में",
+    stats_rejected: "अस्वीकृत",
+    stats_escalated: "आगे बढ़ाया गया",
+    journey_heading: "आपकी सिविक यात्रा",
+    badge_newbie: "नया नेविगेटर",
+    badge_newbie_req: "1+ शिकायत",
+    badge_contributor: "सामुदायिक योगदानकर्ता",
+    badge_contributor_req: "5+ शिकायतें",
+    badge_guardian: "पड़ोस का रखवाला",
+    badge_guardian_req: "10+ शिकायतें",
+    badge_champion: "सिटी चैंपियन",
+    badge_champion_req: "25+ शिकायतें",
+    badge_leader: "विरासत नेता",
+    badge_leader_req: "50+ शिकायतें",
+    certificates_heading: "मेरे प्रमाण पत्र",
+    cert_welcome_title: "स्वागत प्रमाण पत्र",
+    cert_welcome_desc: "सक्रिय नागरिकता में अपना पहला कदम उठाने के लिए।",
+    cert_champion_title: "सिटीज़न चैंपियन",
+    cert_champion_desc: "हमारे समुदाय में आपके उत्कृष्ट योगदान के लिए।",
+    cert_none: "आपने अभी तक कोई प्रमाण पत्र अर्जित नहीं किया है। आरंभ करने के लिए एक समस्या की रिपोर्ट करें!",
+
+    // Missing from leaderboard.html
+    leaderboard_title: "सिविक लीडरबोर्ड - सिटीज़न",
+    leaderboard_heading: "सिविक लीडरबोर्ड",
+    points_suffix: "अंक",
+    leaderboard_empty_message: "लीडरबोर्ड वर्तमान में खाली है। प्रभाव डालने वाले पहले व्यक्ति बनें!"
+    // *** ADDED KEYS END HERE ***
   },
   or: {
     // General
@@ -699,8 +793,10 @@ const translations = {
     nav_home: "ହୋମ୍",
     nav_report: "ରିପୋର୍ଟ",
     nav_community: "କମ୍ୟୁନିଟି",
+    nav_leaderboard: "ଲିଡରବୋର୍ଡ", // <-- Added
     nav_about: "ଆମ ବିଷୟରେ",
     nav_user_btn: "ବ୍ୟବହାରକାରୀ ▾",
+    nav_my_profile: "ମୋର ପ୍ରୋଫାଇଲ୍", // <-- Added
     nav_my_complaints: "ମୋ ଅଭିଯୋଗ",
     nav_logout: "ଲଗଆଉଟ୍",
     nav_admin_btn: "ଆଡମିନ୍ ▾",
@@ -840,5 +936,50 @@ const translations = {
     user_tag: "(ବ୍ୟବହାରକାରୀ)",
     ul_no_account: "ଆପଣଙ୍କର ଏକ ଆକାଉଣ୍ଟ୍ ନାହିଁ କି?",
     signup_link: "ସାଇନ୍ ଅପ୍ କରନ୍ତୁ",
+
+    // *** ADDED KEYS START HERE ***
+    // Missing from report.html
+    placeholder_landmark_auto: "ସ୍ଵତଃ ପୂରଣ ପାଇଁ ଉପର ବଟନ୍ କ୍ଲିକ୍ କରନ୍ତୁ",
+
+    // Missing from profile.html
+    profile_title: "ମୋର ପ୍ରୋଫାଇଲ୍ - ସିଟିଜେନ୍",
+    profile_heading: "ମୋର ପ୍ରୋଫାଇଲ୍",
+    update_photo_button: "ଫଟୋ ଅପଡେଟ୍ କରନ୍ତୁ",
+    label_your_name: "ଆପଣଙ୍କ ନାମ",
+    save_profile_button: "ପ୍ରୋଫାଇଲ୍ ସେଭ୍ କରନ୍ତୁ",
+    rank_heading: "ଆପଣଙ୍କର ସିଭିକ୍ ରାଙ୍କ୍",
+    rank_label_current: "ବର୍ତ୍ତମାନର ରାଙ୍କ୍",
+    rank_label_score: "ସିଭିକ୍ ସ୍କୋର୍",
+    view_leaderboard_button: "ଲିଡରବୋର୍ଡ ଦେଖନ୍ତୁ",
+    stats_total: "ମୋଟ ଅଭିଯୋଗ",
+    stats_pending: "ବକେୟା",
+    stats_resolved: "ସମାଧାନ ହୋଇଛି",
+    stats_in_progress: "ପ୍ରକ୍ରିୟାରେ ଅଛି",
+    stats_rejected: "ଅଗ୍ରାହ୍ୟ",
+    stats_escalated: "ଆଗକୁ ପଠାଯାଇଛି",
+    journey_heading: "ଆପଣଙ୍କର ସିଭିକ୍ ଯାତ୍ରା",
+    badge_newbie: "ନବାଗତ ନାଭିଗେଟର୍",
+    badge_newbie_req: "୧+ ଅଭିଯୋଗ",
+    badge_contributor: "ସମ୍ପ୍ରଦାୟ ଯୋଗଦାନକାରୀ",
+    badge_contributor_req: "୫+ ଅଭିଯୋଗ",
+    badge_guardian: "ପଡୋଶୀ ସଂରକ୍ଷକ",
+    badge_guardian_req: "୧୦+ ଅଭିଯୋଗ",
+    badge_champion: "ସିଟି ଚାମ୍ପିଅନ୍",
+    badge_champion_req: "୨୫+ ଅଭିଯୋଗ",
+    badge_leader: "ଲିଗାସୀ ଲିଡର୍",
+    badge_leader_req: "୫୦+ ଅଭିଯୋଗ",
+    certificates_heading: "ମୋର ପ୍ରମାଣପତ୍ର",
+    cert_welcome_title: "ସ୍ୱାଗତ ପ୍ରମାଣପତ୍ର",
+    cert_welcome_desc: "ସକ୍ରିୟ ନାଗରିକତା ଦିଗରେ ଆପଣଙ୍କର ପ୍ରଥମ ପଦକ୍ଷେପ ପାଇଁ।",
+    cert_champion_title: "ସିଟିଜେନ୍ ଚାମ୍ପିଅନ୍",
+    cert_champion_desc: "ଆମ ସମ୍ପ୍ରଦାୟ ପାଇଁ ଆପଣଙ୍କର ଉଲ୍ଲେଖନୀୟ ଅବଦାନ ପାଇଁ।",
+    cert_none: "ଆପଣ ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ପ୍ରମାଣପତ୍ର ଅର୍ଜନ କରିନାହାଁନ୍ତି। ଆରମ୍ଭ କରିବାକୁ ଏକ ଅଭିଯୋଗ ଦାଖଲ କରନ୍ତୁ!",
+
+    // Missing from leaderboard.html
+    leaderboard_title: "ସିଭିକ୍ ଲିଡରବୋର୍ଡ - ସିଟିଜେନ୍",
+    leaderboard_heading: "ସିଭିକ୍ ଲିଡରବୋର୍ଡ",
+    points_suffix: "ପଏଣ୍ଟ",
+    leaderboard_empty_message: "ଲିଡରବୋର୍ଡ ବର୍ତ୍ତମାନ ଖାଲି ଅଛି। ପ୍ରଭାବ ପକାଇବାରେ ପ୍ରଥମ ହୁଅନ୍ତୁ!"
+    // *** ADDED KEYS END HERE ***
   }
 };

@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - CityZen</title>
+    <title data-translate="profile_title">My Profile - CityZen</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
 </head>
 <body>
 
     <header class="profile-header">
-        <a href="{{ url_for('home') }}" class="home-btn"><i class="fas fa-arrow-left"></i> Home</a>
-        <h1>My Profile</h1>
+        <a href="{{ url_for('home') }}" class="home-btn"><i class="fas fa-arrow-left"></i> <span data-translate="home_button">Home</span></a>
+        <h1 data-translate="profile_heading">My Profile</h1>
         <div class="user-info-header">
             <span class="user-name">{{ user_name }}</span>
             <span class="user-phone">{{ user_phone }}</span>
@@ -19,7 +19,6 @@
     </header>
 
     <main class="profile-layout">
-        <!-- Left Column: User Details & Rank -->
         <aside class="left-column">
             <div class="profile-card">
                 <div class="profile-actions">
@@ -39,140 +38,136 @@
                         </div>
                     </label>
                     <input type="file" name="profile_photo" id="profile_photo" accept="image/*" class="hidden">
-                    <button type="submit" class="btn-save-profile hidden"><i class="fas fa-camera"></i> Update Photo</button>
+                    <button type="submit" class="btn-save-profile hidden"><i class="fas fa-camera"></i> <span data-translate="update_photo_button">Update Photo</span></button>
                 </form>
 
                 <form id="details-form" action="{{ url_for('update_profile') }}" method="POST">
                     <div class="input-group">
-                        <label for="name">Your Name</label>
+                        <label for="name" data-translate="label_your_name">Your Name</label>
                         <input type="text" id="name" name="name" value="{{ user_name }}" disabled>
                     </div>
                     <div class="input-group">
-                        <label for="phone">Phone Number</label>
+                        <label for="phone" data-translate="label_phone_number">Phone Number</label>
                         <input type="text" id="phone" value="{{ user_phone }}" disabled>
                     </div>
-                    <button type="submit" class="btn-save-profile hidden"><i class="fas fa-save"></i> Save Profile</button>
+                    <button type="submit" class="btn-save-profile hidden"><i class="fas fa-save"></i> <span data-translate="save_profile_button">Save Profile</span></button>
                 </form>
             </div>
             
             <div class="rank-card">
                 <div class="rank-icon"><i class="fas fa-trophy"></i></div>
-                <h3>Your Civic Rank</h3>
+                <h3 data-translate="rank_heading">Your Civic Rank</h3>
                 <div class="rank-details">
                     <div class="rank-position">
                         <span class="value">#{{ rank }}</span>
-                        <span class="label">Current Rank</span>
+                        <span class="label" data-translate="rank_label_current">Current Rank</span>
                     </div>
                     <div class="rank-score">
                         <span class="value">{{ "%.2f"|format(civic_score) }}</span>
-                        <span class="label">Civic Score</span>
+                        <span class="label" data-translate="rank_label_score">Civic Score</span>
                     </div>
                 </div>
-                <a href="{{ url_for('leaderboard') }}" class="btn-leaderboard">View Leaderboard</a>
+                <a href="{{ url_for('leaderboard') }}" class="btn-leaderboard" data-translate="view_leaderboard_button">View Leaderboard</a>
             </div>
         </aside>
 
-        <!-- Right Column: Stats & Achievements -->
         <div class="right-column">
-            <!-- Stats Section -->
             <section class="stats-grid">
                 <div class="stat-card total">
                     <div class="icon"><i class="fas fa-bullhorn"></i></div>
                     <div class="info">
                         <span class="value">{{ stats.total }}</span>
-                        <span class="label">Total Complaints</span>
+                        <span class="label" data-translate="stats_total">Total Complaints</span>
                     </div>
                 </div>
                 <div class="stat-card pending">
                     <div class="icon"><i class="fas fa-hourglass-half"></i></div>
                     <div class="info">
                         <span class="value">{{ stats.pending }}</span>
-                        <span class="label">Pending</span>
+                        <span class="label" data-translate="stats_pending">Pending</span>
                     </div>
                 </div>
                 <div class="stat-card resolved">
                     <div class="icon"><i class="fas fa-check-circle"></i></div>
                     <div class="info">
                         <span class="value">{{ stats.resolved }}</span>
-                        <span class="label">Resolved</span>
+                        <span class="label" data-translate="stats_resolved">Resolved</span>
                     </div>
                 </div>
                 <div class="stat-card in-progress">
                     <div class="icon"><i class="fas fa-sync-alt"></i></div>
                     <div class="info">
                         <span class="value">{{ stats.in_progress }}</span>
-                        <span class="label">In Progress</span>
+                        <span class="label" data-translate="stats_in_progress">In Progress</span>
                     </div>
                 </div>
                 <div class="stat-card rejected">
                     <div class="icon"><i class="fas fa-times-circle"></i></div>
                     <div class="info">
                         <span class="value">{{ stats.rejected }}</span>
-                        <span class="label">Rejected</span>
+                        <span class="label" data-translate="stats_rejected">Rejected</span>
                     </div>
                 </div>
                 <div class="stat-card escalated">
                     <div class="icon"><i class="fas fa-arrow-up"></i></div>
                     <div class="info">
                         <span class="value">{{ stats.escalated }}</span>
-                        <span class="label">Escalated</span>
+                        <span class="label" data-translate="stats_escalated">Escalated</span>
                     </div>
                 </div>
             </section>
 
-            <!-- Badges Section -->
             <section class="achievements-section">
-                <h2>Your Civic Journey</h2>
+                <h2 data-translate="journey_heading">Your Civic Journey</h2>
                 <div class="badges-container">
                     <div class="badge-item {% if stats.total >= 1 %}unlocked{% else %}locked{% endif %}">
                         <div class="badge-icon"><img src="{{ url_for('static', filename='images/badges/badge1.png') }}" alt="Newbie Navigator"></div>
-                        <span class="badge-title">Newbie Navigator</span><span class="badge-req">1+ Complaint</span>
+                        <span class="badge-title" data-translate="badge_newbie">Newbie Navigator</span><span class="badge-req" data-translate="badge_newbie_req">1+ Complaint</span>
                     </div>
                     <div class="badge-item {% if stats.total >= 5 %}unlocked{% else %}locked{% endif %}">
                         <div class="badge-icon"><img src="{{ url_for('static', filename='images/badges/badge2.png') }}" alt="Community Contributor"></div>
-                        <span class="badge-title">Community Contributor</span><span class="badge-req">5+ Complaints</span>
+                        <span class="badge-title" data-translate="badge_contributor">Community Contributor</span><span class="badge-req" data-translate="badge_contributor_req">5+ Complaints</span>
                     </div>
                     <div class="badge-item {% if stats.total >= 10 %}unlocked{% else %}locked{% endif %}">
                         <div class="badge-icon"><img src="{{ url_for('static', filename='images/badges/badge4.png') }}" alt="Neighborhood Guardian"></div>
-                        <span class="badge-title">Neighborhood Guardian</span><span class="badge-req">10+ Complaints</span>
+                        <span class="badge-title" data-translate="badge_guardian">Neighborhood Guardian</span><span class="badge-req" data-translate="badge_guardian_req">10+ Complaints</span>
                     </div>
                     <div class="badge-item {% if stats.total >= 25 %}unlocked{% else %}locked{% endif %}">
                         <div class="badge-icon"><img src="{{ url_for('static', filename='images/badges/badge5.png') }}" alt="City Champion"></div>
-                        <span class="badge-title">City Champion</span><span class="badge-req">25+ Complaints</span>
+                        <span class="badge-title" data-translate="badge_champion">City Champion</span><span class="badge-req" data-translate="badge_champion_req">25+ Complaints</span>
                     </div>
                     <div class="badge-item {% if stats.total >= 50 %}unlocked{% else %}locked{% endif %}">
                         <div class="badge-icon"><img src="{{ url_for('static', filename='images/badges/badge6.png') }}" alt="Legacy Leader"></div>
-                        <span class="badge-title">Legacy Leader</span><span class="badge-req">50+ Complaints</span>
+                        <span class="badge-title" data-translate="badge_leader">Legacy Leader</span><span class="badge-req" data-translate="badge_leader_req">50+ Complaints</span>
                     </div>
                 </div>
             </section>
 
-            <!-- Certificates Section -->
             <section class="achievements-section">
-                <h2>My Certificates</h2>
+                <h2 data-translate="certificates_heading">My Certificates</h2>
                 <div class="certificates-container">
                     {% if stats.total >= 1 %}
                     <div class="certificate-item">
                         <div class="icon"><i class="fas fa-handshake"></i></div>
                         <div class="info">
-                            <h3>Welcome Certificate</h3>
-                            <p>For taking your first step in active citizenship.</p>
+                            <h3 data-translate="cert_welcome_title">Welcome Certificate</h3>
+                            <p data-translate="cert_welcome_desc">For taking your first step in active citizenship.</p>
                         </div>
-                        <a href="{{ url_for('generate_welcome_certificate', username=user_name) }}" class="btn-view" target="_blank">View</a>
+                        <a href="{{ url_for('generate_welcome_certificate', username=user_name) }}" class="btn-view" target="_blank" data-translate="view_button">View</a>
                     </div>
                     {% endif %}
                     {% if stats.total >= 30 %}
                     <div class="certificate-item champion">
                         <div class="icon"><i class="fas fa-trophy"></i></div>
                         <div class="info">
-                            <h3>CityZen Champion</h3>
-                            <p>For your outstanding contribution to our community.</p>
+                            <h3 data-translate="cert_champion_title">CityZen Champion</h3>
+                            <p data-translate="cert_champion_desc">For your outstanding contribution to our community.</p>
                         </div>
-                        <a href="{{ url_for('generate_certificate', username=user_name) }}" class="btn-view" target="_blank">View</a>
+                        <a href="{{ url_for('generate_certificate', username=user_name) }}" class="btn-view" target="_blank" data-translate="view_button">View</a>
                     </div>
                     {% endif %}
                     {% if stats.total == 0 %}
-                    <p>You haven't earned any certificates yet. Report an issue to get started!</p>
+                    <p data-translate="cert_none">You haven't earned any certificates yet. Report an issue to get started!</p>
                     {% endif %}
                 </div>
             </section>
@@ -207,7 +202,8 @@
             });
         });
     </script>
+    <script src="{{ url_for('static', filename='js/translate.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 
 </body>
 </html>
-

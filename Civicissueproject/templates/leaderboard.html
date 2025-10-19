@@ -3,23 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Civic Leaderboard - CityZen</title>
+    <title data-translate="leaderboard_title">Civic Leaderboard - CityZen</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/leaderboard.css') }}">
 </head>
 <body>
 
     <header class="leaderboard-header">
-        <a href="{{ url_for('home') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Home</a>
-        <h1><i class="fas fa-trophy"></i> Civic Leaderboard</h1>
+        <a href="{{ url_for('home') }}" class="back-btn"><i class="fas fa-arrow-left"></i> <span data-translate="home_button">Home</span></a>
+        <h1><i class="fas fa-trophy"></i> <span data-translate="leaderboard_heading">Civic Leaderboard</span></h1>
         <div class="header-placeholder"></div>
     </header>
 
     <main class="leaderboard-container">
         {% if leaderboard %}
-        <!-- Top 3 Podium -->
         <section class="podium">
-            <!-- Rank 2: Silver -->
             {% if leaderboard|length > 1 %}
             <div class="podium-item rank-2">
                 <div class="podium-rank">
@@ -34,11 +32,10 @@
                     {% endif %}
                 </div>
                 <div class="user-name">{{ leaderboard[1].name }}</div>
-                <div class="user-score">{{ "%.2f"|format(leaderboard[1].score) }} Pts</div>
+                <div class="user-score">{{ "%.2f"|format(leaderboard[1].score) }} <span data-translate="points_suffix">Pts</span></div>
             </div>
             {% endif %}
 
-            <!-- Rank 1: Gold -->
             <div class="podium-item rank-1">
                 <div class="podium-rank">
                     <i class="fas fa-trophy"></i>
@@ -52,10 +49,9 @@
                     {% endif %}
                 </div>
                 <div class="user-name">{{ leaderboard[0].name }}</div>
-                <div class="user-score">{{ "%.2f"|format(leaderboard[0].score) }} Pts</div>
+                <div class="user-score">{{ "%.2f"|format(leaderboard[0].score) }} <span data-translate="points_suffix">Pts</span></div>
             </div>
 
-            <!-- Rank 3: Bronze -->
             {% if leaderboard|length > 2 %}
             <div class="podium-item rank-3">
                 <div class="podium-rank">
@@ -70,12 +66,11 @@
                     {% endif %}
                 </div>
                 <div class="user-name">{{ leaderboard[2].name }}</div>
-                <div class="user-score">{{ "%.2f"|format(leaderboard[2].score) }} Pts</div>
+                <div class="user-score">{{ "%.2f"|format(leaderboard[2].score) }} <span data-translate="points_suffix">Pts</span></div>
             </div>
             {% endif %}
         </section>
 
-        <!-- Leaderboard for Ranks 4-10 -->
         {% if leaderboard|length > 3 %}
         <section class="rankings-list">
             <table>
@@ -93,7 +88,7 @@
                             </div>
                             <span>{{ user.name }}</span>
                         </td>
-                        <td class="score-cell">{{ "%.2f"|format(user.score) }} Pts</td>
+                        <td class="score-cell">{{ "%.2f"|format(user.score) }} <span data-translate="points_suffix">Pts</span></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -104,11 +99,11 @@
         {% else %}
         <div class="empty-state">
             <i class="fas fa-users-slash"></i>
-            <p>The leaderboard is currently empty. Be the first to make an impact!</p>
+            <p data-translate="leaderboard_empty_message">The leaderboard is currently empty. Be the first to make an impact!</p>
         </div>
         {% endif %}
     </main>
-
+    <script src="{{ url_for('static', filename='js/translate.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
-
