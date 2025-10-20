@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-translate="auv_title">User {{ user_phone }} - Complaints</title>
+    <!-- MODIFIED: Show user name in tab title -->
+    <title data-translate="auv_title">User {{ user_name or user_phone }} - Complaints</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/app-icon.png') }}" type="image/png">
 
     <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -17,7 +19,9 @@
     <header class="admin-header">
         <h1>
             <i class="fas fa-user-check"></i>
-            <span data-translate="auv_user_activity">User Activity:</span> {{ user_phone }}
+            <span data-translate="auv_user_activity">User Activity:</span>
+            <!-- MODIFIED: Show user name, fall back to phone -->
+            {{ user_name or user_phone }}
         </h1>
         <a class="btn" href="{{ url_for('admin_dashboard') }}">
             <i class="fas fa-arrow-left"></i> <span data-translate="auv_back_to_dash">Back to Dashboard</span>
