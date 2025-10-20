@@ -1,0 +1,6 @@
+Civicissueproject\civic.db
+__pycache__/
+*.pyc
+civic.db
+instance/
+
