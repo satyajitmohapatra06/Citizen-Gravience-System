@@ -1,6 +1,11 @@
 /* ===================================================================
-   CityZen Report Page - Enhanced Redesign V2
+   CityZen Report Page - Upgraded V3
    =================================================================== */
+
+/* --- NEW --- Added a global box-sizing reset */
+* {
+    box-sizing: border-box;
+}
 
 /* 1. GLOBAL STYLES & VIBRANT THEME
    =================================================================== */
@@ -16,8 +21,7 @@
     --text-light: #64748b;
     --danger-color: #e11d48; /* Modern rose for recording */
     
-    /* NEW: Gradient for primary actions */
-    --gradient-primary: linear-gradient(45deg, #4f46e5, #6366f1);
+    /* --- REMOVED --- --gradient-primary is no longer needed */
 
     --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.07), 0 8px 10px -6px rgba(0, 0, 0, 0.07);
@@ -83,7 +87,6 @@ h2 {
     margin-bottom: 2rem;
     color: var(--text-dark);
     font-weight: 700;
-    /* NEW: Animation on page load */
     animation: slide-fade-in 0.8s ease-out;
 }
 h2 span {
@@ -168,10 +171,13 @@ textarea {
 }
 
 .btn {
-    background: var(--gradient-primary);
+    /* --- CHANGED --- Swapped gradient for fixed color */
+    background-color: var(--primary-color);
     color: #fff;
 }
 .btn:hover {
+    /* --- CHANGED --- Added hover color and kept transform */
+    background-color: var(--primary-hover);
     transform: translateY(-3px);
     box-shadow: 0 4px 15px rgba(79, 70, 229, 0.25);
 }
@@ -259,7 +265,63 @@ textarea {
 }
 .input-group input[type="file"]::-webkit-file-upload-button:hover { background: var(--primary-hover); }
 
-/* 6. MISCELLANEOUS & RESPONSIVE
+/* --- NEW --- 6. FLASH MESSAGES (Moved from HTML)
+   =================================================================== */
+#flash-container {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 9999;
+    width: 350px;
+    max-width: 90%;
+}
+
+.flash-message {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    animation: fadeInRight 0.5s ease-out forwards;
+}
+
+/* Categories */
+.flash-message.flash-warning { background-color: #f0ad4e; }
+.flash-message.flash-success { background-color: #5cb85c; }
+.flash-message.flash-danger  { background-color: #d9534f; }
+.flash-message.flash-info    { background-color: #5bc0de; }
+
+/* Animations for Flash */
+.flash-message.fade-out {
+    animation: fadeOutRight 0.5s ease-in forwards;
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+        visibility: hidden;
+    }
+}
+
+
+/* 7. MISCELLANEOUS & RESPONSIVE
    =================================================================== */
 .home-btn {
     position: fixed;
@@ -286,7 +348,6 @@ footer { text-align: center; font-size: 0.875rem; color: var(--text-light); marg
 .fade-in-up { opacity: 0; transform: translateY(20px); animation: fadeInUp 0.8s ease forwards; }
 @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
-/* NEW: Animation for H2 */
 @keyframes slide-fade-in {
     from {
         opacity: 0;
@@ -298,7 +359,6 @@ footer { text-align: center; font-size: 0.875rem; color: var(--text-light); marg
     }
 }
 
-/* NEW: Enhanced Sonar Pulse for Recording */
 @keyframes pulse {
     0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.7); }
     70% { box-shadow: 0 0 0 12px rgba(225, 29, 72, 0); }
@@ -311,7 +371,6 @@ footer { text-align: center; font-size: 0.875rem; color: var(--text-light); marg
     filter: blur(150px);
     opacity: 0.3;
     z-index: -1;
-    /* NEW: More fluid animation */
     animation: float 25s ease-in-out infinite;
 }
 .shape1 { width: 450px; height: 450px; background: #a5b4fc; top: -150px; left: -150px; animation-duration: 25s; }
@@ -327,12 +386,16 @@ footer { text-align: center; font-size: 0.875rem; color: var(--text-light); marg
 
 @media (max-width: 992px) {
     .report-layout { grid-template-columns: 1fr; }
-    .map-container { position: static; margin-top: 30px; order: -1; } /* Move map to top on smaller screens */
+    .map-container { 
+        position: static; 
+        margin-top: 30px; 
+        /* --- CHANGED --- Removed 'order: -1' to keep form on top */
+    } 
     #map { height: 300px; }
 }
 
 @media (max-width: 768px) {
-    body { padding: 0; }
+    body { padding: 0; } /* Full width on mobile */
     .container {
         width: 100%;
         max-width: 100%;
@@ -340,9 +403,9 @@ footer { text-align: center; font-size: 0.875rem; color: var(--text-light); marg
         margin-top: 0;
         border-radius: 0;
         box-shadow: none;
+        border: none; /* --- NEW --- Removed border for a cleaner edge-to-edge look */
     }
     h2 { font-size: 1.75rem; }
     .form-card { grid-template-columns: 1fr; }
     .btn-group { flex-direction: column; gap: 12px; }
 }
-
