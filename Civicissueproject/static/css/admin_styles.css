@@ -23,10 +23,40 @@ body{
 .card.metric .title{font-size:13px; color:var(--muted)}
 .card.metric .value{font-size:20px; font-weight:800; color:var(--primary); margin-top:6px}
 
-/* charts */
-.charts{display:flex; gap:16px; margin-bottom:18px; flex-wrap:wrap}
-.chart-card{background:var(--card); padding:12px; border-radius:10px; flex:1; min-width:260px; box-shadow:0 8px 22px rgba(12,37,77,.06)}
-.chart-card img{width:100%; height:auto; border-radius:6px; display:block}
+/* --- MODIFIED --- charts */
+.charts {
+  display: grid;
+  /* Use CSS grid to create a responsive layout. */
+  /* It will create as many columns as can fit, with a minimum width of 300px. */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+/* --- MODIFIED --- chart-card */
+.chart-card {
+  background: var(--card);
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: 0 8px 22px rgba(12,37,77,.06);
+  /* flex: 1; and min-width are no longer needed */
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.chart-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(10,102,255,0.15);
+}
+.chart-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  display: block;
+  cursor: zoom-in;
+  transition: transform 0.3s ease;
+}
+.chart-card img:hover {
+  transform: scale(1.05);
+}
 
 /* complaints table */
 .complaints-table .table-wrap{background:var(--card); border-radius:10px; padding:12px; box-shadow:0 8px 22px rgba(12,37,77,.06)}
@@ -41,6 +71,7 @@ tbody td{padding:10px; border-top:1px solid #f0f2f6}
 .pill.in-progress{background:#17a2b8}
 .pill.resolved{background:#28a745}
 .pill.rejected{background:#dc3545}
+.pill.escalated {background-color: #c9302c; color: white;}
 
 .btn{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:8px; text-decoration:none; color:#fff; background:var(--primary); border:0; cursor:pointer}
 .btn.small{padding:6px 8px; font-size:13px}
@@ -66,22 +97,6 @@ tbody td{padding:10px; border-top:1px solid #f0f2f6}
 }
 
 /* ---------------- New Upgrades ---------------- */
-
-/* Chart hover effect */
-.chart-card {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.chart-card:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 12px 30px rgba(10,102,255,0.15);
-}
-.chart-card img {
-  cursor: zoom-in;
-  transition: transform 0.3s ease;
-}
-.chart-card img:hover {
-  transform: scale(1.05);
-}
 
 /* Chart Lightbox (pure CSS) */
 .lightbox {
@@ -214,7 +229,8 @@ tbody td{padding:10px; border-top:1px solid #f0f2f6}
   }
 
   .charts {
-    flex-direction: column;
+    /* On mobile, stack them in one column */
+    grid-template-columns: 1fr;
     gap: 12px;
   }
 
@@ -305,25 +321,21 @@ tbody td{padding:10px; border-top:1px solid #f0f2f6}
 /* ================= FIX: Chart fallback styling ================= */
 
 /* Placeholder box when chart not available */
+.chart-fallback, /* Added this class */
 .chart-card .no-data {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 180px;
-  background: repeating-linear-gradient(
-    45deg,
-    #f9f9f9,
-    #f9f9f9 10px,
-    #f0f0f0 10px,
-    #f0f0f0 20px
-  );
+  height: 300px; /* Give it a consistent height */
+  background: #f9f9f9;
   border-radius: 8px;
   font-size: 14px;
   color: var(--muted);
   font-weight: 600;
   text-align: center;
   padding: 12px;
-  box-shadow: inset 0 4px 12px rgba(0,0,0,0.05);
+  border: 1px dashed #ccc;
 }
 
 /* Ensure <p>No data available</p> inherits proper style */
@@ -331,8 +343,8 @@ tbody td{padding:10px; border-top:1px solid #f0f2f6}
   margin: 0;
 }
 /* ==================================
-   NEW: Sidebar and Layout
-   ================================== */
+    NEW: Sidebar and Layout
+    ================================== */
 
 body {
     display: flex;
@@ -486,8 +498,8 @@ body {
 }
  
 /* ==============================================
-   CHATBOT STYLES
-   ============================================== */
+    CHATBOT STYLES
+    ============================================== */
 .chat-widget {
     position: fixed;
     bottom: 20px;
@@ -596,8 +608,8 @@ body {
 }
 
 /* ==============================================
-   CHATBOT SUGGESTION BUTTONS
-   ============================================== */
+    CHATBOT SUGGESTION BUTTONS
+    ============================================== */
 .chat-suggestions {
     padding: 5px 10px;
     display: flex;
@@ -622,71 +634,24 @@ body {
     color: white;
     transform: translateY(-2px);
 }
-.chart-fallback {
-            width: 100%;
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #888;
-            font-size: 14px;
-            border: 1px dashed #ccc;
-            border-radius: 8px;
-            background: #f9f9f9;
-        }
 
-        .lightbox {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .lightbox:target {
-            display: flex;
-        }
-
-        .lightbox img {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-        }
-
-        .lightbox .close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 40px;
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .lightbox .close:hover {
-            color: #ff4444;
-        }
-
-        /* --- Styles for the language switcher --- */
-        .language-switcher-wrapper {
-            display: flex;
-            align-items: center;
-            background-color: #f0f2f5;
-            border-radius: 6px;
-            padding: 5px 10px;
-        }
-        .language-switcher-wrapper i {
-            margin-right: 8px;
-            color: #555;
-        }
-        .language-switcher-wrapper select {
-            background: transparent;
-            border: none;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            outline: none;
-        }
+/* --- Language Switcher --- */
+.language-switcher-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: #f0f2f5;
+    border-radius: 6px;
+    padding: 5px 10px;
+}
+.language-switcher-wrapper i {
+    margin-right: 8px;
+    color: #555;
+}
+.language-switcher-wrapper select {
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    outline: none;
+}

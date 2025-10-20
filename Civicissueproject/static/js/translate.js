@@ -66,6 +66,7 @@ const translations = {
     status_in_progress: "In Progress",
     status_resolved: "Resolved",
     status_rejected: "Rejected",
+    status_escalated: "Escalated", // Added escalation status
     // admin_dashboard.html
     ad_title: "Admin Dashboard - Civic",
     ad_civic_admin: "Civic Admin",
@@ -73,23 +74,43 @@ const translations = {
     ad_complaints: "Complaints",
     logout_button: "Logout",
     ad_total_complaints: "Total Complaints",
-    ad_departments: "Departments",
+    ad_departments: "Departments", // This key might be unused now
     ad_alert: "Alert:",
     ad_alert_text: "There are complaints pending for more than 5 days.",
-    ad_by_status: "By Status",
+    ad_escalation_alert: "Escalation Alert:", // Added for escalation alert box
+    ad_escalation_alert_text: "escalated complaints requiring immediate attention.", // Added
+    // --- OLD Chart Titles (Super Admin - Kept for reference, maybe remove later) ---
+    ad_by_status: "By Status", // Old title
     ad_no_status_chart: "No Status Chart Available",
-    ad_by_department: "By Department",
+    ad_by_department: "By Department", // Old title
     ad_no_dept_chart: "No Department Chart Available",
-    ad_top_pincodes: "Top Pincodes",
+    ad_top_pincodes: "Top Pincodes", // Old title
     ad_no_pincode_chart: "No Pincode Chart Available",
-    ad_complaints_over_time: "Complaints Over Time",
+    ad_complaints_over_time: "Complaints Over Time", // Old title
     ad_no_time_chart: "No Time Chart Available",
-    ad_by_district: "Complaints by District",
+    ad_by_district: "Complaints by District", // Old title
     ad_no_district_chart: "No District Chart Available",
-    ad_dept_vs_status: "Dept vs Status",
+    ad_dept_vs_status: "Dept vs Status", // Old title
     ad_no_dept_status_chart: "No Dept vs Status Chart Available",
+    // --- NEW Super Admin Chart Titles ---
+    ad_super_chart_overall_health: "Overall System Health",
+    ad_super_chart_pending_by_dept: "Pending Complaints by Dept",
+    ad_super_chart_resolved_by_dept: "Resolved Complaints by Dept",
+    ad_super_chart_district_hotspots: "District Hotspots (Pending)",
+    ad_super_chart_activity_30d: "All Complaint Activity (Last 30d)",
+    ad_super_chart_escalations_by_dept: "Escalations by Dept",
+    // --- NEW Department Admin Chart Titles ---
+    ad_dept_chart_workload: "My Department's Workload",
+    ad_dept_chart_block_hotspots: "My Pending Hotspots (by Block)",
+    ad_dept_chart_funnel: "My Team's Funnel",
+    ad_dept_chart_aging: "Aging Pending Complaints",
+    // --- Fallback Text ---
+    ad_no_chart_data: "No Data Available for this Chart", // Generic fallback
+    // --- Map Titles ---
+    ad_live_map: "Live Complaint Map", // Added for clarity
     ad_heatmap: "Odisha Pending Complaints Heatmap",
     ad_no_heatmap: "No Heatmap Available",
+    // --- Complaints Table ---
     ad_all_complaints: "All Complaints",
     ad_search_placeholder: "Search by phone / dept / pincode",
     ad_export_csv: "Export Complaints (CSV)",
@@ -100,6 +121,7 @@ const translations = {
     table_complaint: "Complaint",
     table_status: "Status",
     table_action: "Action",
+    // --- Chatbot ---
     ad_chatbot_greeting: 'Hello! Ask me about the dashboard data. Try "total complaints" or "how many are pending?".',
     // admin_login.html
     al_title: "CityZen - Admin Login",
@@ -393,6 +415,7 @@ const translations = {
     status_in_progress: "प्रगति पर",
     status_resolved: "हल",
     status_rejected: "अस्वीकृत",
+    status_escalated: "आगे बढ़ाया गया", // Added
     // admin_dashboard.html
     ad_title: "एडमिन डैशबोर्ड - सिविक",
     ad_civic_admin: "सिविक एडमिन",
@@ -400,9 +423,12 @@ const translations = {
     ad_complaints: "शिकायतें",
     logout_button: "लॉग आउट",
     ad_total_complaints: "कुल शिकायतें",
-    ad_departments: "विभाग",
+    ad_departments: "विभाग", // Maybe unused
     ad_alert: "चेतावनी:",
     ad_alert_text: "5 दिनों से अधिक समय से लंबित शिकायतें हैं।",
+    ad_escalation_alert: "एस्केलेशन चेतावनी:", // Added
+    ad_escalation_alert_text: "एस्केलेटेड शिकायतों पर तत्काल ध्यान देने की आवश्यकता है।", // Added
+    // --- OLD Chart Titles ---
     ad_by_status: "स्थिति के अनुसार",
     ad_no_status_chart: "कोई स्थिति चार्ट उपलब्ध नहीं है",
     ad_by_department: "विभाग के अनुसार",
@@ -415,8 +441,25 @@ const translations = {
     ad_no_district_chart: "कोई जिला चार्ट उपलब्ध नहीं है",
     ad_dept_vs_status: "विभाग बनाम स्थिति",
     ad_no_dept_status_chart: "कोई विभाग बनाम स्थिति चार्ट उपलब्ध नहीं है",
+    // --- NEW Super Admin Chart Titles ---
+    ad_super_chart_overall_health: "समग्र प्रणाली स्वास्थ्य", // Placeholder
+    ad_super_chart_pending_by_dept: "विभाग द्वारा लंबित शिकायतें", // Placeholder
+    ad_super_chart_resolved_by_dept: "विभाग द्वारा हल की गई शिकायतें", // Placeholder
+    ad_super_chart_district_hotspots: "जिला हॉटस्पॉट (लंबित)", // Placeholder
+    ad_super_chart_activity_30d: "सभी शिकायत गतिविधि (अंतिम 30 दिन)", // Placeholder
+    ad_super_chart_escalations_by_dept: "विभाग द्वारा एस्केलेशन", // Placeholder
+    // --- NEW Department Admin Chart Titles ---
+    ad_dept_chart_workload: "मेरे विभाग का कार्यभार", // Placeholder
+    ad_dept_chart_block_hotspots: "मेरे लंबित हॉटस्पॉट (ब्लॉक द्वारा)", // Placeholder
+    ad_dept_chart_funnel: "मेरी टीम का फ़नल", // Placeholder
+    ad_dept_chart_aging: "पुरानी लंबित शिकायतें", // Placeholder
+    // --- Fallback Text ---
+    ad_no_chart_data: "इस चार्ट के लिए कोई डेटा उपलब्ध नहीं है", // Placeholder
+    // --- Map Titles ---
+    ad_live_map: "लाइव शिकायत मानचित्र", // Placeholder
     ad_heatmap: "ओडिशा लंबित शिकायतें हीटमैप",
     ad_no_heatmap: "कोई हीटमैप उपलब्ध नहीं है",
+    // --- Complaints Table ---
     ad_all_complaints: "सभी शिकायतें",
     ad_search_placeholder: "फोन / विभाग / पिनकोड द्वारा खोजें",
     ad_export_csv: "शिकायतें निर्यात करें (CSV)",
@@ -427,6 +470,7 @@ const translations = {
     table_complaint: "शिकायत",
     table_status: "स्थिति",
     table_action: "कार्रवाई",
+    // --- Chatbot ---
     ad_chatbot_greeting: 'नमस्ते! मुझसे डैशबोर्ड डेटा के बारे में पूछें। "कुल शिकायतें" या "कितनी लंबित हैं?" का प्रयास करें।',
     // admin_login.html
     al_title: "सिटीजन - एडमिन लॉगिन",
@@ -720,6 +764,7 @@ const translations = {
     status_in_progress: "ଚାଲୁଅଛି",
     status_resolved: "ସମାଧାନ ହୋଇଛି",
     status_rejected: "ପ୍ରତ୍ୟାଖ୍ୟାନ କରାଯାଇଛି",
+    status_escalated: "ଆଗକୁ ପଠାଯାଇଛି", // Added
     // admin_dashboard.html
     ad_title: "ଆଡମିନ୍ ଡ୍ୟାସବୋର୍ଡ - ସିଭିକ୍",
     ad_civic_admin: "ସିଭିକ୍ ଆଡମିନ୍",
@@ -727,9 +772,12 @@ const translations = {
     ad_complaints: "ଅଭିଯୋଗ",
     logout_button: "ଲଗଆଉଟ୍",
     ad_total_complaints: "ମୋଟ ଅଭିଯୋଗ",
-    ad_departments: "ବିଭାଗ",
+    ad_departments: "ବିଭାଗ", // Maybe unused
     ad_alert: "ସତର୍କ:",
     ad_alert_text: "୫ ଦିନରୁ ଅଧିକ ସମୟ ଧରି ଅଭିଯୋଗ ପେଣ୍ଡିଂ ଅଛି।",
+    ad_escalation_alert: "ଏସ୍କାଲେସନ୍ ସତର୍କ:", // Added
+    ad_escalation_alert_text: "ଏସ୍କାଲେଟେଡ୍ ଅଭିଯୋଗ ଉପରେ ତୁରନ୍ତ ଧ୍ୟାନ ଦେବା ଆବଶ୍ୟକ।", // Added
+    // --- OLD Chart Titles ---
     ad_by_status: "ସ୍ଥିତି ଅନୁଯାୟୀ",
     ad_no_status_chart: "କୌଣସି ସ୍ଥିତି ଚାର୍ଟ ଉପଲବ୍ଧ ନାହିଁ",
     ad_by_department: "ବିଭାଗ ଅନୁଯାୟୀ",
@@ -742,8 +790,25 @@ const translations = {
     ad_no_district_chart: "କୌଣସି ଜିଲ୍ଲା ଚାର୍ଟ ଉପଲବ୍ଧ ନାହିଁ",
     ad_dept_vs_status: "ବିଭାଗ ବନାମ ସ୍ଥିତି",
     ad_no_dept_status_chart: "କୌଣସି ବିଭାଗ ବନାମ ସ୍ଥିତି ଚାର୍ଟ ଉପଲବ୍ଧ ନାହିଁ",
+    // --- NEW Super Admin Chart Titles ---
+    ad_super_chart_overall_health: "ସାମଗ୍ରିକ ସିଷ୍ଟମ୍ ସ୍ୱାସ୍ଥ୍ୟ", // Placeholder
+    ad_super_chart_pending_by_dept: "ବିଭାଗ ଅନୁଯାୟୀ ପେଣ୍ଡିଂ ଅଭିଯୋଗ", // Placeholder
+    ad_super_chart_resolved_by_dept: "ବିଭାଗ ଅନୁଯାୟୀ ସମାଧାନ ହୋଇଥିବା ଅଭିଯୋଗ", // Placeholder
+    ad_super_chart_district_hotspots: "ଜିଲ୍ଲା ହଟସ୍ପଟ୍ (ପେଣ୍ଡିଂ)", // Placeholder
+    ad_super_chart_activity_30d: "ସମସ୍ତ ଅଭିଯୋଗ କାର୍ଯ୍ୟକଳାପ (ଶେଷ 30 ଦିନ)", // Placeholder
+    ad_super_chart_escalations_by_dept: "ବିଭାଗ ଅନୁଯାୟୀ ଏସ୍କାଲେସନ୍", // Placeholder
+    // --- NEW Department Admin Chart Titles ---
+    ad_dept_chart_workload: "ମୋ ବିଭାଗର କାର୍ଯ୍ୟଭାର", // Placeholder
+    ad_dept_chart_block_hotspots: "ମୋର ପେଣ୍ଡିଂ ହଟସ୍ପଟ୍ (ବ୍ଲକ୍ ଅନୁଯାୟୀ)", // Placeholder
+    ad_dept_chart_funnel: "ମୋ ଦଳର ଫନେଲ୍", // Placeholder
+    ad_dept_chart_aging: "ପୁରୁଣା ପେଣ୍ଡିଂ ଅଭିଯୋଗ", // Placeholder
+    // --- Fallback Text ---
+    ad_no_chart_data: "ଏହି ଚାର୍ଟ ପାଇଁ କୌଣସି ଡାଟା ଉପଲବ୍ଧ ନାହିଁ", // Placeholder
+    // --- Map Titles ---
+    ad_live_map: "ଲାଇଭ୍ ଅଭିଯୋଗ ମାନଚିତ୍ର", // Placeholder
     ad_heatmap: "ଓଡ଼ିଶା ପେଣ୍ଡିଂ ଅଭିଯୋଗ ହିଟମ୍ୟାପ୍",
     ad_no_heatmap: "କୌଣସି ହିଟମ୍ୟାପ୍ ଉପଲବ୍ଧ ନାହିଁ",
+    // --- Complaints Table ---
     ad_all_complaints: "ସମସ୍ତ ଅଭିଯୋଗ",
     ad_search_placeholder: "ଫୋନ୍ / ବିଭାଗ / ପିନକୋଡ୍ ଦ୍ୱାରା ଖୋଜନ୍ତୁ",
     ad_export_csv: "ଅଭିଯୋଗ ଏକ୍ସପୋର୍ଟ କରନ୍ତୁ (CSV)",
@@ -754,6 +819,7 @@ const translations = {
     table_complaint: "ଅଭିଯୋଗ",
     table_status: "ସ୍ଥିତି",
     table_action: "କାର୍ଯ୍ୟାନୁଷ୍ଠାନ",
+    // --- Chatbot ---
     ad_chatbot_greeting: 'ନମସ୍କାର! ମୋତେ ଡ୍ୟାସବୋର୍ଡ ଡାଟା ବିଷୟରେ ପଚାରନ୍ତୁ। "ମୋଟ ଅଭିଯୋଗ" କିମ୍ବା "କେତେ ପେଣ୍ଡିଂ ଅଛି?" ଚେଷ୍ଟା କରନ୍ତୁ।',
     // admin_login.html
     al_title: "ସିଟିଜେନ୍ - ଆଡମିନ୍ ଲଗଇନ୍",

@@ -8,125 +8,23 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_styles.css') }}">
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-    <style>
-        .chart-fallback {
-            width: 100%;
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #888;
-            font-size: 14px;
-            border: 1px dashed #ccc;
-            border-radius: 8px;
-            background: #f9f9f9;
-        }
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-        .lightbox {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.85);
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .lightbox:target {
-            display: flex;
-        }
-
-        .lightbox img {
-            max-width: 90%;
-            max-height: 90%;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-        }
-
-        .lightbox .close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 40px;
-            color: #fff;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .lightbox .close:hover {
-            color: #ff4444;
-        }
-
-        /* --- Styles for the language switcher --- */
-        .language-switcher-wrapper {
-            display: flex;
-            align-items: center;
-            background-color: #f0f2f5;
-            border-radius: 6px;
-            padding: 5px 10px;
-        }
-        .language-switcher-wrapper i {
-            margin-right: 8px;
-            color: #555;
-        }
-        .language-switcher-wrapper select {
-            background: transparent;
-            border: none;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            outline: none;
-        }
-
-        /* --- Pagination Styles --- */
-        .pagination {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .pagination a, .pagination span {
-            display: inline-block;
-            padding: 8px 16px;
-            margin: 0 4px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            text-decoration: none;
-            color: #007bff;
-            transition: background-color .3s;
-        }
-        .pagination a:hover {
-            background-color: #f4f4f4;
-        }
-        .pagination .active {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-        .pagination .disabled {
-            color: #ccc;
-            border-color: #ddd;
-        }
-        .pagination .ellipsis {
-            border: none;
-            padding: 8px 0;
-        }
-        
-        /* --- Style for Escalated Pill --- */
-        .pill.escalated {
-            background-color: #c9302c; /* A strong red */
-            color: white;
-        }
-    </style>
 </head>
 
 <body>
 
     <nav class="admin-sidebar">
         <div class="sidebar-header">
+            {% if session_department %}
+            <h3><i class="fas fa-user-tie"></i> {{ session_department }}</h3>
+            {% else %}
             <h3 data-translate="ad_civic_admin"><i class="fas fa-shield-alt"></i> CityZen Admin</h3>
+            {% endif %}
         </div>
         <ul>
             <li>
@@ -141,14 +39,16 @@
             </li>
         </ul>
         <div class="sidebar-footer">
-            <a class="btn" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> <span data-translate="logout_button">Logout</span></a>
+            <a class="btn" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> <span
+                    data-translate="logout_button">Logout</span></a>
         </div>
     </nav>
 
     <div class="content-wrapper">
         <header class="admin-header">
             <div class="left">
-                <h1 id="header-title"><i class="fas fa-tachometer-alt"></i> <span data-translate="ad_dashboard">Dashboard</span></h1>
+                <h1 id="header-title"><i class="fas fa-tachometer-alt"></i> <span
+                        data-translate="ad_dashboard">Dashboard</span></h1>
             </div>
             <div class="right">
                 <div class="language-switcher-wrapper">
@@ -185,8 +85,10 @@
 
                 {% if alerts and alerts|length > 0 %}
                 <div id="pending-alert" class="admin-alert">
-                    <strong><i class="fas fa-exclamation-triangle"></i> <span data-translate="ad_alert">Alert:</span></strong>
-                    There are <b>{{ alerts|length }}</b> <span data-translate="ad_alert_text">complaints pending for more than 5 days.</span>
+                    <strong><i class="fas fa-exclamation-triangle"></i> <span
+                            data-translate="ad_alert">Alert:</span></strong>
+                    There are <b>{{ alerts|length }}</b> <span data-translate="ad_alert_text">complaints pending for
+                        more than 5 days.</span>
                     <ul style="margin-top:8px;">
                         {% for a in alerts %}
                         <li>Complaint #{{ a[0] }} ({{ a[1] }} / {{ a[2] }}) - "{{ a[3][:50] }}..."</li>
@@ -197,13 +99,18 @@
                 {% endif %}
 
                 {% if escalated_complaints and escalated_complaints|length > 0 %}
-                <div id="escalation-alert" class="admin-alert" style="background-color: #f2dede; border-color: #ebccd1; color: #a94442;">
-                    <strong><i class="fas fa-arrow-up"></i> <span data-translate="ad_escalation_alert">Escalation Alert:</span></strong>
-                    There are <b>{{ escalated_complaints|length }}</b> <span data-translate="ad_escalation_alert_text">escalated complaints requiring immediate attention.</span>
+                <div id="escalation-alert" class="admin-alert"
+                    style="background-color: #f2dede; border-color: #ebccd1; color: #a94442;">
+                    <strong><i class="fas fa-arrow-up"></i> <span data-translate="ad_escalation_alert">Escalation
+                            Alert:</span></strong>
+                    There are <b>{{ escalated_complaints|length }}</b> <span
+                        data-translate="ad_escalation_alert_text">escalated complaints requiring immediate
+                        attention.</span>
                     <ul style="margin-top:8px;">
                         {% for esc in escalated_complaints %}
                         <li>
-                            <a href="{{ url_for('admin_complaint_view', cid=esc[0]) }}" style="color: #a94442; text-decoration: underline;">
+                            <a href="{{ url_for('admin_complaint_view', cid=esc[0]) }}"
+                                style="color: #a94442; text-decoration: underline;">
                                 Complaint #{{ esc[0] }} ({{ esc[1] }} / {{ esc[2] }}) - "{{ esc[3][:50] }}..."
                             </a>
                         </li>
@@ -214,78 +121,163 @@
                 {% endif %}
 
                 <section class="charts">
+
+                    {% if session_department %}
                     <div class="chart-card">
-                        <h3 data-translate="ad_by_status"><i class="fas fa-chart-bar"></i> By Status</h3>
-                        {% if charts['status'] %}
-                        <a href="#lightbox-status">
-                            <img src="{{ url_for('static', filename=charts['status']) }}" alt="status chart" loading="lazy">
+                        <h3 data-translate="ad_dept_chart_workload"><i class="fas fa-chart-pie"></i> My Department's
+                            Workload</h3>
+                        {% if charts['dept_workload_pie'] %}
+                        <a href="#lightbox-dept-workload">
+                            <img src="{{ url_for('static', filename=charts['dept_workload_pie']) }}"
+                                alt="Department Workload Pie Chart" loading="lazy">
                         </a>
                         {% else %}
-                        <div class="chart-fallback" data-translate="ad_no_status_chart">No Status Chart Available</div>
-                        {% endif %}
-                    </div>
-                    <div class="chart-card">
-                        <h3 data-translate="ad_by_department"><i class="fas fa-chart-pie"></i> By Department</h3>
-                        {% if charts['department'] %}
-                        <a href="#lightbox-department">
-                            <img src="{{ url_for('static', filename=charts['department']) }}" alt="department chart" loading="lazy">
-                        </a>
-                        {% else %}
-                        <div class="chart-fallback" data-translate="ad_no_dept_chart">No Department Chart Available</div>
-                        {% endif %}
-                    </div>
-                    <div class="chart-card">
-                        <h3 data-translate="ad_top_pincodes"><i class="fas fa-map"></i> Top Pincodes</h3>
-                        {% if charts['pincode'] %}
-                        <a href="#lightbox-pincode">
-                            <img src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart" loading="lazy">
-                        </a>
-                        {% else %}
-                        <div class="chart-fallback" data-translate="ad_no_pincode_chart">No Pincode Chart Available</div>
-                        {% endif %}
-                    </div>
-                    <div class="chart-card">
-                        <h3 data-translate="ad_complaints_over_time"><i class="fas fa-calendar-alt"></i> Complaints Over Time</h3>
-                        {% if charts['time'] %}
-                        <a href="#lightbox-time">
-                            <img src="{{ url_for('static', filename=charts['time']) }}" alt="Complaints over time" loading="lazy">
-                        </a>
-                        {% else %}
-                        <div class="chart-fallback" data-translate="ad_no_time_chart">No Time Chart Available</div>
-                        {% endif %}
-                    </div>
-                    <div class="chart-card">
-                        <h3 data-translate="ad_by_district"><i class="fas fa-city"></i> Complaints by District</h3>
-                        {% if charts['district'] %}
-                        <a href="#lightbox-district">
-                            <img src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district" loading="lazy">
-                        </a>
-                        {% else %}
-                        <div class="chart-fallback" data-translate="ad_no_district_chart">No District Chart Available</div>
-                        {% endif %}
-                    </div>
-                    <div class="chart-card">
-                        <h3 data-translate="ad_dept_vs_status"><i class="fas fa-layer-group"></i> Dept vs Status</h3>
-                        {% if charts['dept_status'] %}
-                        <a href="#lightbox-deptstatus">
-                            <img src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status" loading="lazy">
-                        </a>
-                        {% else %}
-                        <div class="chart-fallback" data-translate="ad_no_dept_status_chart">No Dept vs Status Chart Available</div>
+                        <div class="chart-fallback" data-translate="ad_no_chart_data">No Data Available for this Chart
+                        </div>
                         {% endif %}
                     </div>
 
+                    <div class="chart-card">
+                        <h3 data-translate="ad_dept_chart_block_hotspots"><i class="fas fa-map-pin"></i> My Pending
+                            Hotspots (by Block)</h3>
+                        {% if charts['dept_block_hotspots'] %}
+                        <a href="#lightbox-dept-block">
+                            <img src="{{ url_for('static', filename=charts['dept_block_hotspots']) }}"
+                                alt="Department Block Hotspots Chart" loading="lazy">
+                        </a>
+                        {% else %}
+                        <div class="chart-fallback" data-translate="ad_no_chart_data">No Data Available for this Chart
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="chart-card">
+                        <h3 data-translate="ad_dept_chart_funnel"><i class="fas fa-filter"></i> My Team's Funnel</h3>
+                        {% if charts['dept_funnel'] %}
+                        <a href="#lightbox-dept-funnel">
+                            <img src="{{ url_for('static', filename=charts['dept_funnel']) }}"
+                                alt="Department Funnel Chart" loading="lazy">
+                        </a>
+                        {% else %}
+                        <div class="chart-fallback" data-translate="ad_no_chart_data">No Data Available for this Chart
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="chart-card">
+                        <h3 data-translate="ad_dept_chart_aging"><i class="fas fa-hourglass-half"></i> Aging Pending
+                            Complaints</h3>
+                        {% if charts['dept_aging'] %}
+                        <a href="#lightbox-dept-aging">
+                            <img src="{{ url_for('static', filename=charts['dept_aging']) }}"
+                                alt="Department Aging Complaints Chart" loading="lazy">
+                        </a>
+                        {% else %}
+                        <div class="chart-fallback" data-translate="ad_no_chart_data">No Data Available for this Chart
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    {% else %}
+                    <div class="chart-card">
+                        <h3 data-translate="ad_super_chart_overall_health"><i class="fas fa-chart-pie"></i> Overall
+                            System Health</h3>
+                        {% if charts['super_status_pie'] %}
+                        <a href="#lightbox-super-status">
+                            <img src="{{ url_for('static', filename=charts['super_status_pie']) }}"
+                                alt="Overall Status Chart" loading="lazy">
+                        </a>
+                        {% else %}
+                        <div class="chart-fallback" data-translate="ad_no_chart_data">No Data Available for this Chart
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="chart-card">
+                        <h3 data-translate="ad_super_chart_pending_by_dept"><i class="fas fa-building"></i> Pending
+                            Complaints by Dept</h3>
+                        {% if charts['super_dept_leaderboard'] %}
+                        <a href="#lightbox-super-dept">
+                            <img src="{{ url_for('static', filename=charts['super_dept_leaderboard']) }}"
+                                alt="Department Leaderboard Chart" loading="lazy">
+                        </a>
+                        {% else %}
+                        <div class="chart-fallback" data-translate="ad_no_chart_data">No Data Available for this Chart
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="chart-card">
+                        <h3 data-translate="ad_super_chart_resolved_by_dept"><i class="fas fa-check-circle"></i>
+                            Resolved Complaints by Dept</h3>
+                        {% if charts['super_avg_res_time'] %}
+                        <a href="#lightbox-super-res-time">
+                            <img src="{{ url_for('static', filename=charts['super_avg_res_time']) }}"
+                                alt="Resolution Time Chart" loading="lazy">
+                        </a>
+                        {% else %}
+                        <div class="chart-fallback" data-translate="ad_no_chart_data">No Data Available for this Chart
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="chart-card">
+                        <h3 data-translate="ad_super_chart_district_hotspots"><i class="fas fa-map-marked-alt"></i>
+                            District Hotspots (Pending)</h3>
+                        {% if charts['super_district_hotspots'] %}
+                        <a href="#lightbox-super-district">
+                            <img src="{{ url_for('static', filename=charts['super_district_hotspots']) }}"
+                                alt="District Hotspots Chart" loading="lazy">
+                        </a>
+                        {% else %}
+                        <div class="chart-fallback" data-translate="ad_no_chart_data">No Data Available for this Chart
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="chart-card">
+                        <h3 data-translate="ad_super_chart_activity_30d"><i class="fas fa-chart-line"></i> All Complaint
+                            Activity (Last 30d)</h3>
+                        {% if charts['super_time_line'] %}
+                        <a href="#lightbox-super-time">
+                            <img src="{{ url_for('static', filename=charts['super_time_line']) }}"
+                                alt="Complaints Over Time" loading="lazy">
+                        </a>
+                        {% else %}
+                        <div class="chart-fallback" data-translate="ad_no_chart_data">No Data Available for this Chart
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="chart-card">
+                        <h3 data-translate="ad_super_chart_escalations_by_dept"><i class="fas fa-arrow-up"></i>
+                            Escalations by Dept</h3>
+                        {% if charts['super_escalation_pie'] %}
+                        <a href="#lightbox-super-escalation">
+                            <img src="{{ url_for('static', filename=charts['super_escalation_pie']) }}"
+                                alt="Escalations by Dept" loading="lazy">
+                        </a>
+                        {% else %}
+                        <div class="chart-fallback" data-translate="ad_no_chart_data">No Data Available for this Chart
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
                     <div class="chart-card" style="grid-column: 1 / -1;">
-                        <h3><i class="fas fa-map-location-dot"></i> Live Complaint Map</h3>
-                        <div id="complaint-map" style="height: 450px; width: 100%; border-radius: 8px; background: #f0f0f0;">
+                        <h3 data-translate="ad_live_map"><i class="fas fa-map-location-dot"></i> Live Complaint Map</h3>
+                        <div id="complaint-map"
+                            style="height: 450px; width: 100%; border-radius: 8px; background: #f0f0f0;">
                             <p style="text-align: center; padding-top: 20%;">Loading map...</p>
                         </div>
                     </div>
 
                     <div class="chart-card" style="grid-column: 1 / -1;">
-                        <h3 data-translate="ad_heatmap"><i class="fas fa-map-marked-alt"></i> Odisha Pending Complaints Heatmap</h3>
+                        <h3 data-translate="ad_heatmap"><i class="fas fa-map-marked-alt"></i> Odisha Pending Complaints
+                            Heatmap</h3>
                         {% if charts['odisha_map'] %}
-                        <iframe src="{{ url_for('static', filename=charts['odisha_map']) }}" width="100%" height="400px" style="border:none;" loading="lazy"></iframe>
+                        <iframe src="{{ url_for('static', filename=charts['odisha_map']) }}" width="100%" height="400px"
+                            style="border:none;" loading="lazy"></iframe>
                         {% else %}
                         <div class="chart-fallback" data-translate="ad_no_heatmap">No Heatmap Available</div>
                         {% endif %}
@@ -299,10 +291,12 @@
                         <h3 data-translate="ad_all_complaints"><i class="fas fa-list"></i> All Complaints</h3>
                         <form method="get" action="{{ url_for('admin_dashboard') }}" class="filter-form">
                             <input type="hidden" name="view" value="complaints">
-                            <input type="text" name="q" placeholder="Search by phone / dept / pincode" data-translate-placeholder="ad_search_placeholder" value="{{ q or '' }}" />
+                            <input type="text" name="q" placeholder="Search by phone / dept / pincode"
+                                data-translate-placeholder="ad_search_placeholder" value="{{ q or '' }}" />
                             <button type="submit" class="btn secondary"><i class="fas fa-search"></i></button>
                             <a href="{{ url_for('admin_features.export_complaints_csv') }}" class="btn btn-success">
-                                <i class="fas fa-download"></i> <span data-translate="ad_export_csv">Export Complaints (CSV)</span>
+                                <i class="fas fa-download"></i> <span data-translate="ad_export_csv">Export Complaints
+                                    (CSV)</span>
                             </a>
                         </form>
                     </div>
@@ -323,48 +317,57 @@
                                 {% for row in complaints_pagination.items %}
                                 <tr>
                                     <td>{{ row[0] }}</td>
-                                    <td><a href="{{ url_for('admin_user_view', user_phone=row[1]) }}">{{ row[1] }}</a></td>
+                                    <td><a href="{{ url_for('admin_user_view', user_phone=row[1]) }}">{{ row[1] }}</a>
+                                    </td>
                                     <td>{{ row[10] }}</td>
                                     <td>{{ row[7] }}</td>
                                     <td class="truncate">
                                         {{ (row[11] or '')[:60] ~ ('...' if row[11] and row[11]|length > 60 else '') }}
                                     </td>
                                     <td>
-                                        <span class="pill {{ (row[13] or 'Pending')|lower|replace(' ', '-') }}">{{ row[13] or 'Pending' }}</span>
+                                        <span class="pill {{ (row[13] or 'Pending')|lower|replace(' ', '-') }}">{{
+                                            row[13] or 'Pending' }}</span>
                                     </td>
                                     <td>
-                                        <a class="btn small" href="{{ url_for('admin_complaint_view', cid=row[0]) }}"><i class="fas fa-eye"></i> <span data-translate="view_button">View</span></a>
+                                        <a class="btn small" href="{{ url_for('admin_complaint_view', cid=row[0]) }}"><i
+                                                class="fas fa-eye"></i> <span
+                                                data-translate="view_button">View</span></a>
                                     </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
-                    
+
                     {% if complaints_pagination and complaints_pagination.pages > 1 %}
                     <div class="pagination">
                         {% if complaints_pagination.has_prev %}
-                            <a href="{{ url_for('admin_dashboard', page=complaints_pagination.prev_num, q=q or '', view='complaints') }}">&laquo; Prev</a>
+                        <a
+                            href="{{ url_for('admin_dashboard', page=complaints_pagination.prev_num, q=q or '', view='complaints') }}">&laquo;
+                            Prev</a>
                         {% else %}
-                            <span class="disabled">&laquo; Prev</span>
+                        <span class="disabled">&laquo; Prev</span>
                         {% endif %}
 
                         {% for page_num in complaints_pagination.iter_pages() %}
-                            {% if page_num %}
-                                {% if complaints_pagination.page == page_num %}
-                                    <a href="#" class="active">{{ page_num }}</a>
-                                {% else %}
-                                    <a href="{{ url_for('admin_dashboard', page=page_num, q=q or '', view='complaints') }}">{{ page_num }}</a>
-                                {% endif %}
-                            {% else %}
-                                <span class="ellipsis">…</span>
-                            {% endif %}
+                        {% if page_num %}
+                        {% if complaints_pagination.page == page_num %}
+                        <a href="#" class="active">{{ page_num }}</a>
+                        {% else %}
+                        <a href="{{ url_for('admin_dashboard', page=page_num, q=q or '', view='complaints') }}">{{
+                            page_num }}</a>
+                        {% endif %}
+                        {% else %}
+                        <span class="ellipsis">…</span>
+                        {% endif %}
                         {% endfor %}
 
                         {% if complaints_pagination.has_next %}
-                            <a href="{{ url_for('admin_dashboard', page=complaints_pagination.next_num, q=q or '', view='complaints') }}">Next &raquo;</a>
+                        <a
+                            href="{{ url_for('admin_dashboard', page=complaints_pagination.next_num, q=q or '', view='complaints') }}">Next
+                            &raquo;</a>
                         {% else %}
-                            <span class="disabled">Next &raquo;</span>
+                        <span class="disabled">Next &raquo;</span>
                         {% endif %}
                     </div>
                     {% endif %}
@@ -374,21 +377,51 @@
         </main>
     </div>
 
-    <div id="lightbox-status" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['status']) }}" alt="status chart full"></div>
-    <div id="lightbox-department" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['department']) }}" alt="department chart full"></div>
-    <div id="lightbox-pincode" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['pincode']) }}" alt="pincode chart full"></div>
-    <div id="lightbox-time" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['time']) }}" alt="Complaints over time full"></div>
-    <div id="lightbox-district" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['district']) }}" alt="Complaints by district full"></div>
-    <div id="lightbox-deptstatus" class="lightbox"><a href="#" class="close">&times;</a><img src="{{ url_for('static', filename=charts['dept_status']) }}" alt="Dept vs status full"></div>
-
+    {% if charts %} {# Check if charts dict exists #}
+    {% if session_department %}
+    {% if charts['dept_workload_pie'] %}<div id="lightbox-dept-workload" class="lightbox"><a href="#"
+            class="close">&times;</a><img src="{{ url_for('static', filename=charts['dept_workload_pie']) }}"
+            alt="workload full"></div>{% endif %}
+    {% if charts['dept_block_hotspots'] %}<div id="lightbox-dept-block" class="lightbox"><a href="#"
+            class="close">&times;</a><img src="{{ url_for('static', filename=charts['dept_block_hotspots']) }}"
+            alt="block hotspots full"></div>{% endif %}
+    {% if charts['dept_funnel'] %}<div id="lightbox-dept-funnel" class="lightbox"><a href="#"
+            class="close">&times;</a><img src="{{ url_for('static', filename=charts['dept_funnel']) }}"
+            alt="funnel full"></div>{% endif %}
+    {% if charts['dept_aging'] %}<div id="lightbox-dept-aging" class="lightbox"><a href="#"
+            class="close">&times;</a><img src="{{ url_for('static', filename=charts['dept_aging']) }}" alt="aging full">
+    </div>{% endif %}
+    {% else %}
+    {% if charts['super_status_pie'] %}<div id="lightbox-super-status" class="lightbox"><a href="#"
+            class="close">&times;</a><img src="{{ url_for('static', filename=charts['super_status_pie']) }}"
+            alt="status chart full"></div>{% endif %}
+    {% if charts['super_dept_leaderboard'] %}<div id="lightbox-super-dept" class="lightbox"><a href="#"
+            class="close">&times;</a><img src="{{ url_for('static', filename=charts['super_dept_leaderboard']) }}"
+            alt="department chart full"></div>{% endif %}
+    {% if charts['super_avg_res_time'] %}<div id="lightbox-super-res-time" class="lightbox"><a href="#"
+            class="close">&times;</a><img src="{{ url_for('static', filename=charts['super_avg_res_time']) }}"
+            alt="resolution chart full"></div>{% endif %}
+    {% if charts['super_district_hotspots'] %}<div id="lightbox-super-district" class="lightbox"><a href="#"
+            class="close">&times;</a><img src="{{ url_for('static', filename=charts['super_district_hotspots']) }}"
+            alt="district chart full"></div>{% endif %}
+    {% if charts['super_time_line'] %}<div id="lightbox-super-time" class="lightbox"><a href="#"
+            class="close">&times;</a><img src="{{ url_for('static', filename=charts['super_time_line']) }}"
+            alt="time chart full"></div>{% endif %}
+    {% if charts['super_escalation_pie'] %}<div id="lightbox-super-escalation" class="lightbox"><a href="#"
+            class="close">&times;</a><img src="{{ url_for('static', filename=charts['super_escalation_pie']) }}"
+            alt="escalation chart full"></div>{% endif %}
+    {% endif %}
+    {% endif %}
     <div class="chat-widget">
         <div class="chat-window" id="chat-window">
             <div class="chat-header">Saity</div>
             <div class="chat-body" id="chat-body">
-                <div class="chat-message bot" data-translate="ad_chatbot_greeting">Hello! Ask me about the dashboard data. Try "total complaints" or "how many are pending?".</div>
+                <div class="chat-message bot" data-translate="ad_chatbot_greeting">Hello! Ask me about the dashboard
+                    data. Try "total complaints" or "how many are pending?".</div>
             </div>
             <div class="chat-footer">
-                <input type="text" id="chat-input" placeholder="Type a message..." data-translate-placeholder="chat_placeholder">
+                <input type="text" id="chat-input" placeholder="Type a message..."
+                    data-translate-placeholder="chat_placeholder">
                 <button id="chat-send" aria-label="Send Message">
                     <i class="fas fa-paper-plane"></i>
                 </button>
@@ -428,7 +461,7 @@
 
             // Update URL only if it's different to avoid pushing duplicate history states
             if (window.location.href !== new URL(newUrl, window.location.origin).href) {
-                history.pushState({path: newUrl}, newTitle, newUrl);
+                history.pushState({ path: newUrl }, newTitle, newUrl);
             }
         }
 
@@ -442,13 +475,13 @@
                         showContent('complaints-content', complaintsLink);
                     }
                 } else {
-                     const dashboardLink = document.getElementById('nav-dashboard');
-                     if(dashboardLink) {
-                         showContent('dashboard-content', dashboardLink);
-                     }
+                    const dashboardLink = document.getElementById('nav-dashboard');
+                    if (dashboardLink) {
+                        showContent('dashboard-content', dashboardLink);
+                    }
                 }
             }
-            
+
             // Set initial view when page loads
             handleURLState();
 
@@ -463,6 +496,7 @@
                 }).addTo(map);
 
                 // 3. Fetch complaint data from your API
+                // --- MODIFIED --- This API endpoint is now filtered by session
                 fetch("{{ url_for('get_complaints_for_map') }}")
                     .then(response => response.json())
                     .then(complaints => {
@@ -470,12 +504,12 @@
                             document.getElementById('complaint-map').innerHTML = '<p style="text-align: center; padding-top: 20%;">No complaints with location data found.</p>';
                             return;
                         }
-                        
+
                         // 4. Loop through each complaint and add a marker to the map
                         complaints.forEach(c => {
                             if (c.latitude && c.longitude) {
                                 const marker = L.marker([c.latitude, c.longitude]).addTo(map);
-                                
+
                                 // 5. Add a popup with details to each marker
                                 marker.bindPopup(
                                     `<b>Department:</b> ${c.department || 'N/A'}<br>` +
@@ -579,7 +613,7 @@
                 chatBody.appendChild(messageElement);
                 chatBody.scrollTop = chatBody.scrollHeight;
             }
-            
+
             showSuggestions(); // Show initial suggestions
         });
     </script>
