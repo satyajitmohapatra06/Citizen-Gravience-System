@@ -1,27 +1,60 @@
-/* ---------------- Original Theme (Unchanged) ---------------- */
-:root{
+/* ---------------- Original Theme ---------------- */
+:root {
   --primary: #170b85;
   --muted: #6b7280;
-  --bg: linear-gradient(180deg,#eef2f3,#fff);
+  --bg: linear-gradient(180deg, #eef2f3, #fff);
   --card: #fff;
 }
 
-*{box-sizing:border-box}
-body{
-  margin:0; font-family: "Segoe UI", Arial, sans-serif; background:var(--bg); color:#222;
+* {
+  box-sizing: border-box
 }
-.admin-header{
-  display:flex; justify-content:space-between; align-items:center;
-  background:var(--primary); color:#fff; padding:14px 22px; box-shadow:0 4px 12px rgba(10,102,255,.12);
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: var(--bg);
+  color: #222;
 }
-.admin-header h1{margin:0; font-size:20px; display:flex; gap:10px; align-items:center}
-.admin-main{padding:20px 28px; max-width:1100px; margin:18px auto}
+
+/* REMOVED: The original .admin-header rule was here.
+    It was completely overridden by the new layout's .admin-header rule below.
+*/
+
+.admin-main {
+  padding: 20px 28px;
+  max-width: 1100px;
+  margin: 18px auto
+}
 
 /* top metrics */
-.top-cards{display:flex; gap:16px; margin-bottom:18px; flex-wrap:wrap}
-.card.metric{background:var(--card); padding:14px; border-radius:10px; min-width:150px; flex:1; box-shadow:0 6px 18px rgba(12,37,77,.06)}
-.card.metric .title{font-size:13px; color:var(--muted)}
-.card.metric .value{font-size:20px; font-weight:800; color:var(--primary); margin-top:6px}
+.top-cards {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 18px;
+  flex-wrap: wrap
+}
+
+.card.metric {
+  background: var(--card);
+  padding: 14px;
+  border-radius: 10px;
+  min-width: 150px;
+  flex: 1;
+  box-shadow: 0 6px 18px rgba(12, 37, 77, .06)
+}
+
+.card.metric .title {
+  font-size: 13px;
+  color: var(--muted)
+}
+
+.card.metric .value {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--primary);
+  margin-top: 6px
+}
 
 /* --- MODIFIED --- charts */
 .charts {
@@ -38,14 +71,16 @@ body{
   background: var(--card);
   padding: 12px;
   border-radius: 10px;
-  box-shadow: 0 8px 22px rgba(12,37,77,.06);
+  box-shadow: 0 8px 22px rgba(12, 37, 77, .06);
   /* flex: 1; and min-width are no longer needed */
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
+
 .chart-card:hover {
   transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 12px 30px rgba(10,102,255,0.15);
+  box-shadow: 0 12px 30px rgba(10, 102, 255, 0.15);
 }
+
 .chart-card img {
   width: 100%;
   height: auto;
@@ -54,47 +89,153 @@ body{
   cursor: zoom-in;
   transition: transform 0.3s ease;
 }
+
 .chart-card img:hover {
   transform: scale(1.05);
 }
 
 /* complaints table */
-.complaints-table .table-wrap{background:var(--card); border-radius:10px; padding:12px; box-shadow:0 8px 22px rgba(12,37,77,.06)}
-table{width:100%; border-collapse:collapse; font-size:14px}
-thead th{background:#f3f6fb; padding:10px; text-align:left}
-tbody td{padding:10px; border-top:1px solid #f0f2f6}
-.truncate{max-width:480px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.complaints-table .table-wrap {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 8px 22px rgba(12, 37, 77, .06)
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px
+}
+
+thead th {
+  background: #f3f6fb;
+  padding: 10px;
+  text-align: left
+}
+
+tbody td {
+  padding: 10px;
+  border-top: 1px solid #f0f2f6
+}
+
+.truncate {
+  max-width: 480px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis
+}
 
 /* pills and buttons */
-.pill{padding:6px 10px; border-radius:999px; color:#fff; font-weight:700; font-size:13px}
-.pill.pending{background:#ffc107; color:#111}
-.pill.in-progress{background:#17a2b8}
-.pill.resolved{background:#28a745}
-.pill.rejected{background:#dc3545}
-.pill.escalated {background-color: #c9302c; color: white;}
+.pill {
+  padding: 6px 10px;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px
+}
 
-.btn{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:8px; text-decoration:none; color:#fff; background:var(--primary); border:0; cursor:pointer}
-.btn.small{padding:6px 8px; font-size:13px}
-.btn.secondary{background:#e5eefc; color:var(--primary)}
+.pill.pending {
+  background: #ffc107;
+  color: #111
+}
+
+.pill.in-progress {
+  background: #17a2b8
+}
+
+.pill.resolved {
+  background: #28a745
+}
+
+.pill.rejected {
+  background: #dc3545
+}
+
+.pill.escalated {
+  background-color: #c9302c;
+  color: white;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #fff;
+  background: var(--primary);
+  border: 0;
+  cursor: pointer
+}
+
+.btn.small {
+  padding: 6px 8px;
+  font-size: 13px
+}
+
+.btn.secondary {
+  background: #e5eefc;
+  color: var(--primary)
+}
 
 /* single complaint / details */
-.single-complaint{display:grid; grid-template-columns: 1fr 340px; gap:18px}
-.details-card, .action-card{background:var(--card); padding:16px; border-radius:10px; box-shadow:0 10px 30px rgba(12,37,77,.06)}
-.details-card h3, .action-card h3{margin-top:0}
+.single-complaint {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 18px
+}
+
+.details-card,
+.action-card {
+  background: var(--card);
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(12, 37, 77, .06)
+}
+
+.details-card h3,
+.action-card h3 {
+  margin-top: 0
+}
 
 /* user view mini cards */
-.mini-card{background:var(--card); padding:12px; border-radius:8px; margin-bottom:10px; box-shadow:0 6px 14px rgba(12,37,77,.04)}
+.mini-card {
+  background: var(--card);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 6px 14px rgba(12, 37, 77, .04)
+}
 
 /* small utilities */
-.file-label input[type="file"]{display:block; margin-top:8px}
-.filter-form{display:flex; gap:8px}
-.filter-form input{padding:8px 10px; border-radius:8px; border:1px solid #e6eefc}
-.filter-form button{background:#e6eefc; color:var(--primary); border-radius:8px; padding:8px 10px}
-
-@media (max-width:900px){
-  .single-complaint{grid-template-columns: 1fr; padding-bottom:20px}
-  .charts{flex-direction:column}
+.file-label input[type="file"] {
+  display: block;
+  margin-top: 8px
 }
+
+.filter-form {
+  display: flex;
+  gap: 8px
+}
+
+.filter-form input {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e6eefc
+}
+
+.filter-form button {
+  background: #e6eefc;
+  color: var(--primary);
+  border-radius: 8px;
+  padding: 8px 10px
+}
+
+/* REMOVED: The first @media (max-width:900px) was here.
+    It was consolidated into the main responsive block below.
+*/
 
 /* ---------------- New Upgrades ---------------- */
 
@@ -103,89 +244,111 @@ tbody td{padding:10px; border-top:1px solid #f0f2f6}
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0, 0, 0, 0.85);
   z-index: 2000;
   justify-content: center;
   align-items: center;
 }
+
 .lightbox:target {
   display: flex;
   animation: fadeIn .3s ease;
 }
+
 .lightbox img {
   max-width: 90%;
   max-height: 90%;
   border-radius: 12px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
   animation: zoomIn .3s ease;
 }
+
 .lightbox .close {
   position: absolute;
-  top: 20px; right: 30px;
+  top: 20px;
+  right: 30px;
   font-size: 40px;
   color: #fff;
   text-decoration: none;
   font-weight: bold;
   transition: color .2s;
 }
+
 .lightbox .close:hover {
   color: #ff4444;
 }
 
 /* Animations */
 @keyframes zoomIn {
-  from { transform: scale(0.8); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
+
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
 /*
-  Keyframes for the pulsing animation.
-  This animation gives the button a subtle "glow" to attract attention.
+  Keyframes for the pulsing animation.
+  This animation gives the button a subtle "glow" to attract attention.
 */
 @keyframes pulse {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
-    }
-    70% {
-        transform: scale(1.02);
-        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
-    }
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+  }
+
+  70% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+  }
 }
 
 /*
-  Custom class to apply to the export button.
-  This contains the base animation and transition properties.
+  Custom class to apply to the export button.
+  This contains the base animation and transition properties.
 */
 .btn-success {
-    animation: pulse 2.5s infinite;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  animation: pulse 2.5s infinite;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 /*
-  Hover state: The button "lifts" and grows, and the pulse stops.
+  Hover state: The button "lifts" and grows, and the pulse stops.
 */
 .btn-success:hover {
-    animation: none;
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  animation: none;
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 /*
-  Active state: The button "presses down" when clicked.
+  Active state: The button "presses down" when clicked.
 */
 .btn-success:active {
-    transform: translateY(1px) scale(0.98);
-    box-shadow: none;
+  transform: translateY(1px) scale(0.98);
+  box-shadow: none;
 }
-/* ========= RESPONSIVENESS ========= */
+
+/* ========= RESPONSIVENESS (CONSOLIDATED) ========= */
 
 /* Tablets (≤1024px) */
 @media (max-width: 1024px) {
@@ -211,19 +374,81 @@ tbody td{padding:10px; border-top:1px solid #f0f2f6}
   }
 }
 
-/* Mobile (≤768px) */
-@media (max-width: 768px) {
-  .admin-header {
+/* This block now contains ALL rules for <= 900px and <= 768px,
+    as 768px is smaller and will inherit 900px rules anyway.
+*/
+@media (max-width: 900px) {
+
+  /* Rules from original @media (max-width: 900px) */
+  .single-complaint {
+    grid-template-columns: 1fr;
+    padding-bottom: 20px
+  }
+
+  /* Rules from original @media (max-width: 768px)
+       AND new layout @media (max-width: 768px)
+    */
+
+  /* --- New Sidebar Mobile Layout --- */
+  body {
     flex-direction: column;
-    gap: 8px;
+  }
+
+  .admin-sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+  }
+
+  .admin-sidebar .sidebar-header,
+  .admin-sidebar .sidebar-footer {
+    display: none;
+    /* Hide header and footer on mobile for a cleaner look */
+  }
+
+  .admin-sidebar ul {
+    display: flex;
+    width: 100%;
+    padding: 0;
+  }
+
+  .admin-sidebar ul li {
+    flex: 1;
     text-align: center;
-    padding: 12px;
   }
 
-  .admin-header h1 {
-    font-size: 18px;
+  .admin-sidebar ul li a {
+    justify-content: center;
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    padding: 12px 5px;
   }
 
+  .admin-sidebar ul li a.active {
+    border-left: none;
+    border-bottom-color: var(--primary);
+  }
+
+  .admin-sidebar ul li a i {
+    display: none;
+    /* Hide icons on mobile nav to save space */
+  }
+
+  .content-wrapper {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .admin-header {
+    display: none;
+    /* Hide the top header on mobile as info is redundant */
+  }
+
+  /* --- Original Mobile Layout Rules (Consolidated) --- */
   .top-cards {
     flex-direction: column;
   }
@@ -243,18 +468,16 @@ tbody td{padding:10px; border-top:1px solid #f0f2f6}
   }
 
   table {
-    min-width: 600px; /* allows horizontal scroll instead of breaking */
+    min-width: 600px;
+    /* allows horizontal scroll instead of breaking */
   }
 
-  .single-complaint {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-
-  .details-card, .action-card {
+  .details-card,
+  .action-card {
     padding: 14px;
   }
 }
+
 
 /* Small Mobile (≤480px) */
 @media (max-width: 480px) {
@@ -279,7 +502,8 @@ tbody td{padding:10px; border-top:1px solid #f0f2f6}
     padding: 10px;
   }
 
-  thead th, tbody td {
+  thead th,
+  tbody td {
     padding: 8px;
   }
 
@@ -288,10 +512,12 @@ tbody td{padding:10px; border-top:1px solid #f0f2f6}
     font-size: 13px;
   }
 }
+
 .chart-card iframe {
-    border-radius: 8px;
-    box-shadow: 0 8px 22px rgba(12,37,77,.06);
+  border-radius: 8px;
+  box-shadow: 0 8px 22px rgba(12, 37, 77, .06);
 }
+
 /* Admin alert box */
 .admin-alert {
   background: #ffebee;
@@ -304,7 +530,10 @@ tbody td{padding:10px; border-top:1px solid #f0f2f6}
   animation: fadeIn 0.3s ease;
 }
 
-/* close button (no JS needed, uses :target trick) */
+/* FIXED COMMENT: This close button is styled, but
+    requires JavaScript (e.g., in app.js) to hide its parent.
+    e.g., el.parentElement.style.display='none'
+*/
 .admin-alert .close {
   position: absolute;
   top: 8px;
@@ -318,16 +547,19 @@ tbody td{padding:10px; border-top:1px solid #f0f2f6}
 .admin-alert .close:hover {
   color: #ff4444;
 }
+
 /* ================= FIX: Chart fallback styling ================= */
 
 /* Placeholder box when chart not available */
-.chart-fallback, /* Added this class */
+.chart-fallback,
+/* Added this class */
 .chart-card .no-data {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 180px;
-  height: 300px; /* Give it a consistent height */
+  height: 300px;
+  /* Give it a consistent height */
   background: #f9f9f9;
   border-radius: 8px;
   font-size: 14px;
@@ -342,316 +574,353 @@ tbody td{padding:10px; border-top:1px solid #f0f2f6}
 .chart-card p {
   margin: 0;
 }
-/* ==================================
-    NEW: Sidebar and Layout
-    ================================== */
 
-body {
-    display: flex;
-}
+/* ==================================
+    NEW: Sidebar and Layout
+    ================================== */
+
+/* REMOVED: body { display: flex; } was here.
+    It's not needed for the position:fixed + margin-left layout.
+*/
 
 .admin-sidebar {
-    width: 240px;
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
-    background: #0d1a3a; /* Dark blue sidebar */
-    color: #e0e0e0;
-    display: flex;
-    flex-direction: column;
-    padding-top: 15px;
-    z-index: 1000;
+  width: 240px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  background: #0d1a3a;
+  /* Dark blue sidebar */
+  color: #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 15px;
+  z-index: 1000;
 }
 
 .admin-sidebar .sidebar-header {
-    padding: 0 20px 15px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 20px 15px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .admin-sidebar h3 {
-    margin: 0;
-    color: #fff;
-    font-size: 20px;
+  margin: 0;
+  color: #fff;
+  font-size: 20px;
 }
 
 .admin-sidebar ul {
-    list-style: none;
-    padding: 20px 0;
-    margin: 0;
-    flex-grow: 1; /* Pushes footer to the bottom */
+  list-style: none;
+  padding: 20px 0;
+  margin: 0;
+  flex-grow: 1;
+  /* Pushes footer to the bottom */
 }
 
 .admin-sidebar ul li a {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 20px;
-    color: #d0d2d6;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 500;
-    transition: background 0.2s ease, color 0.2s ease;
-    border-left: 3px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  color: #d0d2d6;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.2s ease, color 0.2s ease;
+  border-left: 3px solid transparent;
 }
 
 .admin-sidebar ul li a:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
 }
 
 .admin-sidebar ul li a.active {
-    background: rgba(23, 11, 133, 0.5); /* Primary color with transparency */
-    color: #fff;
-    font-weight: 600;
-    border-left-color: #5d5de0; /* Highlight color */
+  background: rgba(23, 11, 133, 0.5);
+  /* Primary color with transparency */
+  color: #fff;
+  font-weight: 600;
+  border-left-color: #5d5de0;
+  /* Highlight color */
 }
 
 .admin-sidebar .fa-fw {
-    width: 20px; /* Fixed width for icons */
-    text-align: center;
+  width: 20px;
+  /* Fixed width for icons */
+  text-align: center;
 }
 
 .admin-sidebar .sidebar-footer {
-    padding: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .sidebar-footer .btn {
-    width: 100%;
-    justify-content: center;
+  width: 100%;
+  justify-content: center;
 }
 
 
 /* Adjust main content area to make space for the sidebar */
 .content-wrapper {
-    margin-left: 240px;
-    width: calc(100% - 240px);
-    flex-grow: 1;
+  margin-left: 240px;
+  width: calc(100% - 240px);
+  flex-grow: 1;
 }
 
-/* Adjust the existing header */
+/* This is the new, active header style */
 .admin-header {
-    background: #fff;
-    color: #333;
-    border-bottom: 1px solid #eee;
-    box-shadow: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  color: #333;
+  padding: 14px 22px;
+  border-bottom: 1px solid #eee;
+  box-shadow: none;
 }
+
 .admin-header h1 {
-    color: var(--primary);
+  margin: 0;
+  font-size: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--primary);
 }
 
 
-/* Responsiveness for new sidebar */
-@media (max-width: 768px) {
-    body {
-        flex-direction: column;
-    }
+/* REMOVED: The second @media (max-width: 768px) block was here.
+    Its rules have been MERGED with the @media (max-width: 900px)
+    block above for consolidation.
+*/
 
-    .admin-sidebar {
-        position: static;
-        width: 100%;
-        height: auto;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 10px;
-    }
-
-    .admin-sidebar .sidebar-header,
-    .admin-sidebar .sidebar-footer {
-        display: none; /* Hide header and footer on mobile for a cleaner look */
-    }
-
-    .admin-sidebar ul {
-        display: flex;
-        width: 100%;
-        padding: 0;
-    }
-
-    .admin-sidebar ul li {
-        flex: 1;
-        text-align: center;
-    }
-
-    .admin-sidebar ul li a {
-        justify-content: center;
-        border-left: none;
-        border-bottom: 3px solid transparent;
-        padding: 12px 5px;
-    }
-
-    .admin-sidebar ul li a.active {
-        border-left: none;
-        border-bottom-color: var(--primary);
-    }
-    .admin-sidebar ul li a i {
-        display: none; /* Hide icons on mobile nav to save space */
-    }
-
-    .content-wrapper {
-        margin-left: 0;
-        width: 100%;
-    }
-    .admin-header {
-        display: none; /* Hide the top header on mobile as info is redundant */
-    }
-}
- 
 /* ==============================================
-    CHATBOT STYLES
-    ============================================== */
+    CHATBOT STYLES
+    ============================================== */
 .chat-widget {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
 }
 
 .chat-button {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background-color: var(--primary);
-    color: white;
-    font-size: 28px;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.2s ease;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: white;
+  font-size: 28px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease;
 }
 
 .chat-button:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 .chat-window {
-    width: 350px;
-    height: 450px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-    display: none; /* Hidden by default */
-    flex-direction: column;
-    overflow: hidden;
-    position: absolute;
-    bottom: 80px;
-    right: 0;
+  width: 350px;
+  height: 450px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  display: none;
+  /* Hidden by default */
+  flex-direction: column;
+  overflow: hidden;
+  position: absolute;
+  bottom: 80px;
+  right: 0;
 }
 
 .chat-window.open {
-    display: flex;
+  display: flex;
 }
 
 .chat-header {
-    background: var(--primary);
-    color: white;
-    padding: 12px;
-    font-weight: bold;
-    text-align: center;
+  background: var(--primary);
+  color: white;
+  padding: 12px;
+  font-weight: bold;
+  text-align: center;
 }
 
 .chat-body {
-    flex-grow: 1;
-    padding: 12px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  flex-grow: 1;
+  padding: 12px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .chat-message {
-    padding: 8px 12px;
-    border-radius: 18px;
-    max-width: 80%;
-    line-height: 1.4;
+  padding: 8px 12px;
+  border-radius: 18px;
+  max-width: 80%;
+  line-height: 1.4;
 }
 
 .chat-message.user {
-    background-color: #eef2f3;
-    color: #333;
-    align-self: flex-end;
-    border-bottom-right-radius: 4px;
+  background-color: #eef2f3;
+  color: #333;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
 }
 
 .chat-message.bot {
-    background-color: #f0e6ff;
-    color: #333;
-    align-self: flex-start;
-    border-bottom-left-radius: 4px;
+  background-color: #f0e6ff;
+  color: #333;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
 }
 
 .chat-footer {
-    display: flex;
-    padding: 10px;
-    border-top: 1px solid #eee;
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #eee;
 }
 
 #chat-input {
-    flex-grow: 1;
-    border: 1px solid #ddd;
-    border-radius: 20px;
-    padding: 8px 12px;
-    outline: none;
+  flex-grow: 1;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 8px 12px;
+  outline: none;
 }
 
 #chat-send {
-    background: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 8px 15px;
-    margin-left: 8px;
-    cursor: pointer;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 15px;
+  margin-left: 8px;
+  cursor: pointer;
 }
 
 /* ==============================================
-    CHATBOT SUGGESTION BUTTONS
-    ============================================== */
+    CHATBOT SUGGESTION BUTTONS
+    ============================================== */
 .chat-suggestions {
-    padding: 5px 10px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+  padding: 5px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .chat-suggestions button {
-    background-color: #f0e6ff;
-    border: 1px solid var(--primary);
-    color: var(--primary);
-    padding: 8px 12px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  background-color: #f0e6ff;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .chat-suggestions button:hover {
-    background-color: var(--primary);
-    color: white;
-    transform: translateY(-2px);
+  background-color: var(--primary);
+  color: white;
+  transform: translateY(-2px);
 }
 
 /* --- Language Switcher --- */
 .language-switcher-wrapper {
-    display: flex;
-    align-items: center;
-    background-color: #f0f2f5;
-    border-radius: 6px;
-    padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  background-color: #f0f2f5;
+  border-radius: 6px;
+  padding: 5px 10px;
 }
+
 .language-switcher-wrapper i {
-    margin-right: 8px;
-    color: #555;
+  margin-right: 8px;
+  color: #555;
 }
+
 .language-switcher-wrapper select {
-    background: transparent;
-    border: none;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    outline: none;
+  background: transparent;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+}
+
+/* ==============================================
+    PAGINATION STYLES
+    ============================================== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  /* Allows buttons to wrap on small screens */
+  gap: 8px;
+  margin-top: 24px;
+  /* Adds space between the table and pagination */
+  padding: 10px;
+}
+
+/* Base style for all pagination items (links and spans) */
+.pagination a,
+.pagination span {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 1px solid #e0e0e0;
+}
+
+/* Style for clickable page links */
+.pagination a {
+  background-color: #fff;
+  color: var(--primary);
+  cursor: pointer;
+}
+
+/* Hover effect for clickable links */
+.pagination a:hover {
+  background-color: #e5eefc;
+  /* Light primary from .btn.secondary */
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Style for the CURRENT (active) page */
+.pagination a.active {
+  background-color: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Style for NON-CLICKABLE items (e.g., "Prev" or "Next" when disabled) */
+.pagination span.disabled {
+  color: var(--muted);
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+/* Style for the ellipsis (...) */
+.pagination span.ellipsis {
+  color: var(--muted);
+  background-color: transparent;
+  border: none;
 }
