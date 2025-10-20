@@ -14,6 +14,277 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
+    <style>
+        /* ========================================= */
+        /* === AESTHETIC CHATBOT STYLES (NEW) === */
+        /* ========================================= */
+
+        /* --- 1. Chat Button (FAB) --- */
+        .chat-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #0a66ff;
+            /* Main brand color */
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            transition: all 0.3s ease;
+            z-index: 9998;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .chat-button .fa-comment-dots {
+            transition: all 0.3s ease;
+        }
+
+        .chat-button .fa-times {
+            display: none;
+            /* Will be shown when 'open' */
+            transition: all 0.3s ease;
+        }
+
+        /* --- 2. Chat Window --- */
+        .chat-window {
+            position: fixed;
+            bottom: 100px;
+            /* 100px from bottom */
+            right: 30px;
+            width: 370px;
+            max-width: 90vw;
+            height: 500px;
+            max-height: 70vh;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            /* Important for border-radius */
+            z-index: 9999;
+
+            /* Start hidden and fade/scale in */
+            opacity: 0;
+            transform: scale(0.9) translateY(20px);
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .chat-window.open {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+        }
+
+        /* When window is open, change button icon */
+        .chat-widget .chat-window.open+.chat-button .fa-comment-dots {
+            display: none;
+        }
+
+        .chat-widget .chat-window.open+.chat-button .fa-times {
+            display: block;
+        }
+
+
+        /* --- 3. Chat Header --- */
+        .chat-header {
+            background: linear-gradient(135deg, #0a66ff, #004aaa);
+            color: white;
+            padding: 16px 20px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            text-align: left;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .chat-header::before {
+            content: '●';
+            color: #28a745;
+            /* Green "online" dot */
+            font-size: 0.8em;
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* --- 4. Chat Body --- */
+        .chat-body {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #f4f7f9;
+            /* Light grey background */
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* --- 5. Chat Bubbles --- */
+        .chat-message {
+            padding: 10px 15px;
+            border-radius: 18px;
+            max-width: 80%;
+            word-wrap: break-word;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .chat-message.bot {
+            background-color: #ffffff;
+            /* White bubble */
+            color: #333;
+            border-bottom-left-radius: 4px;
+            /* "Tail" */
+            align-self: flex-start;
+        }
+
+        .chat-message.user {
+            background-color: #0a66ff;
+            /* Brand color bubble */
+            color: white;
+            border-bottom-right-radius: 4px;
+            /* "Tail" */
+            align-self: flex-end;
+        }
+
+        .chat-message.bot ul {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            padding-left: 25px;
+        }
+
+        .chat-message.bot li {
+            margin-bottom: 5px;
+        }
+
+        /* --- 6. Chat Footer & Input --- */
+        .chat-footer {
+            background: #ffffff;
+            padding: 15px 20px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            /* Space for suggestions */
+        }
+
+        .chat-footer .chat-input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        #chat-input {
+            flex-grow: 1;
+            border: 1px solid #ced4da;
+            border-radius: 20px;
+            padding: 10px 18px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        #chat-input:focus {
+            outline: none;
+            border-color: #0a66ff;
+            box-shadow: 0 0 0 3px rgba(10, 102, 255, 0.2);
+        }
+
+        #chat-send {
+            border: none;
+            background-color: #0a66ff;
+            color: white;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        #chat-send:hover {
+            background-color: #004aaa;
+            transform: scale(1.05);
+        }
+
+        /* --- 7. Suggestion Buttons (Step-by-Step) --- */
+        .chatbot-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            width: 100%;
+            /* Ensure it fills the footer */
+        }
+
+        .chatbot-suggestions button {
+            border: 1px solid #0a66ff;
+            background-color: #ffffff;
+            color: #0a66ff;
+            border-radius: 15px;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .chatbot-suggestions button:hover {
+            background-color: #0a66ff;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(10, 102, 255, 0.2);
+        }
+
+        .chatbot-suggestions .back-btn {
+            border-color: #6c757d;
+            color: #6c757d;
+        }
+
+        .chatbot-suggestions .back-btn:hover {
+            background-color: #6c757d;
+            color: white;
+            border-color: #6c757d;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .suggestion-menu,
+        .suggestion-submenu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .suggestion-submenu {
+            display: none;
+            /* Hidden by default, JS controls this */
+        }
+    </style>
 </head>
 
 <body>
@@ -317,8 +588,10 @@
                                 {% for row in complaints_pagination.items %}
                                 <tr>
                                     <td>{{ row[0] }}</td>
-                                    <td><a href="{{ url_for('admin_user_view', user_phone=row[1]) }}">{{ row[1] }}</a>
+                                    
+                                    <td><a href="{{ url_for('admin_user_view', user_phone=row[1]) }}">{{ row[2] or row[1] }}</a>
                                     </td>
+                                    
                                     <td>{{ row[10] }}</td>
                                     <td>{{ row[7] }}</td>
                                     <td class="truncate">
@@ -412,6 +685,7 @@
             alt="escalation chart full"></div>{% endif %}
     {% endif %}
     {% endif %}
+    
     <div class="chat-widget">
         <div class="chat-window" id="chat-window">
             <div class="chat-header">Saity</div>
@@ -419,19 +693,65 @@
                 <div class="chat-message bot" data-translate="ad_chatbot_greeting">Hello! Ask me about the dashboard
                     data. Try "total complaints" or "how many are pending?".</div>
             </div>
+            
             <div class="chat-footer">
-                <input type="text" id="chat-input" placeholder="Type a message..."
-                    data-translate-placeholder="chat_placeholder">
-                <button id="chat-send" aria-label="Send Message">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
+                
+                <div class="chatbot-suggestions">
+                    <div class="suggestion-menu" id="chatbot-menu-main">
+                        <button class="menu-btn" data-menu="kpi">KPIs 📊</button>
+                        <button class="menu-btn" data-menu="time">Time Reports ⏰</button>
+                        <button class="menu-btn" data-menu="location">Location 📍</button>
+                        <button class="menu-btn" data-menu="other">Other 💬</button>
+                    </div>
+                
+                    <div class="suggestion-submenu" id="chatbot-menu-kpi">
+                        <button class="back-btn" data-menu="main">&larr; Back</button>
+                        <button class="suggestion-btn" data-question="How many pending?">Pending?</button>
+                        <button class="suggestion-btn" data-question="How many resolved?">Resolved?</button>
+                        <button class="suggestion-btn" data-question="How many escalated?">Escalated?</button>
+                        <button class="suggestion-btn" data-question="How many in progress?">In Progress?</button>
+                        {% if not session_department %}
+                        <button class="suggestion-btn" data-question="How many total complaints?">Total?</button>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="suggestion-submenu" id="chatbot-menu-time">
+                        <button class="back-btn" data-menu="main">&larr; Back</button>
+                        <button class="suggestion-btn" data-question="New complaints today?">Today?</button>
+                        <button class="suggestion-btn" data-question="Complaints last 7 days?">Last 7 Days?</button>
+                        <button class="suggestion-btn" data-question="Complaints last 30 days?">Last 30 Days?</button>
+                    </div>
+                
+                    <div class="suggestion-submenu" id="chatbot-menu-location">
+                        <button class="back-btn" data-menu="main">&larr; Back</button>
+                        <button class="suggestion-btn" data-question="What are the top district hotspots?">Top Districts?</button>
+                        <button class="suggestion-btn" data-question="Status of #">e.g. Status of #101</button>
+                    </div>
+                
+                    <div class="suggestion-submenu" id="chatbot-menu-other">
+                        <button class="back-btn" data-menu="main">&larr; Back</button>
+                        <button class="suggestion-btn" data-question="How much feedback?">Feedback?</button>
+                        {% if not session_department %}
+                        <button class="suggestion-btn" data-question="Who is the most active user?">Top User?</button>
+                        {% endif %}
+                        <button class="suggestion-btn" data-question="Show recent complaints">Recent?</button>
+                    </div>
+                </div>
+                <div class="chat-input-row">
+                    <input type="text" id="chat-input" placeholder="Type a message..."
+                        data-translate-placeholder="chat_placeholder">
+                    <button id="chat-send" aria-label="Send Message">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+
             </div>
-        </div>
+            </div>
         <button class="chat-button" id="chat-button">
             <i class="fas fa-comment-dots"></i>
+            <i class="fas fa-times"></i>
         </button>
     </div>
-
     <script>
         // --- Navigation & State Management Script ---
         function showContent(sectionId, element) {
@@ -487,8 +807,12 @@
 
             // --- Leaflet Map Initialization Script ---
             function initializeComplaintMap() {
+                // Check if the map container exists
+                const mapContainer = document.getElementById('complaint-map');
+                if (!mapContainer) return; 
+
                 // 1. Initialize the map and set its view to a central point in Odisha
-                const map = L.map('complaint-map').setView([20.9517, 85.0985], 8); // Centered on Odisha
+                const map = L.map(mapContainer).setView([20.9517, 85.0985], 8); // Centered on Odisha
 
                 // 2. Add a tile layer (the map background) from OpenStreetMap
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -496,12 +820,11 @@
                 }).addTo(map);
 
                 // 3. Fetch complaint data from your API
-                // --- MODIFIED --- This API endpoint is now filtered by session
                 fetch("{{ url_for('get_complaints_for_map') }}")
                     .then(response => response.json())
                     .then(complaints => {
                         if (complaints.length === 0) {
-                            document.getElementById('complaint-map').innerHTML = '<p style="text-align: center; padding-top: 20%;">No complaints with location data found.</p>';
+                            mapContainer.innerHTML = '<p style="text-align: center; padding-top: 20%;">No complaints with location data found.</p>';
                             return;
                         }
 
@@ -520,39 +843,35 @@
                     })
                     .catch(error => {
                         console.error('Error fetching complaint data for map:', error);
-                        document.getElementById('complaint-map').innerHTML = '<p style="text-align: center; padding-top: 20%; color: red;">Could not load map data.</p>';
+                        mapContainer.innerHTML = '<p style="text-align: center; padding-top: 20%; color: red;">Could not load map data.</p>';
                     });
             }
 
-            initializeComplaintMap();
+            // Only init map if we are on the dashboard
+            if (document.getElementById('dashboard-content').style.display !== 'none') {
+                initializeComplaintMap();
+            }
 
             // Add event listener for browser's back and forward buttons
             window.addEventListener('popstate', handleURLState);
 
 
-            // --- Existing Chatbot Script ---
+            // --- === NEW: Step-by-Step Chatbot Script === ---
             const chatButton = document.getElementById('chat-button');
             const chatWindow = document.getElementById('chat-window');
             const chatBody = document.getElementById('chat-body');
             const chatInput = document.getElementById('chat-input');
             const chatSend = document.getElementById('chat-send');
 
-            const suggestedQuestions = [
-                "Total complaints?",
-                "How many are pending?",
-                "Top department?",
-                "Complaints today?",
-                "List recent complaints"
-            ];
-
             chatButton.addEventListener('click', () => {
                 chatWindow.classList.toggle('open');
-                if (chatWindow.classList.contains('open') && !chatBody.querySelector('.chat-suggestions')) {
-                    showSuggestions();
+                if (chatWindow.classList.contains('open')) {
+                    // Always show main menu on open
+                    showChatbotMenu('main'); 
                 }
             });
 
-            chatSend.addEventListener('click', handleUserInput);
+            chatSend.addEventListener('click', () => handleUserInput()); // Modified
             chatInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') handleUserInput();
             });
@@ -563,7 +882,6 @@
 
                 addMessage(userInput, 'user');
                 chatInput.value = '';
-                clearSuggestions();
 
                 try {
                     const response = await fetch('/api/ask', {
@@ -578,32 +896,16 @@
 
                     setTimeout(() => {
                         addMessage(botResponse, 'bot');
-                        showSuggestions();
+                        // After bot responds, show the main menu again
+                        showChatbotMenu('main');
                     }, 500);
 
                 } catch (error) {
                     console.error('Chatbot fetch error:', error);
                     addMessage("I'm having trouble connecting. Please try again later.", 'bot');
+                    // Show main menu even on error
+                    showChatbotMenu('main');
                 }
-            }
-
-            function showSuggestions() {
-                clearSuggestions();
-                const suggestionsContainer = document.createElement('div');
-                suggestionsContainer.className = 'chat-suggestions';
-                suggestedQuestions.forEach(q => {
-                    const button = document.createElement('button');
-                    button.textContent = q;
-                    button.addEventListener('click', () => handleUserInput(q));
-                    suggestionsContainer.appendChild(button);
-                });
-                chatBody.appendChild(suggestionsContainer);
-                chatBody.scrollTop = chatBody.scrollHeight;
-            }
-
-            function clearSuggestions() {
-                const existingSuggestions = chatBody.querySelector('.chat-suggestions');
-                if (existingSuggestions) existingSuggestions.remove();
             }
 
             function addMessage(text, type) {
@@ -614,7 +916,54 @@
                 chatBody.scrollTop = chatBody.scrollHeight;
             }
 
-            showSuggestions(); // Show initial suggestions
+            // --- New Menu Navigation Functions ---
+            function showChatbotMenu(menuId) {
+                // Hide all menus
+                document.querySelectorAll('.suggestion-menu, .suggestion-submenu').forEach(menu => {
+                    menu.style.display = 'none';
+                });
+                // Show the target menu
+                const targetMenu = document.getElementById(`chatbot-menu-${menuId}`);
+                if (targetMenu) {
+                    targetMenu.style.display = 'flex';
+                }
+                chatBody.scrollTop = chatBody.scrollHeight; // Scroll down
+            }
+
+            // Add click listeners to category buttons
+            document.querySelectorAll('.menu-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const menuId = this.getAttribute('data-menu');
+                    showChatbotMenu(menuId);
+                });
+            });
+
+            // Add click listeners to back buttons
+            document.querySelectorAll('.back-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const menuId = this.getAttribute('data-menu');
+                    showChatbotMenu(menuId);
+                });
+            });
+            
+            // Add click listeners to the final question buttons
+            document.querySelectorAll('.suggestion-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const question = this.getAttribute('data-question');
+                    
+                    if (question === "Status of #") {
+                        // Special case: just fill and focus
+                        chatInput.value = "Status of #";
+                        chatInput.focus();
+                    } else {
+                        handleUserInput(question); // Use the handleUserInput function
+                    }
+                    // Don't go back to main menu automatically, let the bot's response do it
+                });
+            });
+
+            // Start by showing the main menu
+            showChatbotMenu('main');
         });
     </script>
     <script src="{{ url_for('static', filename='js/translate.js') }}"></script>

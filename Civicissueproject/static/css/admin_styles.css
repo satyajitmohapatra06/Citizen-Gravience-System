@@ -924,3 +924,273 @@ tbody td {
   background-color: transparent;
   border: none;
 }
+
+/* ========================================= */
+/* === AESTHETIC CHATBOT STYLES (NEW) === */
+/* ========================================= */
+
+/* --- 1. Chat Button (FAB) --- */
+.chat-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #0a66ff;
+    /* Main brand color */
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    transition: all 0.3s ease;
+    z-index: 9998;
+}
+
+.chat-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.chat-button .fa-comment-dots {
+    transition: all 0.3s ease;
+}
+
+.chat-button .fa-times {
+    display: none;
+    /* Will be shown when 'open' */
+    transition: all 0.3s ease;
+}
+
+/* --- 2. Chat Window --- */
+.chat-window {
+    position: fixed;
+    bottom: 100px;
+    /* 100px from bottom */
+    right: 30px;
+    width: 370px;
+    max-width: 90vw;
+    height: 500px;
+    max-height: 70vh;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    /* Important for border-radius */
+    z-index: 9999;
+
+    /* Start hidden and fade/scale in */
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.chat-window.open {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+}
+
+/* When window is open, change button icon */
+.chat-widget .chat-window.open+.chat-button .fa-comment-dots {
+    display: none;
+}
+
+.chat-widget .chat-window.open+.chat-button .fa-times {
+    display: block;
+}
+
+
+/* --- 3. Chat Header --- */
+.chat-header {
+    background: linear-gradient(135deg, #0a66ff, #004aaa);
+    color: white;
+    padding: 16px 20px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: left;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.chat-header::before {
+    content: '●';
+    color: #28a745;
+    /* Green "online" dot */
+    font-size: 0.8em;
+    margin-right: 10px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* --- 4. Chat Body --- */
+.chat-body {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #f4f7f9;
+    /* Light grey background */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* --- 5. Chat Bubbles --- */
+.chat-message {
+    padding: 10px 15px;
+    border-radius: 18px;
+    max-width: 80%;
+    word-wrap: break-word;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.chat-message.bot {
+    background-color: #ffffff;
+    /* White bubble */
+    color: #333;
+    border-bottom-left-radius: 4px;
+    /* "Tail" */
+    align-self: flex-start;
+}
+
+.chat-message.user {
+    background-color: #0a66ff;
+    /* Brand color bubble */
+    color: white;
+    border-bottom-right-radius: 4px;
+    /* "Tail" */
+    align-self: flex-end;
+}
+
+.chat-message.bot ul {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    padding-left: 25px;
+}
+
+.chat-message.bot li {
+    margin-bottom: 5px;
+}
+
+/* --- 6. Chat Footer & Input --- */
+.chat-footer {
+    background: #ffffff;
+    padding: 15px 20px;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /* Space for suggestions */
+}
+
+.chat-footer .chat-input-row {
+    display: flex;
+    gap: 10px;
+}
+
+#chat-input {
+    flex-grow: 1;
+    border: 1px solid #ced4da;
+    border-radius: 20px;
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#chat-input:focus {
+    outline: none;
+    border-color: #0a66ff;
+    box-shadow: 0 0 0 3px rgba(10, 102, 255, 0.2);
+}
+
+#chat-send {
+    border: none;
+    background-color: #0a66ff;
+    color: white;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+#chat-send:hover {
+    background-color: #004aaa;
+    transform: scale(1.05);
+}
+
+/* --- 7. Suggestion Buttons (Step-by-Step) --- */
+.chatbot-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+    /* Ensure it fills the footer */
+}
+
+.chatbot-suggestions button {
+    border: 1px solid #0a66ff;
+    background-color: #ffffff;
+    color: #0a66ff;
+    border-radius: 15px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chatbot-suggestions button:hover {
+    background-color: #0a66ff;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(10, 102, 255, 0.2);
+}
+
+.chatbot-suggestions .back-btn {
+    border-color: #6c757d;
+    color: #6c757d;
+}
+
+.chatbot-suggestions .back-btn:hover {
+    background-color: #6c757d;
+    color: white;
+    border-color: #6c757d;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-menu,
+.suggestion-submenu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+}
+
+.suggestion-submenu {
+    display: none;
+    /* Hidden by default, JS controls this */
+}
