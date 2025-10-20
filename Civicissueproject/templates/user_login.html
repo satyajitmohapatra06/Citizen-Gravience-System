@@ -6,6 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-translate="ul_title">CityZen- User Login</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <!-- --- NEW: Styles for Flash Messages --- -->
+    <style>
+        .flash-message {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: .25rem;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+            position: fixed; /* Keep it visible on top */
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1050; /* Ensure it's above other elements */
+            min-width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .flash-message.danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        .flash-message.success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .flash-message.fade-out { /* Applied by JS */
+            opacity: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -18,6 +50,18 @@
         <span class="home-icon">🏠</span>
         <span data-translate="home_button">Home</span>
     </a>
+
+    <!-- --- NEW: Flash Message Display Area --- -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <!-- --- END NEW SECTION --- -->
 
     <!-- Main Login Container -->
     <div class="container">
@@ -60,6 +104,24 @@
     <!-- Scripts -->
     <script src="{{ url_for('static', filename='js/translate.js') }}"></script>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+    <!-- --- NEW: Script to hide flash messages after 5 seconds --- -->
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const flashMessages = document.querySelectorAll('.flash-message');
+            flashMessages.forEach((message) => {
+                // Wait 5 seconds (5000 milliseconds)
+                setTimeout(() => {
+                    message.classList.add('fade-out'); // Add class to trigger CSS transition
+                    // Remove the element completely after the fade out transition ends
+                    setTimeout(() => {
+                        message.remove();
+                    }, 500); // This duration should match your CSS transition duration
+                }, 5000); // 5-second delay before starting fade
+            });
+        });
+    </script>
+    <!-- --- END NEW SCRIPT --- -->
 </body>
 
 </html>
